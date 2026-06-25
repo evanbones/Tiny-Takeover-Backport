@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "${mod_name}",
+  "description": "${description}",
+  "authors": [
+    "${mod_author}"
+  ],
+  "contact": {
+    "homepage": "https://github.com/evanbones/Tiny-Takeover-Backport",
+    "sources": "https://github.com/evanbones/Tiny-Takeover-Backport"
+  },
+  "license": "${license}",
+  "icon": "${mod_id}.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.evandev.tiny_takeover_backport.TinyTakeoverBackport"
+    ],
+    "client": [
+      "com.evandev.tiny_takeover_backport.client.TinyTakeoverBackportClient"
+    ],
+    "modmenu": [
+      "com.evandev.tiny_takeover_backport.compat.ModMenuIntegration"
+    ],
+    "fabric-datagen": [
+      "com.evandev.tiny_takeover_backport.datagen.TemplateDataGenerator"
+    ]
+  },
+  "mixins": [
+    "${mod_id}.mixins.json",
+    "${mod_id}.fabric.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}",
+    "java": ">=21",
+    "yacl": ">=${yacl_version}"
+  }
+}
