@@ -4,11 +4,19 @@ import net.minecraft.client.model.HoglinModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.monster.hoglin.HoglinBase;
+import org.jetbrains.annotations.NotNull;
 
-public class BabyHoglinModel extends HoglinModel {
+public class BabyHoglinModel<T extends Mob & HoglinBase> extends HoglinModel<T> {
+
+    private static final float BABY_HEAD_Y = 13.0F;
+
+    private final ModelPart head;
 
     public BabyHoglinModel(ModelPart root) {
         super(root);
+        this.head = root.getChild("head");
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -24,7 +32,7 @@ public class BabyHoglinModel extends HoglinModel {
                         .addBox(-7.0F, -4.0981F, -8.4879F, 2.0F, 5.0F, 2.0F)
                         .texOffs(52, 29)
                         .addBox(5.0F, -4.0981F, -8.4879F, 2.0F, 5.0F, 2.0F),
-                PartPose.offsetAndRotation(0.0F, 13.0F, -7.0F, 0.8727F, 0.0F, 0.0F)
+                PartPose.offsetAndRotation(0.0F, BABY_HEAD_Y, -7.0F, 0.8727F, 0.0F, 0.0F)
         );
 
         PartDefinition body = root.addOrReplaceChild(
@@ -64,5 +72,13 @@ public class BabyHoglinModel extends HoglinModel {
         );
 
         return LayerDefinition.create(mesh, 64, 64);
+    }
+
+    @Override
+    public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+        int attackTicks = entity.getAttackAnimationRemainingTicks();
+        float attackFactor = 1.0F - Math.abs(10 - 2 * attackTicks) / 10.0F;
+        this.head.y = net.minecraft.util.Mth.lerp(attackFactor, BABY_HEAD_Y, BABY_HEAD_Y + 2.5F);
     }
 }

@@ -1,5 +1,7 @@
 package com.evandev.tiny_takeover_backport.mixin;
 
+import com.evandev.tiny_takeover_backport.entity.ModifiableBaby;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -20,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Dolphin.class)
-public abstract class DolphinMixin extends WaterAnimal {
+public abstract class DolphinMixin extends WaterAnimal implements ModifiableBaby {
 
     @Unique
     private static final EntityDataAccessor<Boolean> DATA_BABY_ID = SynchedEntityData.defineId(Dolphin.class, EntityDataSerializers.BOOLEAN);
@@ -44,16 +46,32 @@ public abstract class DolphinMixin extends WaterAnimal {
         this.entityData.set(DATA_BABY_ID, baby);
     }
 
+    @Unique
+    @Override
+    public void tiny_takeover_backport$setBaby(boolean baby) {
+        this.entityData.set(DATA_BABY_ID, baby);
+    }
+
+    @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
+    private void tiny_takeover_backport$addAdditionalSaveData(CompoundTag compound, CallbackInfo ci) {
+        compound.putBoolean("IsBaby", this.isBaby());
+    }
+
+    @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
+    private void tiny_takeover_backport$readAdditionalSaveData(CompoundTag compound, CallbackInfo ci) {
+        this.tiny_takeover_backport$setBaby(compound.getBoolean("IsBaby"));
+    }
+
     @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
     private void mobInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         Dolphin dolphin = (Dolphin) (Object) this;
         ItemStack itemstack = player.getItemInHand(hand);
 
         if (itemstack.getItem() instanceof SpawnEggItem egg && egg.spawnsEntity(itemstack, dolphin.getType())) {
-            if (!dolphin.level().isClientSide) {
+            if (!dolphin.level().isClientSide()) {
                 Dolphin babyDolphin = EntityType.DOLPHIN.create(dolphin.level());
                 if (babyDolphin != null) {
-                    ((DolphinMixin) (Object) babyDolphin).setBaby(true);
+                    ((ModifiableBaby) babyDolphin).tiny_takeover_backport$setBaby(true);
                     babyDolphin.moveTo(dolphin.getX(), dolphin.getY(), dolphin.getZ(), 0.0F, 0.0F);
                     dolphin.level().addFreshEntity(babyDolphin);
                     if (!player.getAbilities().instabuild) {
@@ -61,7 +79,7 @@ public abstract class DolphinMixin extends WaterAnimal {
                     }
                 }
             }
-            cir.setReturnValue(InteractionResult.sidedSuccess(dolphin.level().isClientSide));
+            cir.setReturnValue(InteractionResult.sidedSuccess(dolphin.level().isClientSide()));
         }
     }
 }

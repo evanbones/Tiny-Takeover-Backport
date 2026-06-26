@@ -14,7 +14,7 @@ public class ModBabyTextureRegistry {
                     && "minecraft".equals(original.getNamespace())
                     && original.getPath().startsWith("textures/entity/rabbit/")) {
                 String name = original.getPath().substring("textures/entity/rabbit/".length(), original.getPath().length() - 4);
-                return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/rabbit/rabbit_" + name + ".png");
+                return ResourceLocation.withDefaultNamespace("textures/entity/rabbit/rabbit_" + name + ".png");
             }
             return original;
         }
@@ -33,63 +33,109 @@ public class ModBabyTextureRegistry {
 
         switch (path) {
             case "textures/entity/chicken.png" -> {
-                return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/chicken/chicken_temperate_baby.png");
+                return ResourceLocation.withDefaultNamespace("textures/entity/chicken/chicken_temperate_baby.png");
             }
             case "textures/entity/cow/cow.png" -> {
-                return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/cow/cow_temperate_baby.png");
+                return ResourceLocation.withDefaultNamespace("textures/entity/cow/cow_temperate_baby.png");
             }
             case "textures/entity/cow/brown_mooshroom.png" -> {
-                return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/cow/mooshroom_brown_baby.png");
+                return ResourceLocation.withDefaultNamespace("textures/entity/cow/mooshroom_brown_baby.png");
             }
             case "textures/entity/cow/red_mooshroom.png" -> {
-                return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/cow/mooshroom_red_baby.png");
+                return ResourceLocation.withDefaultNamespace("textures/entity/cow/mooshroom_red_baby.png");
             }
             case "textures/entity/pig/pig.png" -> {
-                return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/pig/pig_temperate_baby.png");
+                return ResourceLocation.withDefaultNamespace("textures/entity/pig/pig_temperate_baby.png");
             }
             case "textures/entity/turtle/big_sea_turtle.png" -> {
-                return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/turtle/turtle_baby.png");
+                return ResourceLocation.withDefaultNamespace("textures/entity/turtle/turtle_baby.png");
             }
             case "textures/entity/bear/polarbear.png" -> {
-                return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/bear/polarbear_baby.png");
+                return ResourceLocation.withDefaultNamespace("textures/entity/bear/polarbear_baby.png");
             }
             case "textures/entity/dolphin.png" -> {
-                return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/dolphin/dolphin_baby.png");
+                return ResourceLocation.withDefaultNamespace("textures/entity/dolphin/dolphin_baby.png");
             }
             case "textures/entity/sniffer/sniffer.png" -> {
-                return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/sniffer/snifflet.png");
+                return ResourceLocation.withDefaultNamespace("textures/entity/sniffer/snifflet.png");
+            }
+            case "textures/entity/armadillo.png" -> {
+                return ResourceLocation.withDefaultNamespace("textures/entity/armadillo/armadillo_baby.png");
+            }
+            case "textures/entity/cat/tabby.png" -> {
+                return ResourceLocation.withDefaultNamespace("textures/entity/cat/cat_tabby_baby.png");
+            }
+            case "textures/entity/cat/black.png" -> {
+                return ResourceLocation.withDefaultNamespace("textures/entity/cat/cat_black_baby.png");
+            }
+            case "textures/entity/cat/red.png" -> {
+                return ResourceLocation.withDefaultNamespace("textures/entity/cat/cat_red_baby.png");
+            }
+            case "textures/entity/cat/siamese.png" -> {
+                return ResourceLocation.withDefaultNamespace("textures/entity/cat/cat_siamese_baby.png");
+            }
+            case "textures/entity/cat/british_shorthair.png" -> {
+                return ResourceLocation.withDefaultNamespace("textures/entity/cat/cat_british_shorthair_baby.png");
+            }
+            case "textures/entity/cat/calico.png" -> {
+                return ResourceLocation.withDefaultNamespace("textures/entity/cat/cat_calico_baby.png");
+            }
+            case "textures/entity/cat/persian.png" -> {
+                return ResourceLocation.withDefaultNamespace("textures/entity/cat/cat_persian_baby.png");
+            }
+            case "textures/entity/cat/ragdoll.png" -> {
+                return ResourceLocation.withDefaultNamespace("textures/entity/cat/cat_ragdoll_baby.png");
+            }
+            case "textures/entity/cat/white.png" -> {
+                return ResourceLocation.withDefaultNamespace("textures/entity/cat/cat_white_baby.png");
+            }
+            case "textures/entity/cat/jellie.png" -> {
+                return ResourceLocation.withDefaultNamespace("textures/entity/cat/cat_jellie_baby.png");
+            }
+            case "textures/entity/cat/all_black.png" -> {
+                return ResourceLocation.withDefaultNamespace("textures/entity/cat/cat_all_black_baby.png");
+            }
+            case "textures/entity/ocelot.png" -> {
+                return ResourceLocation.withDefaultNamespace("textures/entity/cat/ocelot_baby.png");
+            }
+            case "textures/entity/llama/creamy.png" -> {
+                return ResourceLocation.withDefaultNamespace("textures/entity/llama/llama_creamy_baby.png");
+            }
+            case "textures/entity/llama/white.png" -> {
+                return ResourceLocation.withDefaultNamespace("textures/entity/llama/llama_white_baby.png");
+            }
+            case "textures/entity/llama/brown.png" -> {
+                return ResourceLocation.withDefaultNamespace("textures/entity/llama/llama_brown_baby.png");
+            }
+            case "textures/entity/llama/gray.png" -> {
+                return ResourceLocation.withDefaultNamespace("textures/entity/llama/llama_gray_baby.png");
             }
         }
 
-        // textures/entity/rabbit/brown.png -> textures/entity/rabbit/rabbit_brown_baby.png
         if (path.startsWith("textures/entity/rabbit/")) {
             String rabbitName = path.substring("textures/entity/rabbit/".length(), path.length() - 4);
-            return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/rabbit/rabbit_" + rabbitName + "_baby.png");
+            return ResourceLocation.withDefaultNamespace("textures/entity/rabbit/rabbit_" + rabbitName + "_baby.png");
         }
 
-        // textures/entity/villager/villager.png -> textures/entity/villager/villager_baby.png
-        // textures/entity/villager/type/desert.png -> textures/entity/villager/baby/desert.png
         if (path.equals("textures/entity/villager/villager.png")) {
-            return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/villager/villager_baby.png");
+            return ResourceLocation.withDefaultNamespace("textures/entity/villager/villager_baby.png");
         }
         if (path.startsWith("textures/entity/villager/type/")) {
             String typeName = path.substring("textures/entity/villager/type/".length());
-            return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/villager/baby/" + typeName);
+            return ResourceLocation.withDefaultNamespace("textures/entity/villager/baby/" + typeName);
         }
 
-        // textures/entity/zombie_villager/zombie_villager.png -> textures/entity/zombie_villager/zombie_villager_baby.png
-        // textures/entity/zombie_villager/type/desert.png -> textures/entity/zombie_villager/baby/desert.png
         if (path.equals("textures/entity/zombie_villager/zombie_villager.png")) {
-            return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/zombie_villager/zombie_villager_baby.png");
+            return ResourceLocation.withDefaultNamespace("textures/entity/zombie_villager/zombie_villager_baby.png");
         }
         if (path.startsWith("textures/entity/zombie_villager/type/")) {
             String typeName = path.substring("textures/entity/zombie_villager/type/".length());
-            return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/zombie_villager/baby/" + typeName);
+            return ResourceLocation.withDefaultNamespace("textures/entity/zombie_villager/baby/" + typeName);
         }
 
         if (path.endsWith(".png")) {
             String newPath = path.substring(0, path.length() - 4) + "_baby.png";
-            return ResourceLocation.fromNamespaceAndPath("minecraft", newPath);
+            return ResourceLocation.withDefaultNamespace(newPath);
         }
 
         return original;

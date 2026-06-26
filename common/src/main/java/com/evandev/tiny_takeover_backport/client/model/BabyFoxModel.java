@@ -4,11 +4,18 @@ import net.minecraft.client.model.FoxModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.world.entity.animal.Fox;
+import org.jetbrains.annotations.NotNull;
 
 public class BabyFoxModel extends FoxModel {
 
+    private final ModelPart body;
+    private final ModelPart tail;
+
     public BabyFoxModel(ModelPart root) {
         super(root);
+        this.body = root.getChild("body");
+        this.tail = this.body.getChild("tail");
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -58,5 +65,13 @@ public class BabyFoxModel extends FoxModel {
                 PartPose.offset(0.0F, -0.5F, 3.0F)
         );
         return LayerDefinition.create(meshdefinition, 32, 32);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void prepareMobModel(@NotNull Fox entity, float limbSwing, float limbSwingAmount, float partialTick) {
+        super.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTick);
+        this.body.xRot = 0.0F;
+        this.tail.xRot = -0.05235988F;
     }
 }

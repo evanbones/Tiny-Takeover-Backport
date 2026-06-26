@@ -19,18 +19,19 @@ public class BabyDonkeyModel<T extends AbstractChestedHorse> extends ChestedHors
 
     public static LayerDefinition createBabyLayer() {
         MeshDefinition meshdefinition = new MeshDefinition();
-        PartDefinition root = meshdefinition.getRoot();
+        PartDefinition partdefinition = meshdefinition.getRoot();
 
-        root.addOrReplaceChild("right_hind_baby_leg", CubeListBuilder.create(), PartPose.ZERO);
-        root.addOrReplaceChild("left_hind_baby_leg", CubeListBuilder.create(), PartPose.ZERO);
-        root.addOrReplaceChild("right_front_baby_leg", CubeListBuilder.create(), PartPose.ZERO);
-        root.addOrReplaceChild("left_front_baby_leg", CubeListBuilder.create(), PartPose.ZERO);
+        partdefinition.addOrReplaceChild("right_hind_baby_leg", CubeListBuilder.create(), PartPose.ZERO);
+        partdefinition.addOrReplaceChild("left_hind_baby_leg", CubeListBuilder.create(), PartPose.ZERO);
+        partdefinition.addOrReplaceChild("right_front_baby_leg", CubeListBuilder.create(), PartPose.ZERO);
+        partdefinition.addOrReplaceChild("left_front_baby_leg", CubeListBuilder.create(), PartPose.ZERO);
 
-        PartDefinition body = root.addOrReplaceChild(
+        PartDefinition body = partdefinition.addOrReplaceChild(
                 "body",
                 CubeListBuilder.create().texOffs(0, 13).addBox(-5.0F, -3.0F, -7.0F, 8.0F, 6.0F, 14.0F, new CubeDeformation(0.0F)),
                 PartPose.offset(1.0F, 14.0F, 0.0F)
         );
+
         PartDefinition tail = body.addOrReplaceChild("tail", CubeListBuilder.create(), PartPose.offset(0.0F, -1.5F, 6.5F));
         tail.addOrReplaceChild(
                 "tail_r1",
@@ -38,37 +39,38 @@ public class BabyDonkeyModel<T extends AbstractChestedHorse> extends ChestedHors
                 PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.7418F, 0.0F, 0.0F)
         );
 
-        body.addOrReplaceChild("saddle", CubeListBuilder.create(), PartPose.ZERO);
-        body.addOrReplaceChild("right_chest", CubeListBuilder.create(), PartPose.offset(-1.0F, 10.0F, 0.0F));
-        body.addOrReplaceChild("left_chest", CubeListBuilder.create(), PartPose.offset(-1.0F, 10.0F, 0.0F));
-
-        root.addOrReplaceChild(
+        partdefinition.addOrReplaceChild(
                 "left_hind_leg",
                 CubeListBuilder.create().texOffs(12, 44).addBox(-2.5F, -1.5F, -1.5F, 3.0F, 8.0F, 3.0F, new CubeDeformation(0.0F)),
                 PartPose.offset(3.25F, 17.5F, 5.25F)
         );
-        root.addOrReplaceChild(
+        partdefinition.addOrReplaceChild(
                 "right_hind_leg",
                 CubeListBuilder.create().texOffs(0, 44).addBox(-2.5F, -1.5F, -1.5F, 3.0F, 8.0F, 3.0F, new CubeDeformation(0.0F)),
                 PartPose.offset(-1.4F, 17.5F, 5.4F)
         );
-        root.addOrReplaceChild(
+        partdefinition.addOrReplaceChild(
                 "left_front_leg",
                 CubeListBuilder.create().texOffs(12, 33).addBox(-2.5F, -1.5F, -1.5F, 3.0F, 8.0F, 3.0F, new CubeDeformation(0.0F)),
                 PartPose.offset(3.4F, 17.5F, -5.3F)
         );
-        root.addOrReplaceChild(
+        partdefinition.addOrReplaceChild(
                 "right_front_leg",
                 CubeListBuilder.create().texOffs(0, 33).addBox(-2.5F, -1.5F, -1.5F, 3.0F, 8.0F, 3.0F, new CubeDeformation(0.0F)),
                 PartPose.offset(-1.4F, 17.5F, -5.4F)
         );
 
-        PartDefinition neck = root.addOrReplaceChild("head_parts", CubeListBuilder.create(), PartPose.offset(1.0F, 11.0F, -5.0F));
+        body.addOrReplaceChild("saddle", CubeListBuilder.create(), PartPose.ZERO);
+        body.addOrReplaceChild("right_chest", CubeListBuilder.create(), PartPose.offset(-1.0F, 10.0F, 0.0F));
+        body.addOrReplaceChild("left_chest", CubeListBuilder.create(), PartPose.offset(-1.0F, 10.0F, 0.0F));
+
+        PartDefinition neck = partdefinition.addOrReplaceChild("head_parts", CubeListBuilder.create(), PartPose.offset(1.0F, 11.0F, -5.0F));
         neck.addOrReplaceChild(
                 "neck_r1",
                 CubeListBuilder.create().texOffs(30, 9).addBox(-3.0F, -6.0F, -3.0F, 4.0F, 8.0F, 4.0F, new CubeDeformation(0.0F)),
                 PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.3927F, 0.0F, 0.0F)
         );
+
         PartDefinition head = neck.addOrReplaceChild("head", CubeListBuilder.create(), PartPose.offset(0.0F, -5.0F, -3.0F));
         head.addOrReplaceChild(
                 "head_r1",

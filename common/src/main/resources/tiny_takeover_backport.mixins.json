@@ -10,7 +10,8 @@
     "EntityMixin",
     "MobMixin",
     "RabbitAIFixMixin",
-    "RabbitMixin"
+    "RabbitMixin",
+    "SquidMixin"
   ],
   "client": [
     "client.CatCollarLayerMixin",
