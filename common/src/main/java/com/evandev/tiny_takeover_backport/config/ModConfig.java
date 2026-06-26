@@ -60,6 +60,7 @@ public class ModConfig {
     public boolean enableZombifiedPiglin = true;
 
     public boolean replaceAdultRabbit = true;
+    public boolean rabbitBoundingBox = true;
 
     public static ModConfig get() {
         if (INSTANCE == null) {
@@ -103,6 +104,7 @@ public class ModConfig {
         ConfigCategory.Builder models = ConfigCategory.createBuilder()
                 .name(Component.translatable("config.tiny_takeover_backport.category.models"))
                 .option(createBoolOption("replace_adult_rabbit", true, () -> get().replaceAdultRabbit, val -> get().replaceAdultRabbit = val))
+                .option(createBoolOption("rabbit_bounding_box", true, () -> get().rabbitBoundingBox, val -> get().rabbitBoundingBox = val))
                 .option(createBoolOption("enable_armadillo", true, () -> get().enableArmadillo, val -> get().enableArmadillo = val))
                 .option(createBoolOption("enable_axolotl", true, () -> get().enableAxolotl, val -> get().enableAxolotl = val))
                 .option(createBoolOption("enable_bee", true, () -> get().enableBee, val -> get().enableBee = val))

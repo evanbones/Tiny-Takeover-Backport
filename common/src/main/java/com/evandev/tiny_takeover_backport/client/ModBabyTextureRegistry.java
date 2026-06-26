@@ -8,6 +8,14 @@ import net.minecraft.world.entity.LivingEntity;
 public class ModBabyTextureRegistry {
     public static ResourceLocation getBabyTexture(LivingEntity entity, ResourceLocation original) {
         if (!entity.isBaby()) {
+            String entityName = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).getPath();
+            if (entityName.equals("rabbit")
+                    && ModConfig.get().replaceAdultRabbit
+                    && "minecraft".equals(original.getNamespace())
+                    && original.getPath().startsWith("textures/entity/rabbit/")) {
+                String name = original.getPath().substring("textures/entity/rabbit/".length(), original.getPath().length() - 4);
+                return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/rabbit/rabbit_" + name + ".png");
+            }
             return original;
         }
 

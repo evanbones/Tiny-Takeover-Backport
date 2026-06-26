@@ -9,10 +9,26 @@ import org.jetbrains.annotations.NotNull;
 
 public class BabyHorseModel<T extends AbstractHorse> extends HorseModel<T> {
     private final ModelPart tail;
+    private final ModelPart rightHindLeg;
+    private final ModelPart leftHindLeg;
+    private final ModelPart rightFrontLeg;
+    private final ModelPart leftFrontLeg;
+    private final ModelPart rightHindBabyLeg;
+    private final ModelPart leftHindBabyLeg;
+    private final ModelPart rightFrontBabyLeg;
+    private final ModelPart leftFrontBabyLeg;
 
     public BabyHorseModel(ModelPart root) {
         super(root);
         this.tail = this.body.getChild("tail");
+        this.rightHindLeg = root.getChild("right_hind_leg");
+        this.leftHindLeg = root.getChild("left_hind_leg");
+        this.rightFrontLeg = root.getChild("right_front_leg");
+        this.leftFrontLeg = root.getChild("left_front_leg");
+        this.rightHindBabyLeg = root.getChild("right_hind_baby_leg");
+        this.leftHindBabyLeg = root.getChild("left_hind_baby_leg");
+        this.rightFrontBabyLeg = root.getChild("right_front_baby_leg");
+        this.leftFrontBabyLeg = root.getChild("left_front_baby_leg");
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -100,5 +116,20 @@ public class BabyHorseModel<T extends AbstractHorse> extends HorseModel<T> {
 
         this.tail.setPos(0.0F, -1.0F, 7.0F);
         this.tail.xRot = -0.7418F + limbSwingAmount * 0.75F;
+
+        float standAnim = entity.getStandAnim(partialTick);
+        this.leftFrontLeg.y = 16.0F - 4.0F * standAnim;
+        this.leftFrontLeg.z = -5.4F;
+        this.rightFrontLeg.y = this.leftFrontLeg.y;
+        this.rightFrontLeg.z = -5.4F;
+
+        this.rightHindLeg.visible = true;
+        this.leftHindLeg.visible = true;
+        this.rightFrontLeg.visible = true;
+        this.leftFrontLeg.visible = true;
+        this.rightHindBabyLeg.visible = false;
+        this.leftHindBabyLeg.visible = false;
+        this.rightFrontBabyLeg.visible = false;
+        this.leftFrontBabyLeg.visible = false;
     }
 }
