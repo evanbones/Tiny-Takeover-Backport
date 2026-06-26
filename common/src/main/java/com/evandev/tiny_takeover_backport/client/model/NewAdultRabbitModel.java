@@ -122,6 +122,10 @@ public class NewAdultRabbitModel<T extends Rabbit> extends RabbitModel<T> {
 
     @Override
     public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, int color) {
+        poseStack.pushPose();
+        poseStack.scale(0.6F, 0.6F, 0.6F);
+        poseStack.translate(0.0F, 1.0F, 0.0F);
         this.root.render(poseStack, buffer, packedLight, packedOverlay, color);
+        poseStack.popPose();
     }
 }

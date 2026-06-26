@@ -2,7 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "com.evandev.tiny_takeover_backport.mixin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_18",
   "mixins": [
     "AgeableMobMixin",
     "AnimalMixin",
@@ -13,9 +13,11 @@
   "client": [
     "client.CatCollarLayerMixin",
     "client.DrownedOuterLayerMixin",
+    "client.LivingEntityMixin",
     "client.LivingEntityRendererMixin",
     "client.LlamaDecorLayerMixin",
     "client.SheepWoolLayerMixin",
+    "client.VillagerProfessionLayerMixin",
     "client.WolfCollarLayerMixin"
   ],
   "server": [],

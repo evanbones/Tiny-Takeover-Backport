@@ -5,10 +5,14 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import org.jetbrains.annotations.NotNull;
 
 public class BabyHorseModel<T extends AbstractHorse> extends HorseModel<T> {
+    private final ModelPart tail;
+
     public BabyHorseModel(ModelPart root) {
         super(root);
+        this.tail = this.body.getChild("tail");
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -81,21 +85,20 @@ public class BabyHorseModel<T extends AbstractHorse> extends HorseModel<T> {
     }
 
     @Override
-    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         this.body.y = 12.5F;
     }
 
     @Override
-    public void prepareMobModel(T entity, float limbSwing, float limbSwingAmount, float partialTick) {
+    public void prepareMobModel(@NotNull T entity, float limbSwing, float limbSwingAmount, float partialTick) {
         super.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTick);
 
-        float eatAnim = entity.getEatAnim(partialTick);
-        float standAnim = entity.getStandAnim(partialTick);
-        float animationProgress = 1.0F - Math.max(standAnim, eatAnim);
-
-        this.headParts.y += animationProgress * 6.0F;
-        this.headParts.z += animationProgress * 6.0F;
+        this.headParts.y = 10.0F;
+        this.headParts.z = -6.0F;
         this.body.y = 12.5F;
+
+        this.tail.setPos(0.0F, -1.0F, 7.0F);
+        this.tail.xRot = -0.7418F + limbSwingAmount * 0.75F;
     }
 }

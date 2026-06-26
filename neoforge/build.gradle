@@ -41,6 +41,10 @@ dependencies {
     // EMI
     runtimeOnly "dev.emi:emi-neoforge:${emi_version}"
 
+    // Vanilla Backport
+    compileOnly "maven.modrinth:vanillabackport:${vanilla_backport_neoforge_version}"
+    runtimeOnly "maven.modrinth:platform:v7P0nBi2"
+
     // YACL
     implementation "maven.modrinth:yacl:${yacl_version}-neoforge"
 }

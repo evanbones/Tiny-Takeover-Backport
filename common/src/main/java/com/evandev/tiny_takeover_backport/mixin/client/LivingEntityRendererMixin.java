@@ -2,6 +2,7 @@ package com.evandev.tiny_takeover_backport.mixin.client;
 
 import com.evandev.tiny_takeover_backport.client.ModBabyModelRegistry;
 import com.evandev.tiny_takeover_backport.client.ModBabyTextureRegistry;
+import com.evandev.tiny_takeover_backport.client.ModRenderHelper;
 import com.evandev.tiny_takeover_backport.config.ModConfig;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -83,5 +84,21 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
             return;
         }
         original.call(model, value);
+    }
+
+    @WrapOperation(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/LivingEntityRenderer;scale(Lnet/minecraft/world/entity/LivingEntity;Lcom/mojang/blaze3d/vertex/PoseStack;F)V"))
+    private void wrapScaleCall(LivingEntityRenderer<T, M> renderer, T entity, PoseStack poseStack, float partialTick, Operation<Void> original) {
+        String entityName = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).getPath();
+        if (entity.isBaby() && this.tiny_takeover_backport$babyModel != null && ModConfig.get().isModelEnabled(entityName)) {
+            ModRenderHelper.SUPPRESS_AGE_SCALE.set(true);
+            try {
+                original.call(renderer, entity, poseStack, partialTick);
+            } finally {
+                ModRenderHelper.SUPPRESS_AGE_SCALE.set(false);
+            }
+        } else {
+            original.call(renderer, entity, poseStack, partialTick);
+        }
     }
 }

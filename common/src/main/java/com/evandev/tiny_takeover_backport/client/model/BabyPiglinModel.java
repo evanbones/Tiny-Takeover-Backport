@@ -7,6 +7,8 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.world.entity.Mob;
+import org.jetbrains.annotations.NotNull;
 
 public class BabyPiglinModel extends PiglinModel {
 
@@ -63,5 +65,17 @@ public class BabyPiglinModel extends PiglinModel {
         );
 
         return LayerDefinition.create(mesh, 64, 64);
+    }
+
+    @Override
+    public void setupAnim(@NotNull Mob entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+        this.head.setPos(0.0F, 15.0F, 0.0F);
+        this.hat.setPos(0.0F, 15.0F, 0.0F);
+        this.body.setPos(0.0F, 18.0F, -0.5F);
+        this.rightArm.setPos(-4.0F, 15.0F, 0.0F);
+        this.leftArm.setPos(4.0F, 15.0F, 0.0F);
+        this.rightLeg.setPos(-1.5F, 20.0F, 0.0F);
+        this.leftLeg.setPos(1.5F, 20.0F, 0.0F);
     }
 }
