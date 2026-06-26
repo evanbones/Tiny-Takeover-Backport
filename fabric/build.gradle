@@ -15,6 +15,10 @@ dependencies {
 
     // YACL
     modImplementation "maven.modrinth:yacl:${yacl_version}-fabric"
+    implementation "org.quiltmc.parsers:json:0.3.0"
+    implementation "org.quiltmc.parsers:gson:0.3.0"
+    include "org.quiltmc.parsers:json:0.3.0"
+    include "org.quiltmc.parsers:gson:0.3.0"
     modImplementation "com.terraformersmc:modmenu:${mod_menu_version}"
 
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"

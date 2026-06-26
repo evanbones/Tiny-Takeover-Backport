@@ -1,0 +1,284 @@
+{
+  "item.golden_dandelion.use": {
+    "sounds": [
+      "minecraft:item/golden_dandelion/use"
+    ]
+  },
+  "item.golden_dandelion.unuse": {
+    "sounds": [
+      "minecraft:item/golden_dandelion/unuse"
+    ]
+  },
+  "entity.baby_chicken.ambient": {
+    "sounds": [
+      "minecraft:mob/chicken/baby_chicken/ambient1",
+      "minecraft:mob/chicken/baby_chicken/ambient2"
+    ]
+  },
+  "entity.baby_chicken.hurt": {
+    "sounds": [
+      "minecraft:mob/chicken/baby_chicken/hurt1",
+      "minecraft:mob/chicken/baby_chicken/hurt2",
+      "minecraft:mob/chicken/baby_chicken/hurt3",
+      "minecraft:mob/chicken/baby_chicken/hurt4"
+    ]
+  },
+  "entity.baby_chicken.death": {
+    "sounds": [
+      "minecraft:mob/chicken/baby_chicken/death"
+    ]
+  },
+  "entity.baby_chicken.step": {
+    "sounds": [
+      "minecraft:mob/chicken/baby_chicken/step"
+    ]
+  },
+  "entity.baby_pig.ambient": {
+    "sounds": [
+      "minecraft:mob/pig/baby_pig/ambient1",
+      "minecraft:mob/pig/baby_pig/ambient2",
+      "minecraft:mob/pig/baby_pig/ambient3",
+      "minecraft:mob/pig/baby_pig/ambient4",
+      "minecraft:mob/pig/baby_pig/ambient5",
+      "minecraft:mob/pig/baby_pig/ambient6"
+    ]
+  },
+  "entity.baby_pig.hurt": {
+    "sounds": [
+      "minecraft:mob/pig/baby_pig/hit1",
+      "minecraft:mob/pig/baby_pig/hit2",
+      "minecraft:mob/pig/baby_pig/hit3"
+    ]
+  },
+  "entity.baby_pig.death": {
+    "sounds": [
+      "minecraft:mob/pig/baby_pig/death"
+    ]
+  },
+  "entity.baby_pig.step": {
+    "sounds": [
+      "minecraft:mob/pig/baby_pig/step1",
+      "minecraft:mob/pig/baby_pig/step2",
+      "minecraft:mob/pig/baby_pig/step3",
+      "minecraft:mob/pig/baby_pig/step4",
+      "minecraft:mob/pig/baby_pig/step5"
+    ]
+  },
+  "entity.baby_cat.ambient": {
+    "sounds": [
+      "minecraft:mob/cat/baby_cat/ambient1",
+      "minecraft:mob/cat/baby_cat/ambient2",
+      "minecraft:mob/cat/baby_cat/ambient3",
+      "minecraft:mob/cat/baby_cat/ambient4",
+      "minecraft:mob/cat/baby_cat/ambient5",
+      "minecraft:mob/cat/baby_cat/ambient6",
+      "minecraft:mob/cat/baby_cat/ambient7"
+    ]
+  },
+  "entity.baby_cat.stray_ambient": {
+    "sounds": [
+      "minecraft:mob/cat/baby_cat/ambient1",
+      "minecraft:mob/cat/baby_cat/ambient2",
+      "minecraft:mob/cat/baby_cat/ambient3",
+      "minecraft:mob/cat/baby_cat/ambient4",
+      "minecraft:mob/cat/baby_cat/ambient5",
+      "minecraft:mob/cat/baby_cat/ambient6",
+      "minecraft:mob/cat/baby_cat/ambient7"
+    ]
+  },
+  "entity.baby_cat.death": {
+    "sounds": [
+      "minecraft:mob/cat/baby_cat/death"
+    ]
+  },
+  "entity.baby_cat.hurt": {
+    "sounds": [
+      "minecraft:mob/cat/baby_cat/hurt1",
+      "minecraft:mob/cat/baby_cat/hurt2",
+      "minecraft:mob/cat/baby_cat/hurt3"
+    ]
+  },
+  "entity.baby_cat.eat": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.cat.eat",
+        "type": "event"
+      }
+    ]
+  },
+  "entity.baby_cat.hiss": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.cat.hiss",
+        "type": "event"
+      }
+    ]
+  },
+  "entity.baby_cat.beg_for_food": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.cat.beg_for_food",
+        "type": "event"
+      }
+    ]
+  },
+  "entity.baby_cat.purr": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.cat.purr",
+        "type": "event"
+      }
+    ]
+  },
+  "entity.baby_cat.purreow": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.cat.purreow",
+        "type": "event"
+      }
+    ]
+  },
+  "entity.baby_horse.ambient": {
+    "sounds": [
+      "minecraft:mob/horse/baby_horse/ambient1",
+      "minecraft:mob/horse/baby_horse/ambient2",
+      "minecraft:mob/horse/baby_horse/ambient3",
+      "minecraft:mob/horse/baby_horse/ambient4",
+      "minecraft:mob/horse/baby_horse/ambient5",
+      "minecraft:mob/horse/baby_horse/ambient6",
+      "minecraft:mob/horse/baby_horse/ambient7",
+      "minecraft:mob/horse/baby_horse/ambient8"
+    ]
+  },
+  "entity.baby_horse.angry": {
+    "sounds": [
+      "minecraft:mob/horse/baby_horse/angry"
+    ]
+  },
+  "entity.baby_horse.breathe": {
+    "sounds": [
+      {
+        "name": "minecraft:entity.horse.breathe",
+        "type": "event"
+      }
+    ]
+  },
+  "entity.baby_horse.death": {
+    "sounds": [
+      "minecraft:mob/horse/baby_horse/death"
+    ]
+  },
+  "entity.baby_horse.eat": {
+    "sounds": [
+      "minecraft:mob/horse/baby_horse/eat1",
+      "minecraft:mob/horse/baby_horse/eat2",
+      "minecraft:mob/horse/baby_horse/eat3",
+      "minecraft:mob/horse/baby_horse/eat4",
+      "minecraft:mob/horse/baby_horse/eat5"
+    ]
+  },
+  "entity.baby_horse.hurt": {
+    "sounds": [
+      "minecraft:mob/horse/baby_horse/hurt1",
+      "minecraft:mob/horse/baby_horse/hurt2",
+      "minecraft:mob/horse/baby_horse/hurt3"
+    ]
+  },
+  "entity.baby_horse.land": {
+    "sounds": [
+      "minecraft:mob/horse/baby_horse/land"
+    ]
+  },
+  "entity.baby_horse.step": {
+    "sounds": [
+      "minecraft:mob/horse/baby_horse/step1",
+      "minecraft:mob/horse/baby_horse/step2",
+      "minecraft:mob/horse/baby_horse/step3",
+      "minecraft:mob/horse/baby_horse/step4",
+      "minecraft:mob/horse/baby_horse/step5",
+      "minecraft:mob/horse/baby_horse/step6"
+    ]
+  },
+  "entity.polar_bear.ambient_baby": {
+    "sounds": [
+      "minecraft:mob/polarbear_baby/idle1",
+      "minecraft:mob/polarbear_baby/idle2",
+      "minecraft:mob/polarbear_baby/idle3",
+      "minecraft:mob/polarbear_baby/idle4"
+    ]
+  },
+  "entity.turtle.death_baby": {
+    "sounds": [
+      "minecraft:mob/turtle/baby/death1",
+      "minecraft:mob/turtle/baby/death2"
+    ]
+  },
+  "entity.turtle.hurt_baby": {
+    "sounds": [
+      "minecraft:mob/turtle/baby/hurt1",
+      "minecraft:mob/turtle/baby/hurt2"
+    ]
+  },
+  "entity.turtle.shamble_baby": {
+    "sounds": [
+      "minecraft:mob/turtle/baby/shamble1",
+      "minecraft:mob/turtle/baby/shamble2",
+      "minecraft:mob/turtle/baby/shamble3",
+      "minecraft:mob/turtle/baby/shamble4"
+    ]
+  },
+  "entity.baby_wolf.ambient": {
+    "sounds": [
+      "minecraft:mob/wolf/baby/ambient1",
+      "minecraft:mob/wolf/baby/ambient2",
+      "minecraft:mob/wolf/baby/ambient3",
+      "minecraft:mob/wolf/baby/ambient4",
+      "minecraft:mob/wolf/baby/ambient5",
+      "minecraft:mob/wolf/baby/ambient6",
+      "minecraft:mob/wolf/baby/ambient7",
+      "minecraft:mob/wolf/baby/ambient8"
+    ]
+  },
+  "entity.baby_wolf.death": {
+    "sounds": [
+      "minecraft:mob/wolf/baby/death"
+    ]
+  },
+  "entity.baby_wolf.growl": {
+    "sounds": [
+      "minecraft:mob/wolf/baby/angry1",
+      "minecraft:mob/wolf/baby/angry2",
+      "minecraft:mob/wolf/baby/angry3",
+      "minecraft:mob/wolf/baby/angry4"
+    ]
+  },
+  "entity.baby_wolf.hurt": {
+    "sounds": [
+      "minecraft:mob/wolf/baby/hurt1",
+      "minecraft:mob/wolf/baby/hurt2",
+      "minecraft:mob/wolf/baby/hurt3"
+    ]
+  },
+  "entity.baby_wolf.pant": {
+    "sounds": [
+      "minecraft:mob/wolf/baby/pant1",
+      "minecraft:mob/wolf/baby/pant2",
+      "minecraft:mob/wolf/baby/pant3"
+    ]
+  },
+  "entity.baby_wolf.step": {
+    "sounds": [
+      "minecraft:mob/wolf/baby/step1",
+      "minecraft:mob/wolf/baby/step2",
+      "minecraft:mob/wolf/baby/step3",
+      "minecraft:mob/wolf/baby/step4",
+      "minecraft:mob/wolf/baby/step5"
+    ]
+  },
+  "entity.baby_wolf.whine": {
+    "sounds": [
+      "minecraft:mob/wolf/baby/whine1",
+      "minecraft:mob/wolf/baby/whine2"
+    ]
+  }
+}
