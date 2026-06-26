@@ -13,7 +13,6 @@ import net.minecraft.world.entity.animal.Squid;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SpawnEggItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -26,24 +25,6 @@ public abstract class MobMixin {
     private void handleInteractions(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         Mob mob = (Mob) (Object) this;
         ItemStack itemStack = player.getItemInHand(hand);
-
-        if (mob instanceof Squid squid) {
-            if (itemStack.getItem() instanceof SpawnEggItem egg && egg.spawnsEntity(itemStack, squid.getType())) {
-                if (!squid.level().isClientSide()) {
-                    Squid babySquid = (Squid) squid.getType().create(squid.level());
-                    if (babySquid != null) {
-                        ((ModifiableBaby) babySquid).tiny_takeover_backport$setBaby(true);
-                        babySquid.moveTo(squid.getX(), squid.getY(), squid.getZ(), 0.0F, 0.0F);
-                        squid.level().addFreshEntity(babySquid);
-                        if (!player.getAbilities().instabuild) {
-                            itemStack.shrink(1);
-                        }
-                    }
-                }
-                cir.setReturnValue(InteractionResult.sidedSuccess(squid.level().isClientSide()));
-                return;
-            }
-        }
 
         if (mob instanceof AgeableMob ageable && ageable instanceof AgeLockable lockable) {
             if (mob instanceof Villager) return;
