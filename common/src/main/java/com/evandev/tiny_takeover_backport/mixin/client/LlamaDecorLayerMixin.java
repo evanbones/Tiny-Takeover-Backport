@@ -1,7 +1,7 @@
 package com.evandev.tiny_takeover_backport.mixin.client;
 
-import com.evandev.tiny_takeover_backport.client.model.BabyLlamaModel;
 import com.evandev.tiny_takeover_backport.client.ModModelLayers;
+import com.evandev.tiny_takeover_backport.client.model.BabyLlamaModel;
 import com.evandev.tiny_takeover_backport.config.ModConfig;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -34,12 +34,19 @@ public abstract class LlamaDecorLayerMixin extends RenderLayer<Llama, LlamaModel
         this.tiny_takeover_backport$babyModel = new BabyLlamaModel(modelSet.bakeLayer(ModModelLayers.LLAMA_BABY_DECOR));
     }
 
+    @Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/horse/Llama;FFFFFF)V", at = @At("HEAD"))
+    private void preRenderSetup(PoseStack poseStack, net.minecraft.client.renderer.MultiBufferSource buffer, int packedLight, Llama entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, CallbackInfo ci) {
+        if (entity.isBaby() && ModConfig.get().enableLlama) {
+            this.tiny_takeover_backport$babyModel.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTicks);
+            this.tiny_takeover_backport$babyModel.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+        }
+    }
+
     @WrapOperation(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/horse/Llama;FFFFFF)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/LlamaModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;II)V"))
     private void wrapRenderCall(LlamaModel<Llama> instance, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int overlay, Operation<Void> original, PoseStack methodPoseStack, net.minecraft.client.renderer.MultiBufferSource buffer, int methodPackedLight, Llama entity) {
         if (entity.isBaby() && ModConfig.get().enableLlama) {
             instance = this.tiny_takeover_backport$babyModel;
-            instance.setupAnim(entity, 0, 0, 0, 0, 0);
         }
         original.call(instance, poseStack, vertexConsumer, packedLight, overlay);
     }

@@ -43,8 +43,11 @@ public class ModBabyModelRegistry {
         if (adultModel instanceof CamelModel) {
             return (EntityModel<T>) new BabyCamelModel(modelSet.bakeLayer(ModModelLayers.CAMEL_BABY));
         }
-        if (adultModel instanceof OcelotModel || adultModel instanceof CatModel) {
+        if (adultModel instanceof CatModel) {
             return (EntityModel<T>) new BabyCatModel(modelSet.bakeLayer(ModModelLayers.CAT_BABY));
+        }
+        if (adultModel instanceof OcelotModel) {
+            return (EntityModel<T>) new BabyOcelotModel(modelSet.bakeLayer(ModModelLayers.OCELOT_BABY));
         }
         if (adultModel instanceof ChickenModel) {
             return (EntityModel<T>) new BabyChickenModel(modelSet.bakeLayer(ModModelLayers.CHICKEN_BABY));

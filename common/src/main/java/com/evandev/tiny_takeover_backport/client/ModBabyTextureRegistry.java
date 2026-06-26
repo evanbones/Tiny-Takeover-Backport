@@ -6,28 +6,30 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 
 public class ModBabyTextureRegistry {
+    private static String getRabbitTextureName(String path) {
+        return path.substring("textures/entity/rabbit/".length(), path.length() - 4);
+    }
+
     public static ResourceLocation getBabyTexture(LivingEntity entity, ResourceLocation original) {
+        if (!original.getNamespace().equals("minecraft")) {
+            return original;
+        }
+
+        String path = original.getPath();
+        String entityName = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).getPath();
+
         if (!entity.isBaby()) {
-            String entityName = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).getPath();
             if (entityName.equals("rabbit")
                     && ModConfig.get().replaceAdultRabbit
-                    && "minecraft".equals(original.getNamespace())
-                    && original.getPath().startsWith("textures/entity/rabbit/")) {
-                String name = original.getPath().substring("textures/entity/rabbit/".length(), original.getPath().length() - 4);
-                return ResourceLocation.withDefaultNamespace("textures/entity/rabbit/rabbit_" + name + ".png");
+                    && path.startsWith("textures/entity/rabbit/")) {
+                return ResourceLocation.withDefaultNamespace(
+                        "textures/entity/rabbit/rabbit_" + getRabbitTextureName(path) + ".png");
             }
+
             return original;
         }
 
-        String entityName = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).getPath();
         if (!ModConfig.get().isModelEnabled(entityName)) {
-            return original;
-        }
-
-        String namespace = original.getNamespace();
-        String path = original.getPath();
-
-        if (!namespace.equals("minecraft")) {
             return original;
         }
 
@@ -110,32 +112,44 @@ public class ModBabyTextureRegistry {
             case "textures/entity/llama/gray.png" -> {
                 return ResourceLocation.withDefaultNamespace("textures/entity/llama/llama_gray_baby.png");
             }
+            case "textures/entity/fox/snow_fox.png" -> {
+                return ResourceLocation.withDefaultNamespace("textures/entity/fox/fox_snow_baby.png");
+            }
+            case "textures/entity/fox/snow_fox_sleep.png" -> {
+                return ResourceLocation.withDefaultNamespace("textures/entity/fox/fox_snow_sleep_baby.png");
+            }
         }
 
         if (path.startsWith("textures/entity/rabbit/")) {
-            String rabbitName = path.substring("textures/entity/rabbit/".length(), path.length() - 4);
-            return ResourceLocation.withDefaultNamespace("textures/entity/rabbit/rabbit_" + rabbitName + "_baby.png");
+            return ResourceLocation.withDefaultNamespace(
+                    "textures/entity/rabbit/rabbit_" + getRabbitTextureName(path) + "_baby.png");
         }
 
         if (path.equals("textures/entity/villager/villager.png")) {
-            return ResourceLocation.withDefaultNamespace("textures/entity/villager/villager_baby.png");
+            return ResourceLocation.withDefaultNamespace(
+                    "textures/entity/villager/villager_baby.png");
         }
+
         if (path.startsWith("textures/entity/villager/type/")) {
-            String typeName = path.substring("textures/entity/villager/type/".length());
-            return ResourceLocation.withDefaultNamespace("textures/entity/villager/baby/" + typeName);
+            return ResourceLocation.withDefaultNamespace(
+                    "textures/entity/villager/baby/"
+                            + path.substring("textures/entity/villager/type/".length()));
         }
 
         if (path.equals("textures/entity/zombie_villager/zombie_villager.png")) {
-            return ResourceLocation.withDefaultNamespace("textures/entity/zombie_villager/zombie_villager_baby.png");
+            return ResourceLocation.withDefaultNamespace(
+                    "textures/entity/zombie_villager/zombie_villager_baby.png");
         }
+
         if (path.startsWith("textures/entity/zombie_villager/type/")) {
-            String typeName = path.substring("textures/entity/zombie_villager/type/".length());
-            return ResourceLocation.withDefaultNamespace("textures/entity/zombie_villager/baby/" + typeName);
+            return ResourceLocation.withDefaultNamespace(
+                    "textures/entity/zombie_villager/baby/"
+                            + path.substring("textures/entity/zombie_villager/type/".length()));
         }
 
         if (path.endsWith(".png")) {
-            String newPath = path.substring(0, path.length() - 4) + "_baby.png";
-            return ResourceLocation.withDefaultNamespace(newPath);
+            return ResourceLocation.withDefaultNamespace(
+                    path.substring(0, path.length() - 4) + "_baby.png");
         }
 
         return original;

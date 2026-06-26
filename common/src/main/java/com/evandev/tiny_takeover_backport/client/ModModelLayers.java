@@ -9,6 +9,7 @@ public class ModModelLayers {
     public static final ModelLayerLocation BEE_BABY = register("bee_baby");
     public static final ModelLayerLocation CAMEL_BABY = register("camel_baby");
     public static final ModelLayerLocation CAT_BABY = register("cat_baby");
+    public static final ModelLayerLocation OCELOT_BABY = register("ocelot_baby");
     public static final ModelLayerLocation CAT_BABY_COLLAR = register("cat_baby", "collar");
     public static final ModelLayerLocation CHICKEN_BABY = register("chicken_baby");
     public static final ModelLayerLocation COW_BABY = register("cow_baby");

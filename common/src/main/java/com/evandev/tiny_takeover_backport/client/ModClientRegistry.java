@@ -17,6 +17,7 @@ public class ModClientRegistry {
         register(ModModelLayers.AXOLOTL_BABY, BabyAxolotlModel::createBodyLayer);
         register(ModModelLayers.BEE_BABY, BabyBeeModel::createBodyLayer);
         register(ModModelLayers.CAMEL_BABY, BabyCamelModel::createBodyLayer);
+        register(ModModelLayers.OCELOT_BABY, BabyOcelotModel::createBodyLayer);
         register(ModModelLayers.CAT_BABY, BabyCatModel::createBodyLayer);
         register(ModModelLayers.CAT_BABY_COLLAR, BabyCatModel::createCollarLayer);
         register(ModModelLayers.CHICKEN_BABY, BabyChickenModel::createBodyLayer);

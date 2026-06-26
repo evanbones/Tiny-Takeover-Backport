@@ -9,8 +9,25 @@ import org.jetbrains.annotations.NotNull;
 
 public class BabyDonkeyModel<T extends AbstractChestedHorse> extends ChestedHorseModel<T> {
 
+    private final ModelPart rightHindLeg;
+    private final ModelPart leftHindLeg;
+    private final ModelPart rightFrontLeg;
+    private final ModelPart leftFrontLeg;
+    private final ModelPart rightHindBabyLeg;
+    private final ModelPart leftHindBabyLeg;
+    private final ModelPart rightFrontBabyLeg;
+    private final ModelPart leftFrontBabyLeg;
+
     public BabyDonkeyModel(ModelPart root) {
         super(root);
+        this.rightHindLeg = root.getChild("right_hind_leg");
+        this.leftHindLeg = root.getChild("left_hind_leg");
+        this.rightFrontLeg = root.getChild("right_front_leg");
+        this.leftFrontLeg = root.getChild("left_front_leg");
+        this.rightHindBabyLeg = root.getChild("right_hind_baby_leg");
+        this.leftHindBabyLeg = root.getChild("left_hind_baby_leg");
+        this.rightFrontBabyLeg = root.getChild("right_front_baby_leg");
+        this.leftFrontBabyLeg = root.getChild("left_front_baby_leg");
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -102,6 +119,11 @@ public class BabyDonkeyModel<T extends AbstractChestedHorse> extends ChestedHors
     public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         this.body.y = 14.0F;
+
+        this.rightHindLeg.copyFrom(this.rightHindBabyLeg);
+        this.leftHindLeg.copyFrom(this.leftHindBabyLeg);
+        this.rightFrontLeg.copyFrom(this.rightFrontBabyLeg);
+        this.leftFrontLeg.copyFrom(this.leftFrontBabyLeg);
     }
 
     @Override
@@ -114,5 +136,14 @@ public class BabyDonkeyModel<T extends AbstractChestedHorse> extends ChestedHors
         this.headParts.y += animationProgress * 7.0F;
         this.headParts.z += animationProgress * 7.0F;
         this.body.y = 14.0F;
+
+        this.rightHindLeg.visible = true;
+        this.leftHindLeg.visible = true;
+        this.rightFrontLeg.visible = true;
+        this.leftFrontLeg.visible = true;
+        this.rightHindBabyLeg.visible = false;
+        this.leftHindBabyLeg.visible = false;
+        this.rightFrontBabyLeg.visible = false;
+        this.leftFrontBabyLeg.visible = false;
     }
 }

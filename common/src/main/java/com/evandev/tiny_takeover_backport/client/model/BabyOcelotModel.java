@@ -7,8 +7,11 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.world.entity.animal.Ocelot;
+import org.jetbrains.annotations.NotNull;
 
-public class BabyOcelotModel extends OcelotModel {
+public class BabyOcelotModel<T extends Ocelot> extends OcelotModel<T> {
+
     public BabyOcelotModel(ModelPart root) {
         super(root);
     }
@@ -51,5 +54,38 @@ public class BabyOcelotModel extends OcelotModel {
         );
         partdefinition.addOrReplaceChild("tail2", CubeListBuilder.create(), PartPose.ZERO);
         return LayerDefinition.create(meshdefinition, 32, 32);
+    }
+
+    @Override
+    public void prepareMobModel(@NotNull T entity, float limbSwing, float limbSwingAmount, float partialTick) {
+        super.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTick);
+
+        this.body.setPos(0.0F, 20.5F, 0.5F);
+        this.body.xRot = 0.0F;
+
+        this.head.setPos(0.0F, 20.0F, -3.125F);
+        this.tail1.setPos(0.0F, 19.107F, 3.9151F);
+        this.tail1.xRot = -0.567232F;
+
+        this.leftFrontLeg.setPos(1.0F, 22.0F, -1.5F);
+        this.rightFrontLeg.setPos(-1.0F, 22.0F, -1.5F);
+        this.leftHindLeg.setPos(1.0F, 22.0F, 2.5F);
+        this.rightHindLeg.setPos(-1.0F, 22.0F, 2.5F);
+
+        if (entity.isCrouching()) {
+            this.body.y += 1.0F;
+            this.head.y += 2.0F;
+            this.tail1.y += 1.0F;
+            this.tail1.xRot = (float) (Math.PI / 2);
+        } else if (entity.isSprinting()) {
+            this.tail1.xRot = (float) (Math.PI / 2);
+        }
+    }
+
+    @Override
+    public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+
+        this.body.xRot = 0.0F;
     }
 }
