@@ -7,6 +7,8 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.world.entity.animal.PolarBear;
+import org.jetbrains.annotations.NotNull;
 
 public class BabyPolarBearModel extends PolarBearModel {
 
@@ -46,5 +48,26 @@ public class BabyPolarBearModel extends PolarBearModel {
                 "left_front_leg", CubeListBuilder.create().texOffs(12, 28).addBox(-1.5F, -0.5F, -1.5F, 3.0F, 3.0F, 3.0F), PartPose.offset(2.5F, 21.5F, -4.5F)
         );
         return LayerDefinition.create(mesh, 64, 64);
+    }
+
+    @Override
+    public void setupAnim(@NotNull PolarBear entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+
+        float f = ageInTicks - (float) entity.tickCount;
+        float standScale = entity.getStandingAnimationScale(f);
+        standScale *= standScale;
+        float normalScale = 1.0F - standScale;
+
+        this.body.xRot -= (float) Math.PI / 2F;
+        this.body.y = 17.5F * normalScale + 18.5F * standScale;
+
+        this.rightFrontLeg.y = 21.5F * normalScale + 15.0F * standScale;
+        this.rightFrontLeg.z = -4.5F * normalScale + -2.5F * standScale;
+        this.leftFrontLeg.y = this.rightFrontLeg.y;
+        this.leftFrontLeg.z = this.rightFrontLeg.z;
+
+        this.head.y = 18.625F * normalScale + 12.0F * standScale;
+        this.head.z = -5.75F * normalScale - 2.0F * standScale;
     }
 }
