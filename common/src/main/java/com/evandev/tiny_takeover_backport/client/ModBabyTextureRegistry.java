@@ -1,6 +1,8 @@
 package com.evandev.tiny_takeover_backport.client;
 
+import com.evandev.tiny_takeover_backport.compat.VanillaBackportCompat;
 import com.evandev.tiny_takeover_backport.config.ModConfig;
+import com.evandev.tiny_takeover_backport.platform.Services;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -30,6 +32,29 @@ public class ModBabyTextureRegistry {
 
         if (!ModConfig.get().isModelEnabled(entityName)) {
             return original;
+        }
+
+        if (Services.PLATFORM.isModLoaded("vanillabackport") && VanillaBackportCompat.hasFarmAnimalVariants()) {
+            switch (path) {
+                case "textures/entity/cow/warm_cow.png" -> {
+                    return ResourceLocation.withDefaultNamespace("textures/entity/cow/cow_warm_baby.png");
+                }
+                case "textures/entity/cow/cold_cow.png" -> {
+                    return ResourceLocation.withDefaultNamespace("textures/entity/cow/cow_cold_baby.png");
+                }
+                case "textures/entity/chicken/warm_chicken.png" -> {
+                    return ResourceLocation.withDefaultNamespace("textures/entity/chicken/chicken_warm_baby.png");
+                }
+                case "textures/entity/chicken/cold_chicken.png" -> {
+                    return ResourceLocation.withDefaultNamespace("textures/entity/chicken/chicken_cold_baby.png");
+                }
+                case "textures/entity/pig/warm_pig.png" -> {
+                    return ResourceLocation.withDefaultNamespace("textures/entity/pig/pig_warm_baby.png");
+                }
+                case "textures/entity/pig/cold_pig.png" -> {
+                    return ResourceLocation.withDefaultNamespace("textures/entity/pig/pig_cold_baby.png");
+                }
+            }
         }
 
         if (path.equals("textures/entity/llama/trader_llama.png")) {

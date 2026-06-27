@@ -4,6 +4,7 @@ import net.minecraft.client.model.HorseModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import org.jetbrains.annotations.NotNull;
 
@@ -110,14 +111,25 @@ public class BabyHorseModel<T extends AbstractHorse> extends HorseModel<T> {
     public void prepareMobModel(@NotNull T entity, float limbSwing, float limbSwingAmount, float partialTick) {
         super.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTick);
 
-        this.headParts.y = 10.0F;
-        this.headParts.z = -6.0F;
+        float eatAnim = entity.getEatAnim(partialTick);
+        float standAnim = entity.getStandAnim(partialTick);
+
+        float headY = 10.0F;
+        float headZ = -6.0F;
+
+        if (eatAnim > 0.0F) {
+            headY = Mth.lerp(eatAnim, headY, 12.0F);
+        } else if (standAnim > 0.0F) {
+            headY = Mth.lerp(standAnim, headY, 8.0F);
+            headZ = Mth.lerp(standAnim, headZ, -4.0F);
+        }
+
+        this.headParts.y = headY;
+        this.headParts.z = headZ;
         this.body.y = 12.5F;
 
         this.tail.setPos(0.0F, -1.0F, 7.0F);
         this.tail.xRot = -0.7418F + limbSwingAmount * 0.75F;
-
-        float standAnim = entity.getStandAnim(partialTick);
         this.leftFrontLeg.y = 16.0F - 4.0F * standAnim;
         this.leftFrontLeg.z = -5.4F;
         this.rightFrontLeg.y = this.leftFrontLeg.y;
@@ -132,4 +144,5 @@ public class BabyHorseModel<T extends AbstractHorse> extends HorseModel<T> {
         this.rightFrontBabyLeg.visible = false;
         this.leftFrontBabyLeg.visible = false;
     }
+
 }
