@@ -12,10 +12,18 @@ public class BabyLlamaModel extends LlamaModel {
     }
 
     public static LayerDefinition createBodyLayer() {
-        return createBodyLayer(CubeDeformation.NONE);
+        return LayerDefinition.create(createBabyMesh(CubeDeformation.NONE), 64, 64);
     }
 
-    public static LayerDefinition createBodyLayer(CubeDeformation g) {
+    public static LayerDefinition createDecorLayer(CubeDeformation g) {
+        return LayerDefinition.create(createBabyMesh(g), 64, 64);
+    }
+
+    public static LayerDefinition createTraderDecorLayer(CubeDeformation g) {
+        return LayerDefinition.create(createBabyMesh(g), 64, 64);
+    }
+
+    private static MeshDefinition createBabyMesh(CubeDeformation g) {
         MeshDefinition mesh = new MeshDefinition();
         PartDefinition root = mesh.getRoot();
         root.addOrReplaceChild(
@@ -56,6 +64,7 @@ public class BabyLlamaModel extends LlamaModel {
                 CubeListBuilder.create().texOffs(45, 41).addBox(-3.0F, 0.0F, 0.0F, 8.0F, 8.0F, 3.0F, g),
                 PartPose.offsetAndRotation(5.5F, 4.0F, 3.0F, 0.0F, (float) (Math.PI / 2), 0.0F)
         );
-        return LayerDefinition.create(mesh, 64, 64);
+
+        return mesh;
     }
 }

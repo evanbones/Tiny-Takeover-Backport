@@ -70,6 +70,9 @@ public class ModBabyModelRegistry {
         if (adultModel instanceof HorseModel) {
             return (EntityModel<T>) new BabyHorseModel(modelSet.bakeLayer(ModModelLayers.HORSE_BABY));
         }
+        if (adultModel instanceof LlamaModel) {
+            return (EntityModel<T>) new BabyLlamaModel(modelSet.bakeLayer(ModModelLayers.LLAMA_BABY));
+        }
         if (adultModel instanceof PandaModel) {
             return (EntityModel<T>) new BabyPandaModel(modelSet.bakeLayer(ModModelLayers.PANDA_BABY));
         }

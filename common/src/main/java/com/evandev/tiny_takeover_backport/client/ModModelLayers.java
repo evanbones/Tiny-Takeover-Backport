@@ -23,6 +23,7 @@ public class ModModelLayers {
     public static final ModelLayerLocation HORSE_BABY = register("horse_baby");
     public static final ModelLayerLocation LLAMA_BABY = register("llama_baby");
     public static final ModelLayerLocation LLAMA_BABY_DECOR = register("llama_baby", "decor");
+    public static final ModelLayerLocation TRADER_LLAMA_BABY_DECOR = register("trader_llama_baby", "decor");
     public static final ModelLayerLocation PANDA_BABY = register("panda_baby");
     public static final ModelLayerLocation PIGLIN_BABY = register("piglin_baby");
     public static final ModelLayerLocation PIG_BABY = register("pig_baby");

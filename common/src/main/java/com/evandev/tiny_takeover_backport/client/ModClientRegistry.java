@@ -31,7 +31,8 @@ public class ModClientRegistry {
         register(ModModelLayers.HOGLIN_BABY, BabyHoglinModel::createBodyLayer);
         register(ModModelLayers.HORSE_BABY, BabyHorseModel::createBodyLayer);
         register(ModModelLayers.LLAMA_BABY, BabyLlamaModel::createBodyLayer);
-        register(ModModelLayers.LLAMA_BABY_DECOR, () -> BabyLlamaModel.createBodyLayer(new CubeDeformation(0.2F)));
+        register(ModModelLayers.LLAMA_BABY_DECOR, () -> BabyLlamaModel.createDecorLayer(new CubeDeformation(0.2F)));
+        register(ModModelLayers.TRADER_LLAMA_BABY_DECOR, () -> BabyLlamaModel.createTraderDecorLayer(new CubeDeformation(0.2F)));
         register(ModModelLayers.PANDA_BABY, BabyPandaModel::createBodyLayer);
         register(ModModelLayers.PIGLIN_BABY, BabyPiglinModel::createBodyLayer);
         register(ModModelLayers.PIG_BABY, BabyPigModel::createBodyLayer);

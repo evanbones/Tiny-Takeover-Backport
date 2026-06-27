@@ -9,9 +9,12 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.LlamaModel;
 import net.minecraft.client.model.geom.EntityModelSet;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.LlamaDecorLayer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.animal.horse.Llama;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -34,9 +37,13 @@ public abstract class LlamaDecorLayerMixin extends RenderLayer<Llama, LlamaModel
         this.tiny_takeover_backport$babyModel = new BabyLlamaModel(modelSet.bakeLayer(ModModelLayers.LLAMA_BABY_DECOR));
     }
 
-    @Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/horse/Llama;FFFFFF)V", at = @At("HEAD"))
-    private void preRenderSetup(PoseStack poseStack, net.minecraft.client.renderer.MultiBufferSource buffer, int packedLight, Llama entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, CallbackInfo ci) {
+    @Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/horse/Llama;FFFFFF)V", at = @At("HEAD"), cancellable = true)
+    private void preRenderSetup(PoseStack poseStack, MultiBufferSource buffer, int packedLight, Llama entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, CallbackInfo ci) {
         if (entity.isBaby() && ModConfig.get().enableLlama) {
+            if (!entity.isTraderLlama()) {
+                ci.cancel();
+                return;
+            }
             this.tiny_takeover_backport$babyModel.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTicks);
             this.tiny_takeover_backport$babyModel.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         }
@@ -44,10 +51,22 @@ public abstract class LlamaDecorLayerMixin extends RenderLayer<Llama, LlamaModel
 
     @WrapOperation(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/horse/Llama;FFFFFF)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/LlamaModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;II)V"))
-    private void wrapRenderCall(LlamaModel<Llama> instance, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int overlay, Operation<Void> original, PoseStack methodPoseStack, net.minecraft.client.renderer.MultiBufferSource buffer, int methodPackedLight, Llama entity) {
-        if (entity.isBaby() && ModConfig.get().enableLlama) {
-            instance = this.tiny_takeover_backport$babyModel;
+    private void wrapRenderCall(LlamaModel<Llama> instance, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int overlay, Operation<Void> original, PoseStack methodPoseStack, MultiBufferSource buffer, int methodPackedLight, Llama entity) {
+        if (entity.isBaby() && ModConfig.get().enableLlama && entity.isTraderLlama()) {
+            this.tiny_takeover_backport$babyModel.young = false;
+
+            original.call(this.tiny_takeover_backport$babyModel, poseStack, vertexConsumer, packedLight, overlay);
+            return;
         }
         original.call(instance, poseStack, vertexConsumer, packedLight, overlay);
+    }
+
+    @WrapOperation(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/horse/Llama;FFFFFF)V",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;entityCutoutNoCull(Lnet/minecraft/resources/ResourceLocation;)Lnet/minecraft/client/renderer/RenderType;"))
+    private RenderType wrapRenderType(ResourceLocation location, Operation<RenderType> original, PoseStack poseStack, MultiBufferSource buffer, int packedLight, Llama entity) {
+        if (entity.isBaby() && ModConfig.get().enableLlama && entity.isTraderLlama()) {
+            location = ResourceLocation.withDefaultNamespace("textures/entity/equipment/llama_body/trader_llama_baby.png");
+        }
+        return original.call(location);
     }
 }

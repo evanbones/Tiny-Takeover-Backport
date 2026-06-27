@@ -118,12 +118,11 @@ public class BabyDonkeyModel<T extends AbstractChestedHorse> extends ChestedHors
     @Override
     public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-        this.body.y = 14.0F;
 
-        this.rightHindLeg.copyFrom(this.rightHindBabyLeg);
-        this.leftHindLeg.copyFrom(this.leftHindBabyLeg);
-        this.rightFrontLeg.copyFrom(this.rightFrontBabyLeg);
-        this.leftFrontLeg.copyFrom(this.leftFrontBabyLeg);
+        this.rightHindLeg.setPos(-1.4F, 17.5F, 5.4F);
+        this.leftHindLeg.setPos(3.25F, 17.5F, 5.25F);
+        this.rightFrontLeg.setPos(-1.4F, 17.5F, -5.4F);
+        this.leftFrontLeg.setPos(3.4F, 17.5F, -5.3F);
     }
 
     @Override

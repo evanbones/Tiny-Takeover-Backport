@@ -25,12 +25,15 @@ public class ModBabyTextureRegistry {
                 return ResourceLocation.withDefaultNamespace(
                         "textures/entity/rabbit/rabbit_" + getRabbitTextureName(path) + ".png");
             }
-
             return original;
         }
 
         if (!ModConfig.get().isModelEnabled(entityName)) {
             return original;
+        }
+
+        if (path.equals("textures/entity/llama/trader_llama.png")) {
+            return ResourceLocation.withDefaultNamespace("textures/entity/llama/trader_llama_baby.png");
         }
 
         switch (path) {
