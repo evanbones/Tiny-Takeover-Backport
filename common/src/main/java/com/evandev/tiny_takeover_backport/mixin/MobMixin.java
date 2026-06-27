@@ -1,8 +1,10 @@
 package com.evandev.tiny_takeover_backport.mixin;
 
 import com.evandev.tiny_takeover_backport.entity.AgeLockable;
+import com.evandev.tiny_takeover_backport.entity.ModEntityData;
 import com.evandev.tiny_takeover_backport.entity.ModifiableBaby;
 import com.evandev.tiny_takeover_backport.registry.ModRegistry;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -16,13 +18,23 @@ import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Mob.class)
 public abstract class MobMixin {
 
+    @Inject(method = "defineSynchedData", at = @At("TAIL"))
+    private void tiny_takeover_backport$defineBabyData(SynchedEntityData.Builder builder, CallbackInfo ci) {
+        if ((Object) this instanceof Squid) {
+            builder.define(ModEntityData.SQUID_BABY_ID, false);
+        } else if ((Object) this instanceof Dolphin) {
+            builder.define(ModEntityData.DOLPHIN_BABY_ID, false);
+        }
+    }
+
     @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
-    protected void handleInteractions(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+    private void tiny_takeover_backport$handleInteractions(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         Mob mob = (Mob) (Object) this;
         ItemStack itemStack = player.getItemInHand(hand);
 

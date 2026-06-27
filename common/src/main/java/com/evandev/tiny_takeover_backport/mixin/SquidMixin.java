@@ -1,10 +1,8 @@
 package com.evandev.tiny_takeover_backport.mixin;
 
+import com.evandev.tiny_takeover_backport.entity.ModEntityData;
 import com.evandev.tiny_takeover_backport.entity.ModifiableBaby;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
@@ -21,28 +19,19 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(Squid.class)
 public abstract class SquidMixin extends WaterAnimal implements ModifiableBaby {
 
-    @Unique
-    private static final EntityDataAccessor<Boolean> DATA_BABY_ID = SynchedEntityData.defineId(Squid.class, EntityDataSerializers.BOOLEAN);
-
     protected SquidMixin(EntityType<? extends WaterAnimal> entityType, Level level) {
         super(entityType, level);
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.@NotNull Builder builder) {
-        super.defineSynchedData(builder);
-        builder.define(DATA_BABY_ID, false);
-    }
-
-    @Override
     public boolean isBaby() {
-        return this.entityData.get(DATA_BABY_ID);
+        return this.entityData.get(ModEntityData.SQUID_BABY_ID);
     }
 
     @Unique
     @Override
     public void tiny_takeover_backport$setBaby(boolean baby) {
-        this.entityData.set(DATA_BABY_ID, baby);
+        this.entityData.set(ModEntityData.SQUID_BABY_ID, baby);
     }
 
     @Override

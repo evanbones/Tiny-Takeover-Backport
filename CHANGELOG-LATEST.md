@@ -1,3 +1,3 @@
 ### Fixed
 
-- Fixed crash with Upgrade Aquatic.
+- Improved mixins for better mod compatibility.

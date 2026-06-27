@@ -2,6 +2,8 @@ package com.evandev.tiny_takeover_backport.mixin;
 
 import com.evandev.tiny_takeover_backport.entity.AgeLockable;
 import com.evandev.tiny_takeover_backport.registry.ModRegistry;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -14,7 +16,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AgeableMob.class)
@@ -84,10 +85,10 @@ public abstract class AgeableMobMixin extends PathfinderMob implements AgeLockab
         }
     }
 
-    @Redirect(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/AgeableMob;setAge(I)V"))
-    private void redirectSetAge(AgeableMob instance, int age) {
+    @WrapOperation(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/AgeableMob;setAge(I)V"))
+    private void wrapSetAge(AgeableMob instance, int age, Operation<Void> original) {
         if (!this.tiny_takeover_backport$isAgeLocked()) {
-            instance.setAge(age);
+            original.call(instance, age);
         }
     }
 }
