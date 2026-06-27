@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class MobMixin {
 
     @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
-    private void handleInteractions(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+    protected void handleInteractions(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         Mob mob = (Mob) (Object) this;
         ItemStack itemStack = player.getItemInHand(hand);
 

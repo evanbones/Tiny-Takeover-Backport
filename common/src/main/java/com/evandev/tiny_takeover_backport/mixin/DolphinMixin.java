@@ -63,7 +63,7 @@ public abstract class DolphinMixin extends WaterAnimal implements ModifiableBaby
     }
 
     @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
-    private void mobInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+    protected void mobInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         Dolphin dolphin = (Dolphin) (Object) this;
         ItemStack itemstack = player.getItemInHand(hand);
 

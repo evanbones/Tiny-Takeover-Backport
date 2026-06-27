@@ -1,3 +1,3 @@
 ### Fixed
 
-- Fixed baby Polar Bear model.
+- Fixed crash with Upgrade Aquatic.

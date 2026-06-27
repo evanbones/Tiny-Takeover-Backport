@@ -58,7 +58,7 @@ public abstract class SquidMixin extends WaterAnimal implements ModifiableBaby {
     }
 
     @Override
-    public @NotNull InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
+    protected @NotNull InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
 
         if (itemstack.getItem() instanceof SpawnEggItem egg && egg.spawnsEntity(itemstack, this.getType())) {
