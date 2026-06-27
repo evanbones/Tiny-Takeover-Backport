@@ -24,6 +24,8 @@ public class ModConfig {
     private static ModConfig INSTANCE;
 
     public boolean enableNameTagRecipe = true;
+    public boolean spawnBabyDolphin = true;
+    public boolean spawnBabySquid = true;
 
     public boolean enableArmadillo = true;
     public boolean enableAxolotl = true;
@@ -99,7 +101,9 @@ public class ModConfig {
 
         ConfigCategory.Builder general = ConfigCategory.createBuilder()
                 .name(Component.translatable("config.tiny_takeover_backport.category.general"))
-                .option(createBoolOption("enable_name_tag_recipe", true, () -> get().enableNameTagRecipe, val -> get().enableNameTagRecipe = val));
+                .option(createBoolOption("enable_name_tag_recipe", true, () -> get().enableNameTagRecipe, val -> get().enableNameTagRecipe = val))
+                .option(createBoolOption("spawn_baby_dolphin", true, () -> get().spawnBabyDolphin, val -> get().spawnBabyDolphin = val))
+                .option(createBoolOption("spawn_baby_squid", true, () -> get().spawnBabySquid, val -> get().spawnBabySquid = val));
 
         ConfigCategory.Builder models = ConfigCategory.createBuilder()
                 .name(Component.translatable("config.tiny_takeover_backport.category.models"))

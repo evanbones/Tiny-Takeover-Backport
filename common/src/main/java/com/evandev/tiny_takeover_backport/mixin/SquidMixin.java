@@ -1,5 +1,6 @@
 package com.evandev.tiny_takeover_backport.mixin;
 
+import com.evandev.tiny_takeover_backport.config.ModConfig;
 import com.evandev.tiny_takeover_backport.entity.ModEntityData;
 import com.evandev.tiny_takeover_backport.entity.ModifiableBaby;
 import net.minecraft.nbt.CompoundTag;
@@ -48,6 +49,7 @@ public abstract class SquidMixin extends WaterAnimal implements ModifiableBaby {
 
     @Override
     protected @NotNull InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
+        if (!ModConfig.get().spawnBabySquid) return super.mobInteract(player, hand);
         ItemStack itemstack = player.getItemInHand(hand);
 
         if (itemstack.getItem() instanceof SpawnEggItem egg && egg.spawnsEntity(itemstack, this.getType())) {

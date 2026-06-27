@@ -1,5 +1,6 @@
 package com.evandev.tiny_takeover_backport.mixin;
 
+import com.evandev.tiny_takeover_backport.config.ModConfig;
 import com.evandev.tiny_takeover_backport.entity.ModEntityData;
 import com.evandev.tiny_takeover_backport.entity.ModifiableBaby;
 import net.minecraft.nbt.CompoundTag;
@@ -49,6 +50,7 @@ public abstract class DolphinMixin extends WaterAnimal implements ModifiableBaby
 
     @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
     private void tiny_takeover_backport$mobInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+        if (!ModConfig.get().spawnBabyDolphin) return;
         Dolphin dolphin = (Dolphin) (Object) this;
         ItemStack itemstack = player.getItemInHand(hand);
 

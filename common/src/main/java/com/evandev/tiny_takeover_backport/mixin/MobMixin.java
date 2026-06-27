@@ -1,5 +1,6 @@
 package com.evandev.tiny_takeover_backport.mixin;
 
+import com.evandev.tiny_takeover_backport.config.ModConfig;
 import com.evandev.tiny_takeover_backport.entity.AgeLockable;
 import com.evandev.tiny_takeover_backport.entity.ModEntityData;
 import com.evandev.tiny_takeover_backport.entity.ModifiableBaby;
@@ -67,11 +68,11 @@ public abstract class MobMixin {
     private void tiny_takeover_backport$onFinalizeSpawn(CallbackInfoReturnable<?> cir) {
         Mob mob = (Mob) (Object) this;
         if (mob instanceof Dolphin) {
-            if (mob.getRandom().nextFloat() < 0.10F) {
+            if (ModConfig.get().spawnBabyDolphin && mob.getRandom().nextFloat() < 0.10F) {
                 ((ModifiableBaby) mob).tiny_takeover_backport$setBaby(true);
             }
         } else if (mob instanceof Squid) {
-            if (mob.getRandom().nextFloat() < 0.05F) {
+            if (ModConfig.get().spawnBabySquid && mob.getRandom().nextFloat() < 0.05F) {
                 ((ModifiableBaby) mob).tiny_takeover_backport$setBaby(true);
             }
         }

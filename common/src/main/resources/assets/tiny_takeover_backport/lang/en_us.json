@@ -5,6 +5,9 @@
 
   "config.tiny_takeover_backport.option.enable_name_tag_recipe": "Enable Craftable Name Tags",
 
+  "config.tiny_takeover_backport.option.spawn_baby_dolphin": "Spawn Baby Dolphins",
+  "config.tiny_takeover_backport.option.spawn_baby_squid": "Spawn Baby Squids",
+
   "config.tiny_takeover_backport.option.replace_adult_rabbit": "Replace Adult Rabbit Model",
   "config.tiny_takeover_backport.option.rabbit_bounding_box": "Rabbit 26.1 Bounding Box",
 

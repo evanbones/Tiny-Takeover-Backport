@@ -1,3 +1,3 @@
-### Fixed
+### Added
 
-- Improved mixins for better mod compatibility.
+- Added config options to enable/disable baby dolphins and squids.
