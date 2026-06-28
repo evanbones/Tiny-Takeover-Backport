@@ -34,7 +34,9 @@ public class BabyZombieVillagerModel<T extends Zombie> extends ZombieVillagerMod
         PartDefinition hat = head.addOrReplaceChild(
                 "hat", CubeListBuilder.create().texOffs(0, 31).addBox(-4.0F, -4.0F, -3.5F, 8.0F, 8.0F, 7.0F, new CubeDeformation(0.3F)), PartPose.offset(0.0F, -4.0F, 0.0F)
         );
-        hat.addOrReplaceChild("hat_rim", CubeListBuilder.create().texOffs(0, 46).addBox(-7.0F, -0.5F, -6.0F, 14.0F, 1.0F, 12.0F), PartPose.offset(0.0F, -0.5F, 0.0F));
+        hat.addOrReplaceChild("hat_rim", CubeListBuilder.create(), PartPose.ZERO);
+
+        head.addOrReplaceChild("hat_rim", CubeListBuilder.create().texOffs(0, 46).addBox(-7.0F, -0.5F, -6.0F, 14.0F, 1.0F, 12.0F), PartPose.offset(0.0F, -4.5F, 0.0F));
 
         PartDefinition nose = head.addOrReplaceChild("nose", CubeListBuilder.create().texOffs(23, 0).addBox(-1.0F, -1.0F, -0.5F, 2.0F, 2.0F, 1.0F), PartPose.offset(0.0F, -1.0F, -4.0F));
         nose.addOrReplaceChild("mole", CubeListBuilder.create(), PartPose.ZERO);
@@ -51,7 +53,6 @@ public class BabyZombieVillagerModel<T extends Zombie> extends ZombieVillagerMod
     public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         this.head.setPos(0.0F, 16.0F, 0.0F);
-        this.hat.setPos(0.0F, 16.0F, 0.0F);
         this.body.setPos(0.0F, 18.75F, 0.0F);
         this.rightArm.setPos(-3.0F, 15.5F, 0.0F);
         this.leftArm.setPos(3.0F, 15.5F, 0.0F);

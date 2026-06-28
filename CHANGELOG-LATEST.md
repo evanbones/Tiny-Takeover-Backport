@@ -1,3 +1,3 @@
-### Added
+### Fixed
 
-- Added config options to enable/disable baby dolphins and squids.
+- Fixed Baby Villager model.

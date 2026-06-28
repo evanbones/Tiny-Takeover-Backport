@@ -25,6 +25,7 @@ public class BabyVillagerModel extends VillagerModel {
         PartDefinition head = root.addOrReplaceChild("head", CubeListBuilder.create(), PartPose.offset(0.0F, 16.0F, 0.0F));
         PartDefinition hat = head.addOrReplaceChild("hat", CubeListBuilder.create(), PartPose.ZERO);
         hat.addOrReplaceChild("hat_rim", CubeListBuilder.create(), PartPose.ZERO);
+        head.addOrReplaceChild("hat_rim", CubeListBuilder.create(), PartPose.ZERO);
         head.addOrReplaceChild("nose", CubeListBuilder.create(), PartPose.ZERO);
         return mesh;
     }
@@ -32,11 +33,6 @@ public class BabyVillagerModel extends VillagerModel {
     public static MeshDefinition createBodyModel() {
         MeshDefinition mesh = new MeshDefinition();
         PartDefinition root = mesh.getRoot();
-
-        root.addOrReplaceChild("jacket", CubeListBuilder.create(), PartPose.ZERO);
-        root.addOrReplaceChild("nose", CubeListBuilder.create(), PartPose.ZERO);
-        PartDefinition rootHat = root.addOrReplaceChild("hat", CubeListBuilder.create(), PartPose.ZERO);
-        rootHat.addOrReplaceChild("hat_rim", CubeListBuilder.create(), PartPose.ZERO);
 
         PartDefinition arms = root.addOrReplaceChild("arms", CubeListBuilder.create(), PartPose.offset(0.0F, 17.5F, 0.0F));
         arms.addOrReplaceChild(
@@ -57,8 +53,10 @@ public class BabyVillagerModel extends VillagerModel {
         PartDefinition hat = head.addOrReplaceChild(
                 "hat", CubeListBuilder.create().texOffs(0, 30).addBox(-4.0F, -4.0F, -3.5F, 8.0F, 8.0F, 7.0F, new CubeDeformation(0.3F)), PartPose.offset(0.0F, -4.0F, 0.0F)
         );
-        hat.addOrReplaceChild(
-                "hat_rim", CubeListBuilder.create().texOffs(0, 45).addBox(-7.0F, -0.5F, -6.0F, 14.0F, 1.0F, 12.0F), PartPose.offset(0.0F, -0.5F, 0.0F)
+        hat.addOrReplaceChild("hat_rim", CubeListBuilder.create(), PartPose.ZERO);
+
+        head.addOrReplaceChild(
+                "hat_rim", CubeListBuilder.create().texOffs(0, 45).addBox(-7.0F, -0.5F, -6.0F, 14.0F, 1.0F, 12.0F), PartPose.offset(0.0F, -4.5F, 0.0F)
         );
 
         head.addOrReplaceChild("nose", CubeListBuilder.create().texOffs(23, 0).addBox(-1.0F, 0.0F, -0.5F, 2.0F, 2.0F, 1.0F), PartPose.offset(0.0F, -2.0F, -4.0F));
