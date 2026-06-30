@@ -1,7 +1,8 @@
 package com.evandev.tiny_takeover_backport.mixin.client;
 
-import com.evandev.tiny_takeover_backport.client.model.BabySheepModel;
 import com.evandev.tiny_takeover_backport.client.ModModelLayers;
+import com.evandev.tiny_takeover_backport.client.ModRenderHelper;
+import com.evandev.tiny_takeover_backport.client.model.BabySheepModel;
 import com.evandev.tiny_takeover_backport.config.ModConfig;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -16,7 +17,8 @@ import net.minecraft.client.renderer.entity.layers.SheepFurLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Sheep;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -34,6 +36,7 @@ public abstract class SheepWoolLayerMixin extends RenderLayer<Sheep, SheepModel<
     @Inject(method = "<init>", at = @At("TAIL"))
     private void onInit(RenderLayerParent<Sheep, SheepModel<Sheep>> renderer, EntityModelSet modelSet, CallbackInfo ci) {
         this.tiny_takeover_backport$babyModel = new BabySheepModel(modelSet.bakeLayer(ModModelLayers.SHEEP_BABY_WOOL));
+        ModRenderHelper.babyWoolModel = this.tiny_takeover_backport$babyModel;
     }
 
     @WrapOperation(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/Sheep;FFFFFF)V",

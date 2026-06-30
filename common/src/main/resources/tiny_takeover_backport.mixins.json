@@ -19,6 +19,7 @@
     "client.LivingEntityMixin",
     "client.LivingEntityRendererMixin",
     "client.LlamaDecorLayerMixin",
+    "client.RenderLayerMixin",
     "client.SheepWoolLayerMixin",
     "client.VillagerProfessionLayerMixin",
     "client.WolfCollarLayerMixin"

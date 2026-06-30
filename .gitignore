@@ -122,3 +122,4 @@ runs/
 !gradle-wrapper.jar
 vanilla-26.1-source
 vanilla-1.21.1-source
+vanilla-backport-source

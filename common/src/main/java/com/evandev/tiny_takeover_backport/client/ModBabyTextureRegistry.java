@@ -34,6 +34,10 @@ public class ModBabyTextureRegistry {
             return original;
         }
 
+        if (path.endsWith("_baby.png") || path.endsWith("snifflet.png") || path.contains("/baby/")) {
+            return original;
+        }
+
         if (Services.PLATFORM.isModLoaded("vanillabackport") && VanillaBackportCompat.hasFarmAnimalVariants()) {
             switch (path) {
                 case "textures/entity/cow/warm_cow.png" -> {
