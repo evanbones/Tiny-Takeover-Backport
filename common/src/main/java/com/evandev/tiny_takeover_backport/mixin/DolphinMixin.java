@@ -54,7 +54,7 @@ public abstract class DolphinMixin extends WaterAnimal implements ModifiableBaby
         Dolphin dolphin = (Dolphin) (Object) this;
         ItemStack itemstack = player.getItemInHand(hand);
 
-        if (itemstack.getItem() instanceof SpawnEggItem egg && egg.spawnsEntity(itemstack, dolphin.getType())) {
+        if (itemstack.getItem() instanceof SpawnEggItem egg && egg.spawnsEntity(itemstack.getTag(), dolphin.getType())) {
             if (!dolphin.level().isClientSide()) {
                 Dolphin babyDolphin = EntityType.DOLPHIN.create(dolphin.level());
                 if (babyDolphin != null) {

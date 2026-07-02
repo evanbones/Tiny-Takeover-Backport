@@ -1,6 +1,10 @@
 package com.evandev.tiny_takeover_backport.client;
 
+import com.evandev.tiny_takeover_backport.Constants;
 import com.evandev.tiny_takeover_backport.client.model.*;
+import com.evandev.tiny_takeover_backport.compat.VanillaBackportClientCompat;
+import com.evandev.tiny_takeover_backport.compat.VanillaBackportCompat;
+import com.evandev.tiny_takeover_backport.platform.Services;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
@@ -13,7 +17,13 @@ public class ModClientRegistry {
     public static final Map<ModelLayerLocation, Supplier<LayerDefinition>> LAYER_DEFINITIONS = new LinkedHashMap<>();
 
     public static void init() {
-        register(ModModelLayers.ARMADILLO_BABY, BabyArmadilloModel::createBodyLayer);
+        try {
+            if (Services.PLATFORM.isModLoaded("vanillabackport") && VanillaBackportCompat.hasArmadillos()) {
+                VanillaBackportClientCompat.registerArmadilloLayer();
+            }
+        } catch (Throwable t) {
+            Constants.LOG.error("Failed to register Vanilla Backport compat layers", t);
+        }
         register(ModModelLayers.AXOLOTL_BABY, BabyAxolotlModel::createBodyLayer);
         register(ModModelLayers.BEE_BABY, BabyBeeModel::createBodyLayer);
         register(ModModelLayers.CAMEL_BABY, BabyCamelModel::createBodyLayer);
@@ -53,7 +63,7 @@ public class ModClientRegistry {
         register(ModModelLayers.RABBIT_ADULT, NewAdultRabbitModel::createBodyLayer);
     }
 
-    private static void register(ModelLayerLocation layer, Supplier<LayerDefinition> definition) {
+    public static void register(ModelLayerLocation layer, Supplier<LayerDefinition> definition) {
         LAYER_DEFINITIONS.put(layer, definition);
     }
 }

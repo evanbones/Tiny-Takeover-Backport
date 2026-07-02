@@ -1,6 +1,9 @@
 package com.evandev.tiny_takeover_backport.client;
 
 import com.evandev.tiny_takeover_backport.client.model.*;
+import com.evandev.tiny_takeover_backport.compat.VanillaBackportClientCompat;
+import com.evandev.tiny_takeover_backport.compat.VanillaBackportCompat;
+import com.evandev.tiny_takeover_backport.platform.Services;
 import net.minecraft.client.model.*;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -31,8 +34,11 @@ public class ModBabyModelRegistry {
             return (EntityModel<T>) new BabyZombifiedPiglinModel(modelSet.bakeLayer(ModModelLayers.ZOMBIFIED_PIGLIN_BABY));
         }
 
-        if (adultModel instanceof ArmadilloModel) {
-            return (EntityModel<T>) new BabyArmadilloModel(modelSet.bakeLayer(ModModelLayers.ARMADILLO_BABY));
+        if (Services.PLATFORM.isModLoaded("vanillabackport") && VanillaBackportCompat.hasArmadillos()) {
+            EntityModel<T> babyArmadillo = VanillaBackportClientCompat.createBabyArmadilloModel(context, adultModel);
+            if (babyArmadillo != null) {
+                return babyArmadillo;
+            }
         }
         if (adultModel instanceof AxolotlModel) {
             return (EntityModel<T>) new BabyAxolotlModel(modelSet.bakeLayer(ModModelLayers.AXOLOTL_BABY));

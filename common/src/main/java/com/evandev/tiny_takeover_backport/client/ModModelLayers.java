@@ -48,6 +48,6 @@ public class ModModelLayers {
     }
 
     private static ModelLayerLocation register(String path, String layer) {
-        return new ModelLayerLocation(ResourceLocation.withDefaultNamespace(path), layer);
+        return new ModelLayerLocation(new ResourceLocation("minecraft", path), layer);
     }
 }

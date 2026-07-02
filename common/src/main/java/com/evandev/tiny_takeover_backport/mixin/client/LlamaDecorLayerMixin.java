@@ -50,22 +50,22 @@ public abstract class LlamaDecorLayerMixin extends RenderLayer<Llama, LlamaModel
     }
 
     @WrapOperation(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/horse/Llama;FFFFFF)V",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/LlamaModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;II)V"))
-    private void wrapRenderCall(LlamaModel<Llama> instance, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int overlay, Operation<Void> original, PoseStack methodPoseStack, MultiBufferSource buffer, int methodPackedLight, Llama entity) {
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/LlamaModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;IIFFFF)V"))
+    private void wrapRenderCall(LlamaModel<Llama> instance, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int overlay, float red, float green, float blue, float alpha, Operation<Void> original, PoseStack methodPoseStack, MultiBufferSource buffer, int methodPackedLight, Llama entity) {
         if (entity.isBaby() && ModConfig.get().enableLlama && entity.isTraderLlama()) {
             this.tiny_takeover_backport$babyModel.young = false;
 
-            original.call(this.tiny_takeover_backport$babyModel, poseStack, vertexConsumer, packedLight, overlay);
+            original.call(this.tiny_takeover_backport$babyModel, poseStack, vertexConsumer, packedLight, overlay, red, green, blue, alpha);
             return;
         }
-        original.call(instance, poseStack, vertexConsumer, packedLight, overlay);
+        original.call(instance, poseStack, vertexConsumer, packedLight, overlay, red, green, blue, alpha);
     }
 
     @WrapOperation(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/horse/Llama;FFFFFF)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;entityCutoutNoCull(Lnet/minecraft/resources/ResourceLocation;)Lnet/minecraft/client/renderer/RenderType;"))
     private RenderType wrapRenderType(ResourceLocation location, Operation<RenderType> original, PoseStack poseStack, MultiBufferSource buffer, int packedLight, Llama entity) {
         if (entity.isBaby() && ModConfig.get().enableLlama && entity.isTraderLlama()) {
-            location = ResourceLocation.withDefaultNamespace("textures/entity/equipment/llama_body/trader_llama_baby.png");
+            location = new ResourceLocation("minecraft", "textures/entity/equipment/llama_body/trader_llama_baby.png");
         }
         return original.call(location);
     }

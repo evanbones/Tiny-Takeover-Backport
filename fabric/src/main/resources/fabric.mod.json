@@ -23,9 +23,6 @@
     ],
     "modmenu": [
       "com.evandev.tiny_takeover_backport.compat.ModMenuIntegration"
-    ],
-    "fabric-datagen": [
-      "com.evandev.tiny_takeover_backport.datagen.TemplateDataGenerator"
     ]
   },
   "mixins": [
@@ -36,7 +33,7 @@
     "fabricloader": ">=0.14",
     "fabric": "*",
     "minecraft": "${minecraft_version}",
-    "java": ">=21",
+    "java": ">=17",
     "yet_another_config_lib_v3": ">=${yacl_version}"
   }
 }

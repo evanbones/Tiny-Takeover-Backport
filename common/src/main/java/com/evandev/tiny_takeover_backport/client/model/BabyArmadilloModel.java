@@ -1,6 +1,6 @@
 package com.evandev.tiny_takeover_backport.client.model;
 
-import net.minecraft.client.model.ArmadilloModel;
+import com.blackgear.vanillabackport.client.level.entities.model.ArmadilloModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;

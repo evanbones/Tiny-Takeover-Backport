@@ -32,8 +32,8 @@ public abstract class AgeableMobMixin extends PathfinderMob implements AgeLockab
     }
 
     @Inject(method = "defineSynchedData", at = @At("TAIL"))
-    protected void defineSynchedData(SynchedEntityData.Builder builder, CallbackInfo ci) {
-        builder.define(tiny_takeover_backport$DATA_AGE_LOCKED, false);
+    protected void defineSynchedData(CallbackInfo ci) {
+        this.entityData.define(tiny_takeover_backport$DATA_AGE_LOCKED, false);
     }
 
     @Override

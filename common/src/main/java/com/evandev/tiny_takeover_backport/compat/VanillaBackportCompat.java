@@ -6,7 +6,15 @@ public class VanillaBackportCompat {
     public static boolean hasFarmAnimalVariants() {
         try {
             return VanillaBackport.COMMON_CONFIG.hasFarmAnimalVariants.get();
-        } catch (NoClassDefFoundError | Exception e) {
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
+    public static boolean hasArmadillos() {
+        try {
+            return VanillaBackport.COMMON_CONFIG.hasArmadillos.get();
+        } catch (Throwable t) {
             return false;
         }
     }

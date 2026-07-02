@@ -1,4 +1,1 @@
-### Fixed
-
-- Fixed Baby Axolotl animations.
-- Fixed issues with Ghastlings and Sheep when using Vanilla Backport.
+- Ported to 1.20.1.

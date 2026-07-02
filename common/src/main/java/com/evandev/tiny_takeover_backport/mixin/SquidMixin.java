@@ -48,11 +48,11 @@ public abstract class SquidMixin extends WaterAnimal implements ModifiableBaby {
     }
 
     @Override
-    protected @NotNull InteractionResult mobInteract(Player player, @NotNull InteractionHand hand) {
+    protected @NotNull InteractionResult mobInteract(@NotNull Player player, @NotNull InteractionHand hand) {
         if (!ModConfig.get().spawnBabySquid) return super.mobInteract(player, hand);
         ItemStack itemstack = player.getItemInHand(hand);
 
-        if (itemstack.getItem() instanceof SpawnEggItem egg && egg.spawnsEntity(itemstack, this.getType())) {
+        if (itemstack.getItem() instanceof SpawnEggItem egg && egg.spawnsEntity(itemstack.getTag(), this.getType())) {
             if (!this.level().isClientSide()) {
                 Squid babySquid = (Squid) this.getType().create(this.level());
                 if (babySquid != null) {

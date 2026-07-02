@@ -36,7 +36,9 @@ public abstract class RenderLayerMixin {
             float netHeadYaw,
             float headPitch,
             float partialTick,
-            int color,
+            float red,
+            float green,
+            float blue,
             CallbackInfo ci
     ) {
         if (entity instanceof Sheep && entity.isBaby() && textureLocation.getPath().contains("sheep_wool_undercoat")) {

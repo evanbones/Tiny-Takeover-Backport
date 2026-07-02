@@ -9,6 +9,7 @@ dependencies {
         officialMojangMappings()
         parchment("org.parchmentmc.data:parchment-${parchment_minecraft}:${parchment_version}@zip")
     }
+    include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:0.3.7-beta.3")))
 
     // EMI
     modRuntimeOnly "dev.emi:emi-fabric:${emi_version}"
@@ -21,12 +22,14 @@ dependencies {
     include "org.quiltmc.parsers:gson:0.3.0"
     modImplementation "com.terraformersmc:modmenu:${mod_menu_version}"
 
-    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
-
     // Vanilla Backport
     modCompileOnly "maven.modrinth:vanillabackport:${vanilla_backport_fabric_version}"
-    modCompileOnly "maven.modrinth:platform:BbIdNbF1"
+    modCompileOnly "maven.modrinth:platform:kM9ocKlu"
+
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
+    implementation project(":common")
 }
 
 loom {
@@ -48,6 +51,13 @@ loom {
             ideConfigGenerated(true)
             runDir('runs/server')
         }
+    }
+}
+
+fabricApi {
+    configureDataGeneration {
+        client = true
+        outputDirectory = project(":common").file("src/generated/resources")
     }
 }
 

@@ -132,14 +132,14 @@ public class BabyRabbitModel<T extends Rabbit> extends RabbitModel<T> {
     }
 
     @Override
-    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, int color) {
+    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         if (ModConfig.get().rabbitBoundingBox) {
-            this.root.render(poseStack, buffer, packedLight, packedOverlay, color);
+            this.root.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
         } else {
             poseStack.pushPose();
             poseStack.scale(0.6F, 0.6F, 0.6F);
             poseStack.translate(0.0F, 1.0F, 0.0F);
-            this.root.render(poseStack, buffer, packedLight, packedOverlay, color);
+            this.root.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
             poseStack.popPose();
         }
     }

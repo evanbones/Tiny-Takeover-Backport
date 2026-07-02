@@ -19,19 +19,19 @@ public abstract class VillagerProfessionLayerMixin {
             method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFF)V",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/renderer/entity/layers/VillagerProfessionLayer;renderColoredCutoutModel(Lnet/minecraft/client/model/EntityModel;Lnet/minecraft/resources/ResourceLocation;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;I)V",
+                    target = "Lnet/minecraft/client/renderer/entity/layers/VillagerProfessionLayer;renderColoredCutoutModel(Lnet/minecraft/client/model/EntityModel;Lnet/minecraft/resources/ResourceLocation;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFF)V",
                     ordinal = 0
             )
     )
     private void wrapTypeTextureRender(
             EntityModel<LivingEntity> model, ResourceLocation texture, PoseStack poseStack,
-            MultiBufferSource buffer, int packedLight, LivingEntity entity, int color,
+            MultiBufferSource buffer, int packedLight, LivingEntity entity, float red, float green, float blue,
             Operation<Void> original) {
 
         ResourceLocation finalTexture = entity.isBaby()
                 ? ModBabyTextureRegistry.getBabyTexture(entity, texture)
                 : texture;
 
-        original.call(model, finalTexture, poseStack, buffer, packedLight, entity, color);
+        original.call(model, finalTexture, poseStack, buffer, packedLight, entity, red, green, blue);
     }
 }

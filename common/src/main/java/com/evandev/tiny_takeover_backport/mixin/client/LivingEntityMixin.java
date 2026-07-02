@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
 
-    @Inject(method = "getAgeScale", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getScale", at = @At("HEAD"), cancellable = true)
     private void suppressAgeScale(CallbackInfoReturnable<Float> cir) {
         if (ModRenderHelper.SUPPRESS_AGE_SCALE.get()) {
             cir.setReturnValue(1.0F);

@@ -84,12 +84,6 @@ public class ModRegistry {
     public static final SoundEvent HORSE_LAND_BABY = registerSound("entity.baby_horse.land");
     public static final SoundEvent HORSE_STEP_BABY = registerSound("entity.baby_horse.step");
 
-    public static final SoundEvent POLAR_BEAR_AMBIENT_BABY = registerSound("entity.polar_bear.ambient_baby");
-
-    public static final SoundEvent TURTLE_DEATH_BABY = registerSound("entity.turtle.death_baby");
-    public static final SoundEvent TURTLE_HURT_BABY = registerSound("entity.turtle.hurt_baby");
-    public static final SoundEvent TURTLE_SHAMBLE_BABY = registerSound("entity.turtle.shamble_baby");
-
     public static final SoundEvent WOLF_AMBIENT_BABY = registerSound("entity.baby_wolf.ambient");
     public static final SoundEvent WOLF_DEATH_BABY = registerSound("entity.baby_wolf.death");
     public static final SoundEvent WOLF_GROWL_BABY = registerSound("entity.baby_wolf.growl");
@@ -103,14 +97,14 @@ public class ModRegistry {
     public static final SimpleParticleType RESET_MOB_GROWTH = registerParticle("reset_mob_growth", false);
 
     private static SoundEvent registerSound(String name) {
-        ResourceLocation id = ResourceLocation.withDefaultNamespace(name);
+        ResourceLocation id = new ResourceLocation("minecraft", name);
         SoundEvent event = SoundEvent.createVariableRangeEvent(id);
         SOUND_EVENTS.put(id, event);
         return event;
     }
 
     private static SimpleParticleType registerParticle(String name, boolean overrideLimiter) {
-        ResourceLocation id = ResourceLocation.withDefaultNamespace(name);
+        ResourceLocation id = new ResourceLocation("minecraft", name);
         SimpleParticleType type = new SimpleParticleType(overrideLimiter) {
         };
         PARTICLES.put(id, type);
@@ -118,12 +112,12 @@ public class ModRegistry {
     }
 
     private static Block registerBlock(String name, Block block) {
-        BLOCKS.put(ResourceLocation.withDefaultNamespace(name), block);
+        BLOCKS.put(new ResourceLocation("minecraft", name), block);
         return block;
     }
 
     private static Item registerItem(String name, Item item) {
-        ITEMS.put(ResourceLocation.withDefaultNamespace(name), item);
+        ITEMS.put(new ResourceLocation("minecraft", name), item);
         return item;
     }
 

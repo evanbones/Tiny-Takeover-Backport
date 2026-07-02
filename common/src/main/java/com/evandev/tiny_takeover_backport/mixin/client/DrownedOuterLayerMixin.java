@@ -1,7 +1,7 @@
 package com.evandev.tiny_takeover_backport.mixin.client;
 
-import com.evandev.tiny_takeover_backport.client.model.BabyDrownedModel;
 import com.evandev.tiny_takeover_backport.client.ModModelLayers;
+import com.evandev.tiny_takeover_backport.client.model.BabyDrownedModel;
 import com.evandev.tiny_takeover_backport.config.ModConfig;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -38,12 +38,12 @@ public abstract class DrownedOuterLayerMixin<T extends Drowned> extends RenderLa
     }
 
     @WrapOperation(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/monster/Drowned;FFFFFF)V",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/layers/DrownedOuterLayer;coloredCutoutModelCopyLayerRender(Lnet/minecraft/client/model/EntityModel;Lnet/minecraft/client/model/EntityModel;Lnet/minecraft/resources/ResourceLocation;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFFI)V"))
-    private void wrapRenderCall(EntityModel<T> parentModel, EntityModel<T> model, ResourceLocation texture, PoseStack poseStack, MultiBufferSource buffer, int packedLight, LivingEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float partialTicks, int color, Operation<Void> original) {
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/layers/DrownedOuterLayer;coloredCutoutModelCopyLayerRender(Lnet/minecraft/client/model/EntityModel;Lnet/minecraft/client/model/EntityModel;Lnet/minecraft/resources/ResourceLocation;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFFFFF)V"))
+    private void wrapRenderCall(EntityModel<T> parentModel, EntityModel<T> model, ResourceLocation texture, PoseStack poseStack, MultiBufferSource buffer, int packedLight, LivingEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float partialTicks, float red, float green, float blue, Operation<Void> original) {
         if (entity.isBaby() && ModConfig.get().enableDrowned) {
             model = this.tiny_takeover_backport$babyModel;
-            texture = ResourceLocation.withDefaultNamespace("textures/entity/zombie/drowned_outer_layer_baby.png");
+            texture = new ResourceLocation("minecraft", "textures/entity/zombie/drowned_outer_layer_baby.png");
         }
-        original.call(parentModel, model, texture, poseStack, buffer, packedLight, entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, partialTicks, color);
+        original.call(parentModel, model, texture, poseStack, buffer, packedLight, entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, partialTicks, red, green, blue);
     }
 }

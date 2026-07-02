@@ -6,7 +6,7 @@
       "condition": "tiny_takeover_backport:nametag_recipe_enabled"
     }
   ],
-  "neoforge:conditions": [
+  "forge:conditions": [
     {
       "type": "tiny_takeover_backport:nametag_recipe_enabled"
     }
@@ -24,7 +24,7 @@
     "# "
   ],
   "result": {
-    "id": "minecraft:name_tag",
+    "item": "minecraft:name_tag",
     "count": 1
   }
 }

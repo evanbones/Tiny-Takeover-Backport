@@ -11,7 +11,7 @@
   "config.tiny_takeover_backport.option.replace_adult_rabbit": "Replace Adult Rabbit Model",
   "config.tiny_takeover_backport.option.rabbit_bounding_box": "Rabbit 26.1 Bounding Box",
 
-  "config.tiny_takeover_backport.option.enable_armadillo": "Baby Armadillo Model",
+  "config.tiny_takeover_backport.option.enable_armadillo": "Baby Armadillo Model (Requires Vanilla Backport)",
   "config.tiny_takeover_backport.option.enable_axolotl": "Baby Axolotl Model",
   "config.tiny_takeover_backport.option.enable_bee": "Baby Bee Model",
   "config.tiny_takeover_backport.option.enable_camel": "Baby Camel Model",

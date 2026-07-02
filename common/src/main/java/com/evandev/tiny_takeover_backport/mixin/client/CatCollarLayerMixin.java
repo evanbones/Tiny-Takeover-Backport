@@ -1,7 +1,7 @@
 package com.evandev.tiny_takeover_backport.mixin.client;
 
-import com.evandev.tiny_takeover_backport.client.model.BabyCatModel;
 import com.evandev.tiny_takeover_backport.client.ModModelLayers;
+import com.evandev.tiny_takeover_backport.client.model.BabyCatModel;
 import com.evandev.tiny_takeover_backport.config.ModConfig;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -34,16 +34,18 @@ public abstract class CatCollarLayerMixin extends RenderLayer<Cat, CatModel<Cat>
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void onInit(RenderLayerParent<Cat, CatModel<Cat>> renderer, EntityModelSet modelSet, CallbackInfo ci) {
-        this.tiny_takeover_backport$babyModel = new BabyCatModel(modelSet.bakeLayer(ModModelLayers.CAT_BABY_COLLAR));
+        this.tiny_takeover_backport$babyModel = new BabyCatModel<>(modelSet.bakeLayer(ModModelLayers.CAT_BABY_COLLAR));
     }
 
     @WrapOperation(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/Cat;FFFFFF)V",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/layers/CatCollarLayer;coloredCutoutModelCopyLayerRender(Lnet/minecraft/client/model/EntityModel;Lnet/minecraft/client/model/EntityModel;Lnet/minecraft/resources/ResourceLocation;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFFI)V"))
-    private void wrapRenderCall(EntityModel<Cat> parentModel, EntityModel<Cat> model, ResourceLocation texture, PoseStack poseStack, MultiBufferSource buffer, int packedLight, LivingEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float partialTicks, int color, Operation<Void> original) {
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/layers/CatCollarLayer;coloredCutoutModelCopyLayerRender(Lnet/minecraft/client/model/EntityModel;Lnet/minecraft/client/model/EntityModel;Lnet/minecraft/resources/ResourceLocation;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFFFFFFFF)V"))
+    private void wrapRenderCall(EntityModel<Cat> parentModel, EntityModel<Cat> model, ResourceLocation texture, PoseStack poseStack, MultiBufferSource buffer, int packedLight, LivingEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float partialTicks, float red,
+                                float green,
+                                float blue, Operation<Void> original) {
         if (entity.isBaby() && ModConfig.get().enableCat) {
             model = this.tiny_takeover_backport$babyModel;
-            texture = ResourceLocation.fromNamespaceAndPath("minecraft", "textures/entity/cat/cat_collar_baby.png");
+            texture = new ResourceLocation("minecraft", "textures/entity/cat/cat_collar_baby.png");
         }
-        original.call(parentModel, model, texture, poseStack, buffer, packedLight, entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, partialTicks, color);
+        original.call(parentModel, model, texture, poseStack, buffer, packedLight, entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, partialTicks, red, green, blue);
     }
 }

@@ -1,17 +1,20 @@
 package com.evandev.tiny_takeover_backport.mixin.client;
 
-import com.evandev.tiny_takeover_backport.client.model.BabyWolfModel;
 import com.evandev.tiny_takeover_backport.client.ModModelLayers;
+import com.evandev.tiny_takeover_backport.client.model.BabyWolfModel;
 import com.evandev.tiny_takeover_backport.config.ModConfig;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.WolfModel;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.layers.WolfCollarLayer;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Wolf;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -36,12 +39,15 @@ public abstract class WolfCollarLayerMixin extends RenderLayer<Wolf, WolfModel<W
         );
     }
 
-    @WrapOperation(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/Wolf;FFFFFF)V",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/WolfModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;III)V"))
-    private void wrapRenderCall(WolfModel<Wolf> instance, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int overlay, int color, Operation<Void> original, PoseStack methodPoseStack, net.minecraft.client.renderer.MultiBufferSource buffer, int methodPackedLight, Wolf entity) {
+    @WrapOperation(
+            method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/Wolf;FFFFFF)V",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/layers/WolfCollarLayer;renderColoredCutoutModel(Lnet/minecraft/client/model/EntityModel;Lnet/minecraft/resources/ResourceLocation;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFF)V")
+    )
+    private void wrapRenderCall(EntityModel<?> model, ResourceLocation textureLocation, PoseStack poseStack, MultiBufferSource buffer, int packedLight, LivingEntity entity, float red, float green, float blue, Operation<Void> original) {
         if (entity.isBaby() && ModConfig.get().enableWolf) {
-            instance = this.tiny_takeover_backport$babyModel;
+            original.call(this.tiny_takeover_backport$babyModel, textureLocation, poseStack, buffer, packedLight, entity, red, green, blue);
+        } else {
+            original.call(model, textureLocation, poseStack, buffer, packedLight, entity, red, green, blue);
         }
-        original.call(instance, poseStack, vertexConsumer, packedLight, overlay, color);
     }
 }

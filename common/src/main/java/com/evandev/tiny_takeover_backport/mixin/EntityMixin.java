@@ -45,15 +45,11 @@ public abstract class EntityMixin {
             if (soundEvent == SoundEvents.HORSE_LAND) return ModRegistry.HORSE_LAND_BABY;
             if (soundEvent == SoundEvents.HORSE_STEP) return ModRegistry.HORSE_STEP_BABY;
 
-            if (soundEvent == SoundEvents.POLAR_BEAR_AMBIENT_BABY) return ModRegistry.POLAR_BEAR_AMBIENT_BABY;
-            if (soundEvent == SoundEvents.POLAR_BEAR_AMBIENT) return ModRegistry.POLAR_BEAR_AMBIENT_BABY;
+            if (soundEvent == SoundEvents.POLAR_BEAR_AMBIENT) return SoundEvents.POLAR_BEAR_AMBIENT_BABY;
 
-            if (soundEvent == SoundEvents.TURTLE_DEATH_BABY || soundEvent == SoundEvents.TURTLE_DEATH)
-                return ModRegistry.TURTLE_DEATH_BABY;
-            if (soundEvent == SoundEvents.TURTLE_HURT_BABY || soundEvent == SoundEvents.TURTLE_HURT)
-                return ModRegistry.TURTLE_HURT_BABY;
-            if (soundEvent == SoundEvents.TURTLE_SHAMBLE_BABY || soundEvent == SoundEvents.TURTLE_SHAMBLE)
-                return ModRegistry.TURTLE_SHAMBLE_BABY;
+            if (soundEvent == SoundEvents.TURTLE_DEATH) return SoundEvents.TURTLE_DEATH_BABY;
+            if (soundEvent == SoundEvents.TURTLE_HURT) return SoundEvents.TURTLE_HURT_BABY;
+            if (soundEvent == SoundEvents.TURTLE_SHAMBLE) return SoundEvents.TURTLE_SHAMBLE_BABY;
 
             if (soundEvent == SoundEvents.WOLF_AMBIENT) return ModRegistry.WOLF_AMBIENT_BABY;
             if (soundEvent == SoundEvents.WOLF_DEATH) return ModRegistry.WOLF_DEATH_BABY;

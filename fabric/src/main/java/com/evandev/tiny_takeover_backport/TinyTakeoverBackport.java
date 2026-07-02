@@ -1,11 +1,13 @@
 package com.evandev.tiny_takeover_backport;
 
+import com.evandev.tiny_takeover_backport.config.ModConfig;
 import com.evandev.tiny_takeover_backport.registry.ModRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTabs;
 
 public class TinyTakeoverBackport implements ModInitializer {
@@ -18,7 +20,7 @@ public class TinyTakeoverBackport implements ModInitializer {
         ModRegistry.ITEMS.forEach((id, item) -> Registry.register(BuiltInRegistries.ITEM, id, item));
         ModRegistry.SOUND_EVENTS.forEach((id, sound) -> Registry.register(BuiltInRegistries.SOUND_EVENT, id, sound));
         ModRegistry.PARTICLES.forEach((id, particle) -> Registry.register(BuiltInRegistries.PARTICLE_TYPE, id, particle));
-        ResourceConditions.register(NameTagRecipeEnabledCondition.TYPE);
+        ResourceConditions.register(new ResourceLocation(Constants.MOD_ID, "nametag_recipe_enabled"), jsonObject -> ModConfig.get().enableNameTagRecipe);
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.NATURAL_BLOCKS).register(content -> {
             content.accept(ModRegistry.GOLDEN_DANDELION_ITEM);
         });
