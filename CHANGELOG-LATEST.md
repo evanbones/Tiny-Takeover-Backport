@@ -1,4 +1,4 @@
 ### Fixed
 
-- Fixed Baby Axolotl animations.
-- Fixed issues with Ghastlings and Sheep when using Vanilla Backport.
+- Fixed baby Wolf and baby Fox sitting models.
+- Fixed humanoid baby mods using the wrong sized armor.

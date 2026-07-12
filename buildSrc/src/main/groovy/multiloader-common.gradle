@@ -64,7 +64,6 @@ repositories {
         url = 'https://maven.quiltmc.org/repository/release/'
     }
 
-
     maven {
         name = "TerraformersMC"
         url = "https://maven.terraformersmc.com/"

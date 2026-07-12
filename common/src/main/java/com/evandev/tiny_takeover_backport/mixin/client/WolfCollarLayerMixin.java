@@ -38,8 +38,11 @@ public abstract class WolfCollarLayerMixin extends RenderLayer<Wolf, WolfModel<W
 
     @WrapOperation(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/Wolf;FFFFFF)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/WolfModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;III)V"))
-    private void wrapRenderCall(WolfModel<Wolf> instance, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int overlay, int color, Operation<Void> original, PoseStack methodPoseStack, net.minecraft.client.renderer.MultiBufferSource buffer, int methodPackedLight, Wolf entity) {
+    private void wrapRenderCall(WolfModel<Wolf> instance, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int overlay, int color, Operation<Void> original, PoseStack methodPoseStack, net.minecraft.client.renderer.MultiBufferSource buffer, int methodPackedLight, Wolf entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if (entity.isBaby() && ModConfig.get().enableWolf) {
+            instance.copyPropertiesTo(this.tiny_takeover_backport$babyModel);
+            this.tiny_takeover_backport$babyModel.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTicks);
+            this.tiny_takeover_backport$babyModel.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
             instance = this.tiny_takeover_backport$babyModel;
         }
         original.call(instance, poseStack, vertexConsumer, packedLight, overlay, color);
