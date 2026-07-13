@@ -34,20 +34,10 @@ public abstract class LivingEntityMixin {
                     custom = EntityDimensions.scalable(0.5F, 0.63F).withEyeHeight(0.37F);
                 } else if (entity instanceof Dolphin) {
                     custom = EntityType.DOLPHIN.getDimensions().scale(0.65F);
-                } else if (entity instanceof Camel) {
-                    custom = EntityType.CAMEL.getDimensions().scale(0.6F);
-                } else if (entity instanceof Goat) {
-                    custom = EntityType.GOAT.getDimensions().scale(0.55F);
                 } else if (entity instanceof Chicken) {
                     custom = EntityDimensions.scalable(0.3F, 0.4F).withEyeHeight(0.28F);
                 } else if (entity instanceof Fox) {
                     custom = EntityType.FOX.getDimensions().scale(0.6F).withEyeHeight(0.2975F);
-                } else if (entity instanceof Horse) {
-                    custom = EntityType.HORSE.getDimensions().scale(0.7F);
-                } else if (entity instanceof SkeletonHorse) {
-                    custom = EntityType.SKELETON_HORSE.getDimensions().scale(0.7F);
-                } else if (entity instanceof ZombieHorse) {
-                    custom = EntityType.ZOMBIE_HORSE.getDimensions().scale(0.7F);
                 } else if (entity instanceof ZombieVillager) {
                     custom = EntityDimensions.scalable(0.49F, 0.99F).withEyeHeight(0.67F);
                 } else if (entity instanceof Husk) {
@@ -83,6 +73,8 @@ public abstract class LivingEntityMixin {
                     cir.setReturnValue(0.65F);
                 } else if (entity instanceof Goat) {
                     cir.setReturnValue(0.55F);
+                } else if (entity instanceof Horse || entity instanceof SkeletonHorse || entity instanceof ZombieHorse) {
+                    cir.setReturnValue(0.7F);
                 }
             }
         }

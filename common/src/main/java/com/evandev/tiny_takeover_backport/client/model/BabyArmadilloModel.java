@@ -1,14 +1,22 @@
 package com.evandev.tiny_takeover_backport.client.model;
 
+import com.evandev.tiny_takeover_backport.client.animation.BabyArmadilloAnimation;
 import net.minecraft.client.model.ArmadilloModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.animal.armadillo.Armadillo;
+import org.jetbrains.annotations.NotNull;
 
 public class BabyArmadilloModel extends ArmadilloModel {
+    private final ModelPart body;
+    private final ModelPart head;
 
     public BabyArmadilloModel(ModelPart root) {
         super(root);
+        this.body = root.getChild("body");
+        this.head = this.body.getChild("head");
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -67,5 +75,22 @@ public class BabyArmadilloModel extends ArmadilloModel {
                 PartPose.offset(0.0F, 20.7F, 0.5F)
         );
         return LayerDefinition.create(mesh, 64, 64);
+    }
+
+    @Override
+    public void setupAnim(@NotNull Armadillo entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+
+        this.root().getAllParts().forEach(ModelPart::resetPose);
+
+        if (!entity.shouldHideInShell()) {
+            this.head.xRot = Mth.clamp(headPitch, -22.5F, 25.0F) * (float) (Math.PI / 180.0);
+            this.head.yRot = Mth.clamp(netHeadYaw, -32.5F, 32.5F) * (float) (Math.PI / 180.0);
+        }
+
+        this.animateWalk(BabyArmadilloAnimation.ARMADILLO_BABY_WALK, limbSwing, limbSwingAmount, 16.5F, 2.5F);
+        this.animate(entity.rollOutAnimationState, BabyArmadilloAnimation.ARMADILLO_BABY_ROLL_OUT, ageInTicks, 1.0F);
+        this.animate(entity.rollUpAnimationState, BabyArmadilloAnimation.ARMADILLO_BABY_ROLL_UP, ageInTicks, 1.0F);
+        this.animate(entity.peekAnimationState, BabyArmadilloAnimation.ARMADILLO_BABY_PEEK, ageInTicks, 1.0F);
     }
 }
