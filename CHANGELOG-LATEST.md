@@ -1,4 +1,5 @@
 ### Fixed
 
-- Fixed baby Wolf and baby Fox sitting models.
-- Fixed humanoid baby mods using the wrong sized armor.
+- Fixed certain mobs not working with the Golden Dandelion.
+- Fixed Dolphins not being ageable with raw fish.
+- Adjusted baby dolphin and squid hitboxes.
