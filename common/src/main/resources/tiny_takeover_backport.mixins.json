@@ -18,6 +18,7 @@
   "client": [
     "client.CatCollarLayerMixin",
     "client.DrownedOuterLayerMixin",
+    "client.ItemInHandLayerMixin",
     "client.LivingEntityMixin",
     "client.LivingEntityRendererMixin",
     "client.LlamaDecorLayerMixin",

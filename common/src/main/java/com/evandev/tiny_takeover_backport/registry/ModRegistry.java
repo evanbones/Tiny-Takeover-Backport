@@ -84,11 +84,11 @@ public class ModRegistry {
     public static final SoundEvent HORSE_LAND_BABY = registerSound("entity.baby_horse.land");
     public static final SoundEvent HORSE_STEP_BABY = registerSound("entity.baby_horse.step");
 
-    public static final SoundEvent POLAR_BEAR_AMBIENT_BABY = registerSound("entity.polar_bear.ambient_baby");
+    public static final SoundEvent POLAR_BEAR_AMBIENT_BABY = net.minecraft.sounds.SoundEvents.POLAR_BEAR_AMBIENT_BABY;
 
-    public static final SoundEvent TURTLE_DEATH_BABY = registerSound("entity.turtle.death_baby");
-    public static final SoundEvent TURTLE_HURT_BABY = registerSound("entity.turtle.hurt_baby");
-    public static final SoundEvent TURTLE_SHAMBLE_BABY = registerSound("entity.turtle.shamble_baby");
+    public static final SoundEvent TURTLE_DEATH_BABY = net.minecraft.sounds.SoundEvents.TURTLE_DEATH_BABY;
+    public static final SoundEvent TURTLE_HURT_BABY = net.minecraft.sounds.SoundEvents.TURTLE_HURT_BABY;
+    public static final SoundEvent TURTLE_SHAMBLE_BABY = net.minecraft.sounds.SoundEvents.TURTLE_SHAMBLE_BABY;
 
     public static final SoundEvent WOLF_AMBIENT_BABY = registerSound("entity.baby_wolf.ambient");
     public static final SoundEvent WOLF_DEATH_BABY = registerSound("entity.baby_wolf.death");
