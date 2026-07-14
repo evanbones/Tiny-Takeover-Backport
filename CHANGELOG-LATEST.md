@@ -1,1 +1,4 @@
-- Ported to 1.20.1.
+### Fixed
+
+- Fixed baby Camel clipping while sitting.
+- Adjusted baby Camel and Armadillo hitboxes.

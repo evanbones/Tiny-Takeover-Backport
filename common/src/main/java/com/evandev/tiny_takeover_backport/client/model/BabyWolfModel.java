@@ -86,20 +86,20 @@ public class BabyWolfModel<T extends Wolf> extends WolfModel<T> {
         }
 
         if (entity.isInSittingPose()) {
-            this.babyBody.setPos(0.0F, 19.0F, 0.0F);
-            this.babyBody.xRot = (float) Math.PI / 4F;
+            this.babyBody.setPos(0.0F, 21.0F, -1.0F);
+            this.babyBody.xRot = (float) Math.PI / 4F - 1.0F;
 
-            this.babyTail.setPos(0.0F, 21.0F, 4.0F);
+            this.babyTail.setPos(0.0F, 23.5F, 2.0F);
 
-            this.babyRightHindLeg.setPos(-1.5F, 22.0F, 2.0F);
+            this.babyRightHindLeg.setPos(-1.5F, 24.35F, 0.5F);
             this.babyRightHindLeg.xRot = (float) Math.PI * 1.5F;
-            this.babyLeftHindLeg.setPos(1.5F, 22.0F, 2.0F);
+            this.babyLeftHindLeg.setPos(1.5F, 24.35F, 0.5F);
             this.babyLeftHindLeg.xRot = (float) Math.PI * 1.5F;
 
             this.babyRightFrontLeg.xRot = 5.811947F;
-            this.babyRightFrontLeg.setPos(-1.5F, 20.0F, -3.0F);
+            this.babyRightFrontLeg.setPos(-1.495F, 21.5F, -3.0F);
             this.babyLeftFrontLeg.xRot = 5.811947F;
-            this.babyLeftFrontLeg.setPos(1.5F, 20.0F, -3.0F);
+            this.babyLeftFrontLeg.setPos(1.495F, 21.5F, -3.0F);
         } else {
             this.babyBody.setPos(0.0F, 19.0F, 0.0F);
             this.babyBody.xRot = 0.0F;

@@ -8,4 +8,8 @@ public interface AgeLockable {
     int tiny_takeover_backport$getAgeLockParticleTimer();
 
     void tiny_takeover_backport$setAgeLockParticleTimer(int timer);
+
+    int tiny_takeover_backport$getCustomAge();
+
+    void tiny_takeover_backport$setCustomAge(int age);
 }

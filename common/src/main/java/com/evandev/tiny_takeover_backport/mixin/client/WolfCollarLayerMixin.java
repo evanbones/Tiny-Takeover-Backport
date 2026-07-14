@@ -43,11 +43,14 @@ public abstract class WolfCollarLayerMixin extends RenderLayer<Wolf, WolfModel<W
             method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/Wolf;FFFFFF)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/layers/WolfCollarLayer;renderColoredCutoutModel(Lnet/minecraft/client/model/EntityModel;Lnet/minecraft/resources/ResourceLocation;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFF)V")
     )
-    private void wrapRenderCall(EntityModel<?> model, ResourceLocation textureLocation, PoseStack poseStack, MultiBufferSource buffer, int packedLight, LivingEntity entity, float red, float green, float blue, Operation<Void> original) {
+    private void wrapRenderCall(EntityModel<?> model, ResourceLocation textureLocation, PoseStack poseStack, MultiBufferSource buffer, int packedLight, LivingEntity entity, float red, float green, float blue, Operation<Void> original, PoseStack methodPoseStack, net.minecraft.client.renderer.MultiBufferSource methodBuffer, int methodPackedLight, Wolf wolf, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if (entity.isBaby() && ModConfig.get().enableWolf) {
-            original.call(this.tiny_takeover_backport$babyModel, textureLocation, poseStack, buffer, packedLight, entity, red, green, blue);
-        } else {
-            original.call(model, textureLocation, poseStack, buffer, packedLight, entity, red, green, blue);
+            WolfModel<Wolf> babyModel = this.tiny_takeover_backport$babyModel;
+            ((WolfModel<Wolf>) model).copyPropertiesTo(babyModel);
+            babyModel.prepareMobModel(wolf, limbSwing, limbSwingAmount, partialTicks);
+            babyModel.setupAnim(wolf, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+            model = babyModel;
         }
+        original.call(model, textureLocation, poseStack, buffer, packedLight, entity, red, green, blue);
     }
 }

@@ -121,10 +121,10 @@ public class BabyFoxModel<T extends Fox> extends FoxModel<T> {
             this.leftFrontLeg.visible = false;
         } else if (entity.isSitting()) {
             this.body.xRot = -0.959931F;
-            this.body.z -= 4.5F;
-            this.body.y += 3.0F;
+            this.body.z -= 2.25F;
+            this.body.y += 1.5F;
             this.tail.y -= 0.6F;
-            this.tail.z -= 2.0F;
+            this.tail.z -= 1.0F;
             this.tail.xRot = 0.95993114F;
             this.head.y -= 0.75F;
             this.head.xRot = 0.0F;

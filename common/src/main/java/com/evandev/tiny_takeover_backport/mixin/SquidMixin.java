@@ -1,9 +1,13 @@
 package com.evandev.tiny_takeover_backport.mixin;
 
 import com.evandev.tiny_takeover_backport.config.ModConfig;
+import com.evandev.tiny_takeover_backport.entity.AgeLockable;
 import com.evandev.tiny_takeover_backport.entity.ModEntityData;
 import com.evandev.tiny_takeover_backport.entity.ModifiableBaby;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
@@ -33,18 +37,36 @@ public abstract class SquidMixin extends WaterAnimal implements ModifiableBaby {
     @Override
     public void tiny_takeover_backport$setBaby(boolean baby) {
         this.entityData.set(ModEntityData.SQUID_BABY_ID, baby);
+        if (baby) {
+            ((AgeLockable) this).tiny_takeover_backport$setCustomAge(-24000);
+        } else {
+            ((AgeLockable) this).tiny_takeover_backport$setCustomAge(0);
+        }
+        this.refreshDimensions();
+    }
+
+    @Override
+    public void onSyncedDataUpdated(@NotNull EntityDataAccessor<?> key) {
+        if (ModEntityData.SQUID_BABY_ID.equals(key)) {
+            this.refreshDimensions();
+        }
+        super.onSyncedDataUpdated(key);
     }
 
     @Override
     public void addAdditionalSaveData(@NotNull CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putBoolean("IsBaby", this.isBaby());
+        tag.putInt("Age", ((AgeLockable) this).tiny_takeover_backport$getCustomAge());
     }
 
     @Override
     public void readAdditionalSaveData(@NotNull CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.tiny_takeover_backport$setBaby(tag.getBoolean("IsBaby"));
+        if (tag.contains("Age")) {
+            ((AgeLockable) this).tiny_takeover_backport$setCustomAge(tag.getInt("Age"));
+        }
     }
 
     @Override
@@ -64,8 +86,28 @@ public abstract class SquidMixin extends WaterAnimal implements ModifiableBaby {
                     }
                 }
             }
+            return InteractionResult.sidedSuccess(this.level().isClientSide());
+        }
 
-            return InteractionResult.SUCCESS;
+        if (itemstack.is(ItemTags.FISHES) && this.isBaby()) {
+            if (((AgeLockable) this).tiny_takeover_backport$isAgeLocked()) {
+                return InteractionResult.PASS;
+            }
+
+            if (!this.level().isClientSide()) {
+                this.playSound(SoundEvents.SQUID_HURT, 1.0F, 1.0F);
+                this.level().broadcastEntityEvent(this, (byte) 38);
+                int age = ((AgeLockable) this).tiny_takeover_backport$getCustomAge();
+                int ageReduction = (int)((float)(-age) * 0.1F);
+                ((AgeLockable) this).tiny_takeover_backport$setCustomAge(age + ageReduction);
+                if (((AgeLockable) this).tiny_takeover_backport$getCustomAge() >= 0) {
+                    this.tiny_takeover_backport$setBaby(false);
+                }
+                if (!player.getAbilities().instabuild) {
+                    itemstack.shrink(1);
+                }
+            }
+            return InteractionResult.sidedSuccess(this.level().isClientSide());
         }
 
         return super.mobInteract(player, hand);
