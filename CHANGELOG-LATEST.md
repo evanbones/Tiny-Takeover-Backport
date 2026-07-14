@@ -1,3 +1,3 @@
 ### Fixed
 
-- Reworked baby humanoid mobs.
+- Tweaks to baby humanoid mobs' armor.

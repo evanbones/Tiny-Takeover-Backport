@@ -47,12 +47,12 @@ public class ModClientRegistry {
         register(ModModelLayers.VILLAGER_BABY_NO_HAT, BabyVillagerModel::createNoHatLayer);
         register(ModModelLayers.WOLF_BABY, BabyWolfModel::createBodyLayer);
         register(ModModelLayers.ZOMBIE_BABY, BabyZombieModel::createBodyLayer);
-        register(ModModelLayers.ZOMBIE_BABY_INNER_ARMOR, () -> BabyZombieModel.createBodyLayer(new CubeDeformation(0.5F)));
-        register(ModModelLayers.ZOMBIE_BABY_OUTER_ARMOR, () -> BabyZombieModel.createBodyLayer(new CubeDeformation(1.0F)));
+        register(ModModelLayers.ZOMBIE_BABY_INNER_ARMOR, () -> BabyZombieModel.createArmorLayer(new CubeDeformation(-0.1F, 0.3F, 0.3F)));
+        register(ModModelLayers.ZOMBIE_BABY_OUTER_ARMOR, () -> BabyZombieModel.createArmorLayer(new CubeDeformation(-0.1F, 0.5F, 0.3F)));
         register(ModModelLayers.ZOMBIE_VILLAGER_BABY, BabyZombieVillagerModel::createBodyLayer);
         register(ModModelLayers.ZOMBIFIED_PIGLIN_BABY, BabyZombifiedPiglinModel::createBodyLayer);
-        register(ModModelLayers.PIGLIN_BABY_INNER_ARMOR, () -> BabyPiglinModel.createBodyLayer(new CubeDeformation(0.5F)));
-        register(ModModelLayers.PIGLIN_BABY_OUTER_ARMOR, () -> BabyPiglinModel.createBodyLayer(new CubeDeformation(1.0F)));
+        register(ModModelLayers.PIGLIN_BABY_INNER_ARMOR, () -> BabyPiglinModel.createArmorLayer(new CubeDeformation(0.7F)));
+        register(ModModelLayers.PIGLIN_BABY_OUTER_ARMOR, () -> BabyPiglinModel.createArmorLayer(new CubeDeformation(0.7F)));
         register(ModModelLayers.SNIFFER_BABY, SniffletModel::createBodyLayer);
         register(ModModelLayers.RABBIT_ADULT, NewAdultRabbitModel::createBodyLayer);
     }
