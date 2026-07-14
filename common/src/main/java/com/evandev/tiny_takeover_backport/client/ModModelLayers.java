@@ -38,8 +38,12 @@ public class ModModelLayers {
     public static final ModelLayerLocation VILLAGER_BABY_NO_HAT = register("villager_baby_no_hat");
     public static final ModelLayerLocation WOLF_BABY = register("wolf_baby");
     public static final ModelLayerLocation ZOMBIE_BABY = register("zombie_baby");
+    public static final ModelLayerLocation ZOMBIE_BABY_INNER_ARMOR = register("zombie_baby", "inner_armor");
+    public static final ModelLayerLocation ZOMBIE_BABY_OUTER_ARMOR = register("zombie_baby", "outer_armor");
     public static final ModelLayerLocation ZOMBIE_VILLAGER_BABY = register("zombie_villager_baby");
     public static final ModelLayerLocation ZOMBIFIED_PIGLIN_BABY = register("zombified_piglin_baby");
+    public static final ModelLayerLocation PIGLIN_BABY_INNER_ARMOR = register("piglin_baby", "inner_armor");
+    public static final ModelLayerLocation PIGLIN_BABY_OUTER_ARMOR = register("piglin_baby", "outer_armor");
     public static final ModelLayerLocation SNIFFER_BABY = register("sniffer_baby");
     public static final ModelLayerLocation RABBIT_ADULT = register("rabbit_adult");
 
