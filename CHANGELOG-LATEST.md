@@ -1,3 +1,3 @@
 ### Fixed
 
-- Tweaks to baby humanoid mobs' armor.
+- Fixed crash on recent versions of NeoForge.

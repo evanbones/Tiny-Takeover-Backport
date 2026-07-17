@@ -3,6 +3,7 @@ package com.evandev.tiny_takeover_backport.registry;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -84,11 +85,11 @@ public class ModRegistry {
     public static final SoundEvent HORSE_LAND_BABY = registerSound("entity.baby_horse.land");
     public static final SoundEvent HORSE_STEP_BABY = registerSound("entity.baby_horse.step");
 
-    public static final SoundEvent POLAR_BEAR_AMBIENT_BABY = registerSound("entity.polar_bear.ambient_baby");
+    public static final SoundEvent POLAR_BEAR_AMBIENT_BABY = SoundEvents.POLAR_BEAR_AMBIENT_BABY;
 
-    public static final SoundEvent TURTLE_DEATH_BABY = registerSound("entity.turtle.death_baby");
-    public static final SoundEvent TURTLE_HURT_BABY = registerSound("entity.turtle.hurt_baby");
-    public static final SoundEvent TURTLE_SHAMBLE_BABY = registerSound("entity.turtle.shamble_baby");
+    public static final SoundEvent TURTLE_DEATH_BABY = SoundEvents.TURTLE_DEATH_BABY;
+    public static final SoundEvent TURTLE_HURT_BABY = SoundEvents.TURTLE_HURT_BABY;
+    public static final SoundEvent TURTLE_SHAMBLE_BABY = SoundEvents.TURTLE_SHAMBLE_BABY;
 
     public static final SoundEvent WOLF_AMBIENT_BABY = registerSound("entity.baby_wolf.ambient");
     public static final SoundEvent WOLF_DEATH_BABY = registerSound("entity.baby_wolf.death");

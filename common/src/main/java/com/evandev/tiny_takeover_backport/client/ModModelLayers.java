@@ -1,5 +1,6 @@
 package com.evandev.tiny_takeover_backport.client;
 
+import com.evandev.tiny_takeover_backport.Constants;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.ResourceLocation;
 
@@ -52,6 +53,6 @@ public class ModModelLayers {
     }
 
     private static ModelLayerLocation register(String path, String layer) {
-        return new ModelLayerLocation(ResourceLocation.withDefaultNamespace(path), layer);
+        return new ModelLayerLocation(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, path), layer);
     }
 }
