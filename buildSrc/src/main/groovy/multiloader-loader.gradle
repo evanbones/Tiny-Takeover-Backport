@@ -44,6 +44,8 @@ publishMods {
         projectId = "1589673"
         minecraftVersions.add("${minecraft_version}")
 
+        client=true
+        server=true
         requires("yacl")
     }
 
