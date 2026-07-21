@@ -31,4 +31,11 @@ public abstract class AgeableMobMixin extends PathfinderMob {
             original.call(instance, age);
         }
     }
+
+    @Inject(method = "ageUp(IZ)V", at = @At("HEAD"), cancellable = true)
+    private void tiny_takeover_backport$preventAgeUp(int amount, boolean forced, CallbackInfo ci) {
+        if (((AgeLockable) this).tiny_takeover_backport$isAgeLocked()) {
+            ci.cancel();
+        }
+    }
 }

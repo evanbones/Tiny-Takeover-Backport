@@ -1,3 +1,4 @@
 ### Fixed
 
-- Fixed crash on recent versions of NeoForge.
+- Adjusted Rabbit AI.
+- Fixed baby Sheep aging when eating grass, even after using a Golden Dandelion on them.
