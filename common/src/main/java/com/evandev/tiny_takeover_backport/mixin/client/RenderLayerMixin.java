@@ -1,6 +1,7 @@
 package com.evandev.tiny_takeover_backport.mixin.client;
 
 import com.evandev.tiny_takeover_backport.client.ModRenderHelper;
+import com.evandev.tiny_takeover_backport.config.ModConfig;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -39,7 +40,7 @@ public abstract class RenderLayerMixin {
             int color,
             CallbackInfo ci
     ) {
-        if (entity instanceof Sheep && entity.isBaby() && textureLocation.getPath().contains("sheep_wool_undercoat")) {
+        if (entity instanceof Sheep && entity.isBaby() && ModConfig.get().enableSheep && textureLocation.getPath().contains("sheep_wool_undercoat")) {
             ci.cancel();
         }
     }
@@ -61,7 +62,7 @@ public abstract class RenderLayerMixin {
             int packedLight,
             LivingEntity entity
     ) {
-        if (entity instanceof Sheep && entity.isBaby()) {
+        if (entity instanceof Sheep && entity.isBaby() && ModConfig.get().enableSheep) {
             return ModRenderHelper.babyWoolModel != null ? ModRenderHelper.babyWoolModel : modelParent;
         }
         return model;

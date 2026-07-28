@@ -19,10 +19,6 @@ public class BabySheepModel extends SheepModel {
         return createBodyLayer(new CubeDeformation(0.0F));
     }
 
-    public static LayerDefinition createWoolLayer() {
-        return createBodyLayer(new CubeDeformation(0.45F));
-    }
-
     public static LayerDefinition createBodyLayer(CubeDeformation deformation) {
         MeshDefinition mesh = new MeshDefinition();
         PartDefinition root = mesh.getRoot();

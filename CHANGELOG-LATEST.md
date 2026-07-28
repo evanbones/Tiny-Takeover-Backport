@@ -1,4 +1,5 @@
 ### Fixed
 
-- Adjusted Rabbit AI.
-- Fixed baby Sheep aging when eating grass, even after using a Golden Dandelion on them.
+- Fixed baby Sheep undercoat.
+- Fixed baby Wolf collars.
+- Fixed baby Horse markings.

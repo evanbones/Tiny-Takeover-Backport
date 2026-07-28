@@ -9,9 +9,11 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.WolfModel;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.layers.WolfCollarLayer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.animal.Wolf;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -46,5 +48,14 @@ public abstract class WolfCollarLayerMixin extends RenderLayer<Wolf, WolfModel<W
             instance = this.tiny_takeover_backport$babyModel;
         }
         original.call(instance, poseStack, vertexConsumer, packedLight, overlay, color);
+    }
+
+    @WrapOperation(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/Wolf;FFFFFF)V",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;entityCutoutNoCull(Lnet/minecraft/resources/ResourceLocation;)Lnet/minecraft/client/renderer/RenderType;"))
+    private RenderType wrapCollarTexture(ResourceLocation texture, Operation<RenderType> original, PoseStack poseStack, net.minecraft.client.renderer.MultiBufferSource buffer, int packedLight, Wolf entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+        if (entity.isBaby() && ModConfig.get().enableWolf) {
+            texture = ResourceLocation.withDefaultNamespace("textures/entity/wolf/wolf_collar_baby.png");
+        }
+        return original.call(texture);
     }
 }
