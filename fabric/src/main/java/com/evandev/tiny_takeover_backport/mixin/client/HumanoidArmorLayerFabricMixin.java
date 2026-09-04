@@ -80,4 +80,12 @@ public class HumanoidArmorLayerFabricMixin<T extends LivingEntity, M extends Hum
             cir.setReturnValue(new ResourceLocation(domain, "textures/models/armor/baby/" + texture + typeSuffix + ".png"));
         }
     }
+
+    @Inject(
+            method = "setPartVisibility(Lnet/minecraft/client/model/HumanoidModel;Lnet/minecraft/world/entity/EquipmentSlot;)V",
+            at = @At("TAIL")
+    )
+    private void adjustBabyArmorPartVisibility(A model, EquipmentSlot slot, CallbackInfo ci) {
+        ModRenderHelper.adjustBabyArmorVisibility(model, slot);
+    }
 }

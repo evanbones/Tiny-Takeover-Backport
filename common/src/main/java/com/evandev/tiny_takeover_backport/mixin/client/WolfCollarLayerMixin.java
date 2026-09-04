@@ -50,6 +50,7 @@ public abstract class WolfCollarLayerMixin extends RenderLayer<Wolf, WolfModel<W
             babyModel.prepareMobModel(wolf, limbSwing, limbSwingAmount, partialTicks);
             babyModel.setupAnim(wolf, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
             model = babyModel;
+            textureLocation = new ResourceLocation("textures/entity/wolf/wolf_collar_baby.png");
         }
         original.call(model, textureLocation, poseStack, buffer, packedLight, entity, red, green, blue);
     }

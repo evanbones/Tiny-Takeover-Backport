@@ -4,6 +4,7 @@ import com.evandev.tiny_takeover_backport.client.ModBabyModelRegistry;
 import com.evandev.tiny_takeover_backport.client.ModBabyTextureRegistry;
 import com.evandev.tiny_takeover_backport.client.ModRenderHelper;
 import com.evandev.tiny_takeover_backport.config.ModConfig;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -34,9 +35,6 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
     @Unique
     private EntityModel<T> tiny_takeover_backport$newAdultModel;
 
-    @Unique
-    private M tiny_takeover_backport$originalModel;
-
     @Inject(method = "<init>", at = @At("TAIL"))
     private void onInit(EntityRendererProvider.Context context, M model, float shadowRadius, CallbackInfo ci) {
         this.tiny_takeover_backport$babyModel = ModBabyModelRegistry.createBabyModel((LivingEntityRenderer<T, M>) (Object) this, context, model);
@@ -44,28 +42,29 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
     }
 
     @SuppressWarnings("unchecked")
-    @Inject(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At("HEAD"))
-    private void swapModel(T entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, CallbackInfo ci) {
+    @WrapMethod(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V")
+    private void wrapRenderModelSwap(T entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, Operation<Void> original) {
         String entityName = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).getPath();
 
-        if (entity.isBaby() && this.tiny_takeover_backport$babyModel != null) {
-            if (ModConfig.get().isModelEnabled(entityName)) {
-                this.tiny_takeover_backport$originalModel = this.model;
-                this.model = (M) this.tiny_takeover_backport$babyModel;
-            }
-        } else if (!entity.isBaby() && this.tiny_takeover_backport$newAdultModel != null) {
-            if (entityName.equals("rabbit") && ModConfig.get().replaceAdultRabbit) {
-                this.tiny_takeover_backport$originalModel = this.model;
-                this.model = (M) this.tiny_takeover_backport$newAdultModel;
-            }
+        M swappedModel = null;
+        if (entity.isBaby() && this.tiny_takeover_backport$babyModel != null && ModConfig.get().isModelEnabled(entityName)) {
+            swappedModel = (M) this.tiny_takeover_backport$babyModel;
+        } else if (!entity.isBaby() && this.tiny_takeover_backport$newAdultModel != null
+                && entityName.equals("rabbit") && ModConfig.get().replaceAdultRabbit) {
+            swappedModel = (M) this.tiny_takeover_backport$newAdultModel;
         }
-    }
 
-    @Inject(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At("RETURN"))
-    private void restoreModel(T entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, CallbackInfo ci) {
-        if (this.tiny_takeover_backport$originalModel != null) {
-            this.model = this.tiny_takeover_backport$originalModel;
-            this.tiny_takeover_backport$originalModel = null;
+        if (swappedModel == null) {
+            original.call(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+            return;
+        }
+
+        M originalModel = this.model;
+        this.model = swappedModel;
+        try {
+            original.call(entity, entityYaw, partialTicks, poseStack, buffer, packedLight);
+        } finally {
+            this.model = originalModel;
         }
     }
 

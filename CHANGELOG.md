@@ -5,6 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.1] - 2026-08-14
+
+### Fixed
+
+- Fixed missing Golden Dandelion loot table.
+
+## [1.3.0] - 2026-07-28
+
+### Fixed
+
+- Fixed baby Sheep undercoat.
+- Fixed baby Wolf collars.
+- Fixed baby Horse markings.
+
+## [1.2.3] - 2026-07-21
+
+### Fixed
+
+- Reverted Rabbit AI changes.
+- Fixed baby Sheep aging when eating grass, even after using a Golden Dandelion on them.
+
+## [1.2.2] - 2026-07-17
+
+### Fixed
+
+- Fixed crash on recent versions of NeoForge.
+
+## [1.2.1] - 2026-07-14
+
+### Fixed
+
+- Tweaks to baby humanoid mobs' armor.
+
 ## [1.2.0] - 2026-07-14
 
 ### Fixed

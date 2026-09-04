@@ -49,7 +49,7 @@ public class ModClientRegistry {
         register(ModModelLayers.POLAR_BEAR_BABY, BabyPolarBearModel::createBodyLayer);
         register(ModModelLayers.RABBIT_BABY, BabyRabbitModel::createBodyLayer);
         register(ModModelLayers.SHEEP_BABY, BabySheepModel::createBodyLayer);
-        register(ModModelLayers.SHEEP_BABY_WOOL, BabySheepModel::createWoolLayer);
+        register(ModModelLayers.SHEEP_BABY_WOOL, BabySheepModel::createBodyLayer);
         register(ModModelLayers.SQUID_BABY, BabySquidModel::createBodyLayer);
         register(ModModelLayers.STRIDER_BABY, BabyStriderModel::createBodyLayer);
         register(ModModelLayers.TURTLE_BABY, BabyTurtleModel::createBodyLayer);

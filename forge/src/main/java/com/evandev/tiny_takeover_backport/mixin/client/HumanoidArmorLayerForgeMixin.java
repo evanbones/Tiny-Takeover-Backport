@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(HumanoidArmorLayer.class)
@@ -72,5 +73,13 @@ public class HumanoidArmorLayerForgeMixin<T extends LivingEntity, M extends Huma
                 }
             }
         }
+    }
+
+    @Inject(
+            method = "setPartVisibility(Lnet/minecraft/client/model/HumanoidModel;Lnet/minecraft/world/entity/EquipmentSlot;)V",
+            at = @At("TAIL")
+    )
+    private void adjustBabyArmorPartVisibility(A model, EquipmentSlot slot, CallbackInfo ci) {
+        ModRenderHelper.adjustBabyArmorVisibility(model, slot);
     }
 }

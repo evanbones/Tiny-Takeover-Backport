@@ -11,13 +11,13 @@
     "EntityMixin",
     "LivingEntityMixin",
     "MobMixin",
-    "RabbitAIFixMixin",
     "RabbitMixin",
     "SquidMixin"
   ],
   "client": [
     "client.CatCollarLayerMixin",
     "client.DrownedOuterLayerMixin",
+    "client.HorseMarkingLayerMixin",
     "client.ItemInHandLayerMixin",
     "client.LivingEntityMixin",
     "client.LivingEntityRendererMixin",
