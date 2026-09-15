@@ -1,3 +1,3 @@
 ### Fixed
 
-- Fixed missing Golden Dandelion loot table.
+- Fixed rare service loading crash.
