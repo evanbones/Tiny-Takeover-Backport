@@ -24,7 +24,7 @@ public abstract class SquidRendererMixin {
     //?} else {
     //private void tiny_takeover_backport$setupRotations(Squid entity, PoseStack poseStack, float bob, float yBodyRot, float partialTick, CallbackInfo ci) {
     //?}
-        if (entity.isBaby() && ModConfig.get().isModelEnabled("squid")) {
+        if (entity.isBaby() && ModConfig.get().isModelEnabled(entity)) {
             float f = Mth.lerp(partialTick, entity.xBodyRotO, entity.xBodyRot);
             float f1 = Mth.lerp(partialTick, entity.zBodyRotO, entity.zBodyRot);
             poseStack.translate(0.0F, 0.25F, 0.0F);

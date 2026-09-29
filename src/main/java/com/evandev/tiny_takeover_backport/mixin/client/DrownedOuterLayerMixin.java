@@ -49,7 +49,7 @@ public abstract class DrownedOuterLayerMixin<T extends Drowned> extends RenderLa
         //?} else {
         //private void wrapRenderCall(EntityModel<T> parentModel, EntityModel<T> model, ResourceLocation texture, PoseStack poseStack, MultiBufferSource buffer, int packedLight, LivingEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float partialTicks, float red, float green, float blue, Operation<Void> original) {
         //?}
-        if (entity.isBaby() && ModConfig.get().enableDrowned) {
+        if (entity.isBaby() && ModConfig.get().isModelEnabled(entity)) {
             model = this.tiny_takeover_backport$babyModel;
             texture = Constants.vanillaLocation("textures/entity/zombie/drowned_outer_layer_baby.png");
         }

@@ -28,7 +28,7 @@ public abstract class HorseMarkingLayerMixin extends RenderLayer<Horse, HorseMod
             at = @At(value = "INVOKE", target = "Ljava/util/Map;get(Ljava/lang/Object;)Ljava/lang/Object;"))
     private Object wrapMarkingLookup(Map<?, ?> map, Object key, Operation<Object> original, PoseStack poseStack, MultiBufferSource buffer, int packedLight, Horse livingEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         Object result = original.call(map, key);
-        if (result instanceof ResourceLocation location && livingEntity.isBaby() && ModConfig.get().enableHorse) {
+        if (result instanceof ResourceLocation location && livingEntity.isBaby() && ModConfig.get().isModelEnabled(livingEntity)) {
             String path = location.getPath();
             return Constants.vanillaLocation(path.substring(0, path.length() - 4) + "_baby.png");
         }

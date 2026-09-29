@@ -4,7 +4,6 @@ import com.evandev.tiny_takeover_backport.Constants;
 import com.evandev.tiny_takeover_backport.Platform;
 import com.evandev.tiny_takeover_backport.compat.VanillaBackportCompat;
 import com.evandev.tiny_takeover_backport.config.ModConfig;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -19,11 +18,9 @@ public class ModBabyTextureRegistry {
         }
 
         String path = original.getPath();
-        String entityName = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).getPath();
 
         if (!entity.isBaby()) {
-            if (entityName.equals("rabbit")
-                    && ModConfig.get().replaceAdultRabbit
+            if (ModConfig.get().isAdultRabbitReplaced(entity)
                     && path.startsWith("textures/entity/rabbit/")) {
                 return Constants.vanillaLocation(
                         "textures/entity/rabbit/rabbit_" + getRabbitTextureName(path) + ".png");
@@ -31,7 +28,7 @@ public class ModBabyTextureRegistry {
             return original;
         }
 
-        if (!ModConfig.get().isModelEnabled(entityName)) {
+        if (!ModConfig.get().isModelEnabled(entity)) {
             return original;
         }
 

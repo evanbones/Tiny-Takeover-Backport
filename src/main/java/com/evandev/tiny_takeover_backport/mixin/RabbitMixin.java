@@ -62,7 +62,7 @@ public abstract class RabbitMixin extends Animal implements RabbitAnimationState
     @ModifyExpressionValue(method = {"startJumping", "handleEntityEvent"}, at = @At(value = "CONSTANT", args = "intValue=10"))
     private int tiny_takeover_backport$hopDuration(int duration) {
         ModConfig config = ModConfig.get();
-        return (this.isBaby() ? config.isModelEnabled("rabbit") : config.replaceAdultRabbit) ? 15 : duration;
+        return (this.isBaby() ? config.isModelEnabled(this) : config.isAdultRabbitReplaced(this)) ? 15 : duration;
     }
 
     @ModifyReturnValue(method = "getJumpPower()F", at = @At("RETURN"))

@@ -49,9 +49,9 @@ public abstract class CatCollarLayerMixin extends RenderLayer<Cat, CatModel<Cat>
     //?} else {
     //private void wrapRenderCall(EntityModel<Cat> parentModel, EntityModel<Cat> model, ResourceLocation texture, PoseStack poseStack, MultiBufferSource buffer, int packedLight, LivingEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float partialTicks, float red, float green, float blue, Operation<Void> original) {
     //?}
-        if (entity.isBaby() && ModConfig.get().enableCat) {
+        if (entity.isBaby() && ModConfig.get().isModelEnabled(entity)) {
             model = this.tiny_takeover_backport$babyModel;
-            texture = Constants.location("minecraft", "textures/entity/cat/cat_collar_baby.png");
+            texture = Constants.vanillaLocation("textures/entity/cat/cat_collar_baby.png");
         }
         //? if >=1.21 {
         original.call(parentModel, model, texture, poseStack, buffer, packedLight, entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, partialTicks, color);

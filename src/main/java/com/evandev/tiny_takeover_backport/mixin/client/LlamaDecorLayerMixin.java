@@ -40,7 +40,7 @@ public abstract class LlamaDecorLayerMixin extends RenderLayer<Llama, LlamaModel
 
     @Inject(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/horse/Llama;FFFFFF)V", at = @At("HEAD"), cancellable = true)
     private void preRenderSetup(PoseStack poseStack, MultiBufferSource buffer, int packedLight, Llama entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, CallbackInfo ci) {
-        if (entity.isBaby() && ModConfig.get().enableLlama) {
+        if (entity.isBaby() && ModConfig.get().isModelEnabled(entity)) {
             if (!entity.isTraderLlama()) {
                 ci.cancel();
                 return;
@@ -61,7 +61,7 @@ public abstract class LlamaDecorLayerMixin extends RenderLayer<Llama, LlamaModel
     //?} else {
     //private void wrapRenderCall(LlamaModel<Llama> instance, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int overlay, float red, float green, float blue, float alpha, Operation<Void> original, PoseStack methodPoseStack, MultiBufferSource buffer, int methodPackedLight, Llama entity) {
     //?}
-        if (entity.isBaby() && ModConfig.get().enableLlama && entity.isTraderLlama()) {
+        if (entity.isBaby() && ModConfig.get().isModelEnabled(entity) && entity.isTraderLlama()) {
             this.tiny_takeover_backport$babyModel.young = false;
 
             //? if >=1.21 {
@@ -81,7 +81,7 @@ public abstract class LlamaDecorLayerMixin extends RenderLayer<Llama, LlamaModel
     @WrapOperation(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/horse/Llama;FFFFFF)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;entityCutoutNoCull(Lnet/minecraft/resources/ResourceLocation;)Lnet/minecraft/client/renderer/RenderType;"))
     private RenderType wrapRenderType(ResourceLocation location, Operation<RenderType> original, PoseStack poseStack, MultiBufferSource buffer, int packedLight, Llama entity) {
-        if (entity.isBaby() && ModConfig.get().enableLlama && entity.isTraderLlama()) {
+        if (entity.isBaby() && ModConfig.get().isModelEnabled(entity) && entity.isTraderLlama()) {
             location = Constants.vanillaLocation("textures/entity/equipment/llama_body/trader_llama_baby.png");
         }
         return original.call(location);

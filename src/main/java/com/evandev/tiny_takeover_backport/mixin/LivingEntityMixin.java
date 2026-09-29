@@ -1,7 +1,6 @@
 package com.evandev.tiny_takeover_backport.mixin;
 
 import com.evandev.tiny_takeover_backport.config.ModConfig;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.EntityDimensions;
@@ -27,8 +26,7 @@ public abstract class LivingEntityMixin {
     private void tiny_takeover_backport$modifyDimensions(Pose pose, CallbackInfoReturnable<EntityDimensions> cir) {
         LivingEntity entity = (LivingEntity) (Object) this;
         if (entity.isBaby() && pose != Pose.SLEEPING) {
-            String entityName = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).getPath();
-            if (ModConfig.get().isModelEnabled(entityName)) {
+            if (ModConfig.get().isModelEnabled(entity)) {
                 EntityDimensions custom = null;
 
                 if (entity instanceof Squid) {
@@ -88,8 +86,7 @@ public abstract class LivingEntityMixin {
     private void tiny_takeover_backport$modifyAgeScale(CallbackInfoReturnable<Float> cir) {
         LivingEntity entity = (LivingEntity) (Object) this;
         if (entity.isBaby()) {
-            String entityName = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).getPath();
-            if (ModConfig.get().isModelEnabled(entityName)) {
+            if (ModConfig.get().isModelEnabled(entity)) {
                 if (entity instanceof Dolphin) {
                     cir.setReturnValue(0.65F);
                 } else if (entity instanceof Goat) {
@@ -105,8 +102,7 @@ public abstract class LivingEntityMixin {
     private void tiny_takeover_backport$modifyEyeHeight(Pose pose, EntityDimensions dimensions, CallbackInfoReturnable<Float> cir) {
         LivingEntity entity = (LivingEntity) (Object) this;
         if (entity.isBaby()) {
-            String entityName = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).getPath();
-            if (ModConfig.get().isModelEnabled(entityName)) {
+            if (ModConfig.get().isModelEnabled(entity)) {
                 Float eyeHeight = tiny_takeover_backport$getBabyEyeHeight(entity);
                 if (eyeHeight != null) {
                     cir.setReturnValue(eyeHeight);

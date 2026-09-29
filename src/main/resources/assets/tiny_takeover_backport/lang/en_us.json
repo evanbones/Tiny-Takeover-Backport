@@ -2,6 +2,7 @@
   "config.tiny_takeover_backport.title": "Tiny Takeover Backport Config",
   "config.tiny_takeover_backport.category.general": "General Options",
   "config.tiny_takeover_backport.category.models": "New Mob Models",
+  "config.tiny_takeover_backport.category.compatibility": "Mod Compatibility",
 
   "config.tiny_takeover_backport.option.enable_name_tag_recipe": "Enable Craftable Name Tags",
 
@@ -45,5 +46,9 @@
   "config.tiny_takeover_backport.option.enable_wolf": "Baby Wolf Model",
   "config.tiny_takeover_backport.option.enable_zombie": "Baby Zombie Model",
   "config.tiny_takeover_backport.option.enable_zombie_villager": "Baby Zombie Villager Model",
-  "config.tiny_takeover_backport.option.enable_zombified_piglin": "Baby Zombified Piglin Model"
+  "config.tiny_takeover_backport.option.enable_zombified_piglin": "Baby Zombified Piglin Model",
+  "config.tiny_takeover_backport.option.enable_modded_mobs": "Apply to Modded Mobs",
+  "config.tiny_takeover_backport.option.enable_modded_mobs.description": "Allows mobs from other mods that reuse vanilla models to get the new baby models. Off by default, since the new models usually don't fit modded textures.",
+  "config.tiny_takeover_backport.option.model_blacklist": "Model Blacklist",
+  "config.tiny_takeover_backport.option.model_blacklist.description": "Mob IDs (e.g. minecraft:zombie or somemod:deer) that keep their original models."
 }

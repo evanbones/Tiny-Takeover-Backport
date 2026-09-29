@@ -51,7 +51,7 @@ public abstract class SheepWoolLayerMixin extends RenderLayer<Sheep, SheepModel<
     //?} else {
     //private void redirectRenderCall(EntityModel<Sheep> parentModel, EntityModel<Sheep> model, ResourceLocation texture, PoseStack poseStack, MultiBufferSource buffer, int packedLight, LivingEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float partialTicks, float red, float green, float blue, Operation<Void> original) {
     //?}
-        if (entity.isBaby() && ModConfig.get().enableSheep) {
+        if (entity.isBaby() && ModConfig.get().isModelEnabled(entity)) {
             model = this.tiny_takeover_backport$babyModel;
             texture = Constants.vanillaLocation("textures/entity/sheep/sheep_wool_baby.png");
         }

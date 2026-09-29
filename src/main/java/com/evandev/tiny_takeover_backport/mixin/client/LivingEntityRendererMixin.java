@@ -12,7 +12,6 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -49,13 +48,11 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
     @SuppressWarnings("unchecked")
     @WrapMethod(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V")
     private void wrapRenderModelSwap(T entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, Operation<Void> original) {
-        String entityName = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).getPath();
-
         M swappedModel = null;
-        if (entity.isBaby() && this.tiny_takeover_backport$babyModel != null && ModConfig.get().isModelEnabled(entityName)) {
+        if (entity.isBaby() && this.tiny_takeover_backport$babyModel != null && ModConfig.get().isModelEnabled(entity)) {
             swappedModel = (M) this.tiny_takeover_backport$babyModel;
         } else if (!entity.isBaby() && this.tiny_takeover_backport$newAdultModel != null
-                && entityName.equals("rabbit") && ModConfig.get().replaceAdultRabbit) {
+                && ModConfig.get().isAdultRabbitReplaced(entity)) {
             swappedModel = (M) this.tiny_takeover_backport$newAdultModel;
         }
 
@@ -82,8 +79,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
     @WrapOperation(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
             at = @At(value = "FIELD", target = "Lnet/minecraft/client/model/EntityModel;young:Z", opcode = 181))
     private void wrapSetYoung(EntityModel<?> model, boolean value, Operation<Void> original, T entity) {
-        String entityName = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).getPath();
-        if (entity.isBaby() && this.tiny_takeover_backport$babyModel != null && ModConfig.get().isModelEnabled(entityName)) {
+        if (entity.isBaby() && this.tiny_takeover_backport$babyModel != null && ModConfig.get().isModelEnabled(entity)) {
             original.call(model, false);
             return;
         }
@@ -93,8 +89,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
     @WrapOperation(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/LivingEntityRenderer;scale(Lnet/minecraft/world/entity/LivingEntity;Lcom/mojang/blaze3d/vertex/PoseStack;F)V"))
     private void wrapScaleCall(LivingEntityRenderer<T, M> renderer, T entity, PoseStack poseStack, float partialTick, Operation<Void> original) {
-        String entityName = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).getPath();
-        if (entity.isBaby() && this.tiny_takeover_backport$babyModel != null && ModConfig.get().isModelEnabled(entityName)) {
+        if (entity.isBaby() && this.tiny_takeover_backport$babyModel != null && ModConfig.get().isModelEnabled(entity)) {
             ModRenderHelper.SUPPRESS_AGE_SCALE.set(true);
             try {
                 original.call(renderer, entity, poseStack, partialTick);

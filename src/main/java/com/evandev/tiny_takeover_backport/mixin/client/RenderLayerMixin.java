@@ -44,7 +44,7 @@ public abstract class RenderLayerMixin {
             //?}
             CallbackInfo ci
     ) {
-        if (entity instanceof Sheep && entity.isBaby() && ModConfig.get().enableSheep && textureLocation.getPath().contains("sheep_wool_undercoat")) {
+        if (entity instanceof Sheep && entity.isBaby() && ModConfig.get().isModelEnabled(entity) && textureLocation.getPath().contains("sheep_wool_undercoat")) {
             ci.cancel();
         }
     }
@@ -66,7 +66,7 @@ public abstract class RenderLayerMixin {
             int packedLight,
             LivingEntity entity
     ) {
-        if (entity instanceof Sheep && entity.isBaby() && ModConfig.get().enableSheep) {
+        if (entity instanceof Sheep && entity.isBaby() && ModConfig.get().isModelEnabled(entity)) {
             return ModRenderHelper.babyWoolModel != null ? ModRenderHelper.babyWoolModel : modelParent;
         }
         return model;

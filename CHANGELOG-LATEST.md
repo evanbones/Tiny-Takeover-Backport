@@ -1,16 +1,15 @@
 ### Added
 
-- Backported copper trumpet note block sounds.
-- Backported stone and deepslate Stonecutter recipes.
-- Backported pig, cow, chicken and cat sound variants.
-- Backported the new rabbit hop and idle head tilt animations.
-- Backported new rabbit AI.
+- Added a "Mod Compatibility" config category.
+- Added an "Apply to Modded Mobs" option (off by default).
+- Added a model blacklist config option for making specific mobs use their original models.
 
 ### Changed
 
-- Switched to stonecutter for building.
-- 1.21 and 1.20 are now in parity.
+- Mobs from other mods no longer get the new models by default.
+- Zoglins now follow the Baby Hoglin Model option.
+- Skeleton and zombie horses now follow the Baby Horse Model option.
 
 ### Fixed
 
-- Fixed baby Villager being tiny on 1.20.
+- Fixed modded mobs that reuse vanilla models being given the new baby models, textures and hitboxes.

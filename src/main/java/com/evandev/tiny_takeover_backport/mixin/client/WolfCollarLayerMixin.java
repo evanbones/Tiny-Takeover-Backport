@@ -55,7 +55,7 @@ public abstract class WolfCollarLayerMixin extends RenderLayer<Wolf, WolfModel<W
     @WrapOperation(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/Wolf;FFFFFF)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/WolfModel;renderToBuffer(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;III)V"))
     private void wrapRenderCall(WolfModel<Wolf> instance, PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int overlay, int color, Operation<Void> original, PoseStack methodPoseStack, net.minecraft.client.renderer.MultiBufferSource buffer, int methodPackedLight, Wolf entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (entity.isBaby() && ModConfig.get().enableWolf) {
+        if (entity.isBaby() && ModConfig.get().isModelEnabled(entity)) {
             instance.copyPropertiesTo(this.tiny_takeover_backport$babyModel);
             this.tiny_takeover_backport$babyModel.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTicks);
             this.tiny_takeover_backport$babyModel.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
@@ -67,7 +67,7 @@ public abstract class WolfCollarLayerMixin extends RenderLayer<Wolf, WolfModel<W
     @WrapOperation(method = "render(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/animal/Wolf;FFFFFF)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;entityCutoutNoCull(Lnet/minecraft/resources/ResourceLocation;)Lnet/minecraft/client/renderer/RenderType;"))
     private RenderType wrapCollarTexture(ResourceLocation texture, Operation<RenderType> original, PoseStack poseStack, net.minecraft.client.renderer.MultiBufferSource buffer, int packedLight, Wolf entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (entity.isBaby() && ModConfig.get().enableWolf) {
+        if (entity.isBaby() && ModConfig.get().isModelEnabled(entity)) {
             texture = Constants.vanillaLocation("textures/entity/wolf/wolf_collar_baby.png");
         }
         return original.call(texture);
@@ -78,7 +78,7 @@ public abstract class WolfCollarLayerMixin extends RenderLayer<Wolf, WolfModel<W
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/layers/WolfCollarLayer;renderColoredCutoutModel(Lnet/minecraft/client/model/EntityModel;Lnet/minecraft/resources/ResourceLocation;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/entity/LivingEntity;FFF)V")
     )
     private void wrapRenderCall(EntityModel<?> model, ResourceLocation textureLocation, PoseStack poseStack, MultiBufferSource buffer, int packedLight, LivingEntity entity, float red, float green, float blue, Operation<Void> original, PoseStack methodPoseStack, MultiBufferSource methodBuffer, int methodPackedLight, Wolf wolf, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (entity.isBaby() && ModConfig.get().enableWolf) {
+        if (entity.isBaby() && ModConfig.get().isModelEnabled(entity)) {
             WolfModel<Wolf> babyModel = this.tiny_takeover_backport$babyModel;
             ((WolfModel<Wolf>) model).copyPropertiesTo(babyModel);
             babyModel.prepareMobModel(wolf, limbSwing, limbSwingAmount, partialTicks);
