@@ -23,6 +23,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+//? if <1.21 {
+/*import net.minecraft.client.renderer.entity.StriderRenderer;
+import net.minecraft.client.renderer.entity.VillagerRenderer;
+*///?}
+
 @Mixin(LivingEntityRenderer.class)
 public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extends EntityModel<T>> {
 
@@ -93,6 +98,11 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
             ModRenderHelper.SUPPRESS_AGE_SCALE.set(true);
             try {
                 original.call(renderer, entity, poseStack, partialTick);
+                //? if <1.21 {
+                /*if (renderer instanceof VillagerRenderer || renderer instanceof StriderRenderer) {
+                    poseStack.scale(2.0F, 2.0F, 2.0F);
+                }
+                *///?}
             } finally {
                 ModRenderHelper.SUPPRESS_AGE_SCALE.set(false);
             }
