@@ -1,6 +1,9 @@
 package com.evandev.tiny_takeover_backport.client.model;
 
+import com.evandev.tiny_takeover_backport.client.animation.BabyRabbitAnimation;
+import com.evandev.tiny_takeover_backport.client.animation.PartAnimator;
 import com.evandev.tiny_takeover_backport.config.ModConfig;
+import com.evandev.tiny_takeover_backport.entity.RabbitAnimationStates;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.RabbitModel;
@@ -10,33 +13,37 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.animal.Rabbit;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class BabyRabbitModel<T extends Rabbit> extends RabbitModel<T> {
 
     private final ModelPart root;
     private final ModelPart realHead;
-    private final ModelPart realLeftHaunch;
-    private final ModelPart realRightHaunch;
-    private final ModelPart realLeftFrontLeg;
-    private final ModelPart realRightFrontLeg;
-    private float jumpRotation;
+    private final Map<String, ModelPart> animatedParts = new HashMap<>();
 
     public BabyRabbitModel(ModelPart root) {
         super(root);
         this.root = root;
         ModelPart body = root.getChild("body");
         this.realHead = body.getChild("head");
-
         ModelPart frontlegs = body.getChild("frontlegs");
-        this.realLeftFrontLeg = frontlegs.getChild("left_front_leg");
-        this.realRightFrontLeg = frontlegs.getChild("right_front_leg");
-
         ModelPart backlegs = root.getChild("backlegs");
-        this.realLeftHaunch = backlegs.getChild("left_hind_leg").getChild("left_haunch");
-        this.realRightHaunch = backlegs.getChild("right_hind_leg").getChild("right_haunch");
+
+        this.animatedParts.put("body", body);
+        this.animatedParts.put("head", this.realHead);
+        this.animatedParts.put("left_ear", this.realHead.getChild("left_ear"));
+        this.animatedParts.put("right_ear", this.realHead.getChild("right_ear"));
+        this.animatedParts.put("tail", body.getChild("tail"));
+        this.animatedParts.put("frontlegs", frontlegs);
+        this.animatedParts.put("left_front_leg", frontlegs.getChild("left_front_leg"));
+        this.animatedParts.put("right_front_leg", frontlegs.getChild("right_front_leg"));
+        this.animatedParts.put("backlegs", backlegs);
+        this.animatedParts.put("left_hind_leg", backlegs.getChild("left_hind_leg"));
+        this.animatedParts.put("right_hind_leg", backlegs.getChild("right_hind_leg"));
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -114,29 +121,23 @@ public class BabyRabbitModel<T extends Rabbit> extends RabbitModel<T> {
     }
 
     @Override
-    public void prepareMobModel(@NotNull T entity, float limbSwing, float limbSwingAmount, float partialTick) {
-        super.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTick);
-        this.jumpRotation = Mth.sin(entity.getJumpCompletion(partialTick) * (float) Math.PI);
-    }
-
-    @Override
     public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.realHead.xRot = headPitch * ((float) Math.PI / 180F);
-        this.realHead.yRot = netHeadYaw * ((float) Math.PI / 180F);
-
-        this.realLeftHaunch.xRot = (this.jumpRotation * 50.0F - 21.0F) * ((float) Math.PI / 180F);
-        this.realRightHaunch.xRot = (this.jumpRotation * 50.0F - 21.0F) * ((float) Math.PI / 180F);
-
-        this.realLeftFrontLeg.xRot = (this.jumpRotation * -40.0F - 11.0F) * ((float) Math.PI / 180F);
-        this.realRightFrontLeg.xRot = (this.jumpRotation * -40.0F - 11.0F) * ((float) Math.PI / 180F);
+        this.root.getAllParts().forEach(ModelPart::resetPose);
+        RabbitAnimationStates states = (RabbitAnimationStates) entity;
+        if (!states.tiny_takeover_backport$getIdleHeadTiltAnimationState().isStarted()) {
+            this.realHead.yRot = netHeadYaw * ((float) Math.PI / 180F);
+            this.realHead.xRot = headPitch * ((float) Math.PI / 180F);
+        }
+        PartAnimator.animate(this.animatedParts, states.tiny_takeover_backport$getHopAnimationState(), BabyRabbitAnimation.HOP, ageInTicks);
+        PartAnimator.animate(this.animatedParts, states.tiny_takeover_backport$getIdleHeadTiltAnimationState(), BabyRabbitAnimation.IDLE_HEAD_TILT, ageInTicks);
     }
 
     @Override
-    //? if >=1.21 {
+            //? if >=1.21 {
     public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, int color) {
-    //?} else {
-    //public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-    //?}
+        //?} else {
+        //public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+        //?}
         if (ModConfig.get().rabbitBoundingBox) {
             //? if >=1.21 {
             this.root.render(poseStack, buffer, packedLight, packedOverlay, color);

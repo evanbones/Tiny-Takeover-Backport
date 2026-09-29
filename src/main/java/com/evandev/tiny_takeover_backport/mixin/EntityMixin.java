@@ -1,5 +1,8 @@
 package com.evandev.tiny_takeover_backport.mixin;
 
+import com.evandev.tiny_takeover_backport.config.ModConfig;
+import com.evandev.tiny_takeover_backport.entity.AnimalSoundVariants;
+import com.evandev.tiny_takeover_backport.entity.SoundVariantHolder;
 import com.evandev.tiny_takeover_backport.registry.ModRegistry;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -64,6 +67,8 @@ public abstract class EntityMixin {
             if (soundEvent == SoundEvents.WOLF_PANT) return ModRegistry.WOLF_PANT_BABY;
             if (soundEvent == SoundEvents.WOLF_STEP) return ModRegistry.WOLF_STEP_BABY;
             if (soundEvent == SoundEvents.WOLF_WHINE) return ModRegistry.WOLF_WHINE_BABY;
+        } else if (entity instanceof SoundVariantHolder holder && ModConfig.get().enableAnimalSoundVariants) {
+            return AnimalSoundVariants.remap(entity.getType(), holder.tiny_takeover_backport$getSoundVariant(), soundEvent);
         }
         return soundEvent;
     }

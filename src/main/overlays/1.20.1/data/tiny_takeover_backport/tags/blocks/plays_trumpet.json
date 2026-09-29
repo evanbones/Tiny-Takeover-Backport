@@ -1,0 +1,20 @@
+{
+  "values": [
+    "minecraft:copper_block",
+    "minecraft:cut_copper",
+    {
+      "id": "minecraft:chiseled_copper",
+      "required": false
+    },
+    "minecraft:cut_copper_stairs",
+    "minecraft:cut_copper_slab",
+    "minecraft:waxed_copper_block",
+    "minecraft:waxed_cut_copper",
+    {
+      "id": "minecraft:waxed_chiseled_copper",
+      "required": false
+    },
+    "minecraft:waxed_cut_copper_stairs",
+    "minecraft:waxed_cut_copper_slab"
+  ]
+}

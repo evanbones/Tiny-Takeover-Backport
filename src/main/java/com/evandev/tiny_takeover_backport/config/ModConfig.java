@@ -26,6 +26,8 @@ public class ModConfig {
     public boolean enableNameTagRecipe = true;
     public boolean spawnBabyDolphin = true;
     public boolean spawnBabySquid = true;
+    public boolean enableTrumpetNoteBlocks = true;
+    public boolean enableAnimalSoundVariants = true;
 
     public boolean enableArmadillo = true;
     public boolean enableAxolotl = true;
@@ -103,7 +105,9 @@ public class ModConfig {
                 .name(Component.translatable("config.tiny_takeover_backport.category.general"))
                 .option(createBoolOption("enable_name_tag_recipe", true, () -> get().enableNameTagRecipe, val -> get().enableNameTagRecipe = val))
                 .option(createBoolOption("spawn_baby_dolphin", true, () -> get().spawnBabyDolphin, val -> get().spawnBabyDolphin = val))
-                .option(createBoolOption("spawn_baby_squid", true, () -> get().spawnBabySquid, val -> get().spawnBabySquid = val));
+                .option(createBoolOption("spawn_baby_squid", true, () -> get().spawnBabySquid, val -> get().spawnBabySquid = val))
+                .option(createBoolOption("enable_trumpet_note_blocks", true, () -> get().enableTrumpetNoteBlocks, val -> get().enableTrumpetNoteBlocks = val))
+                .option(createBoolOption("enable_animal_sound_variants", true, () -> get().enableAnimalSoundVariants, val -> get().enableAnimalSoundVariants = val));
 
         ConfigCategory.Builder models = ConfigCategory.createBuilder()
                 .name(Component.translatable("config.tiny_takeover_backport.category.models"))

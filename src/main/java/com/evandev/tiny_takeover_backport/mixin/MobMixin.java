@@ -1,9 +1,7 @@
 package com.evandev.tiny_takeover_backport.mixin;
 
 import com.evandev.tiny_takeover_backport.config.ModConfig;
-import com.evandev.tiny_takeover_backport.entity.AgeLockable;
-import com.evandev.tiny_takeover_backport.entity.ModEntityData;
-import com.evandev.tiny_takeover_backport.entity.ModifiableBaby;
+import com.evandev.tiny_takeover_backport.entity.*;
 import com.evandev.tiny_takeover_backport.registry.ModRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -27,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Mob.class)
-public abstract class MobMixin implements AgeLockable {
+public abstract class MobMixin implements AgeLockable, SoundVariantHolder {
 
     @Unique
     private static final EntityDataAccessor<Boolean> tiny_takeover_backport$DATA_AGE_LOCKED =
@@ -36,6 +34,8 @@ public abstract class MobMixin implements AgeLockable {
     private int tiny_takeover_backport$ageLockParticleTimer = 0;
     @Unique
     private int tiny_takeover_backport$age = 0;
+    @Unique
+    private String tiny_takeover_backport$soundVariant = null;
 
     @Override
     public boolean tiny_takeover_backport$isAgeLocked() {
@@ -67,10 +67,20 @@ public abstract class MobMixin implements AgeLockable {
         this.tiny_takeover_backport$age = age;
     }
 
+    @Override
+    public String tiny_takeover_backport$getSoundVariant() {
+        return this.tiny_takeover_backport$soundVariant;
+    }
+
+    @Override
+    public void tiny_takeover_backport$setSoundVariant(String variant) {
+        this.tiny_takeover_backport$soundVariant = variant;
+    }
+
     @Inject(method = "defineSynchedData", at = @At("TAIL"))
-    //? if >=1.21 {
+            //? if >=1.21 {
     private void tiny_takeover_backport$defineBabyData(SynchedEntityData.Builder builder, CallbackInfo ci) {
-    //?} else {
+        //?} else {
     /*private void tiny_takeover_backport$defineBabyData(CallbackInfo ci) {
         SynchedEntityData builder = ((Mob) (Object) this).getEntityData();
     *///?}
@@ -86,6 +96,9 @@ public abstract class MobMixin implements AgeLockable {
     private void writeAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         tag.putBoolean("AgeLocked", this.tiny_takeover_backport$isAgeLocked());
         tag.putInt("Age", this.tiny_takeover_backport$age);
+        if (this.tiny_takeover_backport$soundVariant != null) {
+            tag.putString("sound_variant", this.tiny_takeover_backport$soundVariant);
+        }
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
@@ -93,6 +106,9 @@ public abstract class MobMixin implements AgeLockable {
         this.tiny_takeover_backport$setAgeLocked(tag.getBoolean("AgeLocked"));
         if (tag.contains("Age")) {
             this.tiny_takeover_backport$age = tag.getInt("Age");
+        }
+        if (tag.contains("sound_variant")) {
+            this.tiny_takeover_backport$soundVariant = tag.getString("sound_variant");
         }
     }
 
@@ -126,7 +142,7 @@ public abstract class MobMixin implements AgeLockable {
 
     //? if >=1.21 {
     @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
-    //?} else
+            //?} else
     //@Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
     private void tiny_takeover_backport$handleInteractions(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         Mob mob = (Mob) (Object) this;
@@ -166,6 +182,11 @@ public abstract class MobMixin implements AgeLockable {
     @Inject(method = "finalizeSpawn", at = @At("RETURN"))
     private void tiny_takeover_backport$onFinalizeSpawn(CallbackInfoReturnable<?> cir) {
         Mob mob = (Mob) (Object) this;
+        String soundVariant = AnimalSoundVariants.pickRandom(mob.getType(), mob.getRandom());
+        if (soundVariant != null) {
+            this.tiny_takeover_backport$soundVariant = soundVariant;
+        }
+
         if (mob instanceof Dolphin) {
             if (ModConfig.get().spawnBabyDolphin && mob.getRandom().nextFloat() < 0.10F) {
                 ((ModifiableBaby) mob).tiny_takeover_backport$setBaby(true);

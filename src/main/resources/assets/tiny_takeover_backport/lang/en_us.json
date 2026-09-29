@@ -7,6 +7,8 @@
 
   "config.tiny_takeover_backport.option.spawn_baby_dolphin": "Spawn Baby Dolphins",
   "config.tiny_takeover_backport.option.spawn_baby_squid": "Spawn Baby Squids",
+  "config.tiny_takeover_backport.option.enable_trumpet_note_blocks": "Copper Trumpet Note Blocks",
+  "config.tiny_takeover_backport.option.enable_animal_sound_variants": "Animal Sound Variants",
 
   "config.tiny_takeover_backport.option.replace_adult_rabbit": "Replace Adult Rabbit Model",
   "config.tiny_takeover_backport.option.rabbit_bounding_box": "Rabbit 26.1 Bounding Box",

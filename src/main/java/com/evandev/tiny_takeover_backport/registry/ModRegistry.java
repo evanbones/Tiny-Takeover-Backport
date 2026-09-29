@@ -100,6 +100,40 @@ public class ModRegistry {
     public static final SoundEvent WOLF_STEP_BABY = registerSound("entity.baby_wolf.step");
     public static final SoundEvent WOLF_WHINE_BABY = registerSound("entity.baby_wolf.whine");
 
+    // Sound Variant Events
+    public static final SoundEvent PIG_MINI_AMBIENT = registerSound("entity.pig_mini.ambient");
+    public static final SoundEvent PIG_MINI_HURT = registerSound("entity.pig_mini.hurt");
+    public static final SoundEvent PIG_MINI_DEATH = registerSound("entity.pig_mini.death");
+    public static final SoundEvent PIG_BIG_AMBIENT = registerSound("entity.pig_big.ambient");
+    public static final SoundEvent PIG_BIG_HURT = registerSound("entity.pig_big.hurt");
+    public static final SoundEvent PIG_BIG_DEATH = registerSound("entity.pig_big.death");
+
+    public static final SoundEvent COW_MOODY_AMBIENT = registerSound("entity.cow_moody.ambient");
+    public static final SoundEvent COW_MOODY_HURT = registerSound("entity.cow_moody.hurt");
+    public static final SoundEvent COW_MOODY_DEATH = registerSound("entity.cow_moody.death");
+    public static final SoundEvent COW_MOODY_STEP = registerSound("entity.cow_moody.step");
+
+    public static final SoundEvent CHICKEN_PICKY_AMBIENT = registerSound("entity.chicken_picky.ambient");
+    public static final SoundEvent CHICKEN_PICKY_HURT = registerSound("entity.chicken_picky.hurt");
+    public static final SoundEvent CHICKEN_PICKY_DEATH = registerSound("entity.chicken_picky.death");
+    public static final SoundEvent CHICKEN_PICKY_STEP = registerSound("entity.chicken_picky.step");
+
+    public static final SoundEvent CAT_ROYAL_AMBIENT = registerSound("entity.cat_royal.ambient");
+    public static final SoundEvent CAT_ROYAL_STRAY_AMBIENT = registerSound("entity.cat_royal.stray_ambient");
+    public static final SoundEvent CAT_ROYAL_HISS = registerSound("entity.cat_royal.hiss");
+    public static final SoundEvent CAT_ROYAL_HURT = registerSound("entity.cat_royal.hurt");
+    public static final SoundEvent CAT_ROYAL_DEATH = registerSound("entity.cat_royal.death");
+    public static final SoundEvent CAT_ROYAL_EAT = registerSound("entity.cat_royal.eat");
+    public static final SoundEvent CAT_ROYAL_BEG_FOR_FOOD = registerSound("entity.cat_royal.beg_for_food");
+    public static final SoundEvent CAT_ROYAL_PURR = registerSound("entity.cat_royal.purr");
+    public static final SoundEvent CAT_ROYAL_PURREOW = registerSound("entity.cat_royal.purreow");
+
+    // Note Block Events
+    public static final SoundEvent NOTE_BLOCK_TRUMPET = registerSound("block.note_block.trumpet");
+    public static final SoundEvent NOTE_BLOCK_TRUMPET_EXPOSED = registerSound("block.note_block.trumpet_exposed");
+    public static final SoundEvent NOTE_BLOCK_TRUMPET_WEATHERED = registerSound("block.note_block.trumpet_weathered");
+    public static final SoundEvent NOTE_BLOCK_TRUMPET_OXIDIZED = registerSound("block.note_block.trumpet_oxidized");
+
     // Particles
     public static final SimpleParticleType PAUSE_MOB_GROWTH = registerParticle("pause_mob_growth", false);
     public static final SimpleParticleType RESET_MOB_GROWTH = registerParticle("reset_mob_growth", false);

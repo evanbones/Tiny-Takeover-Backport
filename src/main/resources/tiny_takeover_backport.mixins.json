@@ -11,7 +11,9 @@
     "EntityMixin",
     "LivingEntityMixin",
     "MobMixin",
+    "NoteBlockMixin",
     "RabbitMixin",
+    "RabbitMoveControlMixin",
     "SquidMixin"
   ],
   "client": [
