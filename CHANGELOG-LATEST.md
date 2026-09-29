@@ -1,3 +1,4 @@
-### Fixed
+### Changed
 
-- Fixed rare service loading crash.
+- Switched to stonecutter for building.
+- 1.21 and 1.20 are now in parity.

@@ -1,0 +1,23 @@
+package com.evandev.tiny_takeover_backport.client;
+
+//? if fabric {
+/*import com.evandev.tiny_takeover_backport.client.particle.SimpleVerticalParticle;
+import com.evandev.tiny_takeover_backport.registry.ModRegistry;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+
+public class TinyTakeoverBackportClient implements ClientModInitializer {
+
+    @Override
+    public void onInitializeClient() {
+        ModClientRegistry.init();
+        ModClientRegistry.LAYER_DEFINITIONS.forEach((layer, supplier) -> {
+            EntityModelLayerRegistry.registerModelLayer(layer, supplier::get);
+        });
+
+        ParticleFactoryRegistry.getInstance().register(ModRegistry.PAUSE_MOB_GROWTH, SimpleVerticalParticle.PauseMobGrowthProvider::new);
+        ParticleFactoryRegistry.getInstance().register(ModRegistry.RESET_MOB_GROWTH, SimpleVerticalParticle.ResetMobGrowthProvider::new);
+    }
+}
+*///?}
