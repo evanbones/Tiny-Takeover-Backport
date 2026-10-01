@@ -9,6 +9,7 @@
     "CamelMixin",
     "DolphinMixin",
     "EntityMixin",
+    "GoatMixin",
     "LivingEntityMixin",
     "MobMixin",
     "NoteBlockMixin",

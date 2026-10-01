@@ -5,6 +5,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
+//? if >=1.21 {
+import net.minecraft.world.entity.EntityAttachment;
+import net.minecraft.world.entity.EntityAttachments;
+//?}
 import net.minecraft.world.entity.animal.*;
 import net.minecraft.world.entity.animal.axolotl.Axolotl;
 import net.minecraft.world.entity.animal.camel.Camel;
@@ -38,33 +42,25 @@ public abstract class LivingEntityMixin {
                 } else if (entity instanceof Fox) {
                     custom = EntityType.FOX.getDimensions().scale(0.6F);
                 } else if (entity instanceof ZombieVillager) {
-                    custom = EntityDimensions.scalable(0.49F, 0.99F);
-                } else if (entity instanceof Husk) {
-                    custom = EntityDimensions.scalable(0.49F, 0.99F);
-                } else if (entity instanceof Drowned) {
-                    custom = EntityDimensions.scalable(0.49F, 0.99F);
-                } else if (entity instanceof Zombie) {
-                    custom = EntityDimensions.scalable(0.49F, 0.99F);
-                } else if (entity instanceof ZombifiedPiglin) {
-                    custom = EntityDimensions.scalable(0.49F, 0.99F);
-                } else if (entity instanceof Piglin) {
-                    custom = EntityDimensions.scalable(0.49F, 0.99F);
+                    custom = tiny_takeover_backport$babyHumanoid(0.125F);
+                } else if (entity instanceof Zombie || entity instanceof ZombifiedPiglin || entity instanceof Piglin) {
+                    custom = tiny_takeover_backport$babyHumanoid(0.1875F);
                 } else if (entity instanceof Villager) {
                     custom = EntityDimensions.scalable(0.49F, 0.99F);
                 } else if (entity instanceof Axolotl) {
                     custom = EntityDimensions.scalable(0.5F, 0.25F);
+                } else if (entity instanceof Horse) {
+                    custom = tiny_takeover_backport$babyHorse(EntityType.HORSE, -0.125F);
+                } else if (entity instanceof SkeletonHorse) {
+                    custom = tiny_takeover_backport$babyHorse(EntityType.SKELETON_HORSE, -0.25F);
+                } else if (entity instanceof ZombieHorse) {
+                    custom = tiny_takeover_backport$babyHorse(EntityType.ZOMBIE_HORSE, -0.25F);
                 }
                 //? if <1.21 {
                 /*else if (entity instanceof Camel) {
                     custom = EntityType.CAMEL.getDimensions().scale(0.6F);
                 } else if (entity instanceof Goat) {
                     custom = EntityType.GOAT.getDimensions().scale(0.55F);
-                } else if (entity instanceof Horse) {
-                    custom = EntityType.HORSE.getDimensions().scale(0.7F);
-                } else if (entity instanceof SkeletonHorse) {
-                    custom = EntityType.SKELETON_HORSE.getDimensions().scale(0.7F);
-                } else if (entity instanceof ZombieHorse) {
-                    custom = EntityType.ZOMBIE_HORSE.getDimensions().scale(0.7F);
                 }
                 *///?}
 
@@ -74,8 +70,9 @@ public abstract class LivingEntityMixin {
                     if (eyeHeight != null) {
                         custom = custom.withEyeHeight(eyeHeight);
                     }
-                    //?}
                     cir.setReturnValue(custom.scale(entity.getScale()));
+                    //?} else
+                    //cir.setReturnValue(custom);
                 }
             }
         }
@@ -98,12 +95,17 @@ public abstract class LivingEntityMixin {
         }
     }
     //?} else {
-    /*@Inject(method = "getStandingEyeHeight", at = @At("RETURN"), cancellable = true)
+    /*@Inject(method = "getEyeHeight(Lnet/minecraft/world/entity/Pose;Lnet/minecraft/world/entity/EntityDimensions;)F", at = @At("RETURN"), cancellable = true)
     private void tiny_takeover_backport$modifyEyeHeight(Pose pose, EntityDimensions dimensions, CallbackInfoReturnable<Float> cir) {
         LivingEntity entity = (LivingEntity) (Object) this;
-        if (entity.isBaby()) {
+        if (entity.isBaby() && pose != Pose.SLEEPING) {
             if (ModConfig.get().isModelEnabled(entity)) {
                 Float eyeHeight = tiny_takeover_backport$getBabyEyeHeight(entity);
+                if (entity instanceof Dolphin) {
+                    eyeHeight = 0.195F;
+                } else if (entity instanceof Camel && pose == Pose.STANDING) {
+                    eyeHeight = 1.365F;
+                }
                 if (eyeHeight != null) {
                     cir.setReturnValue(eyeHeight);
                 }
@@ -111,6 +113,22 @@ public abstract class LivingEntityMixin {
         }
     }
     *///?}
+
+    @Unique
+    private static EntityDimensions tiny_takeover_backport$babyHumanoid(float vehicleAttachment) {
+        EntityDimensions dimensions = EntityDimensions.scalable(0.49F, 0.99F);
+        //? if >=1.21
+        dimensions = dimensions.withAttachments(EntityAttachments.builder().attach(EntityAttachment.VEHICLE, 0.0F, vehicleAttachment, 0.0F));
+        return dimensions;
+    }
+
+    @Unique
+    private static EntityDimensions tiny_takeover_backport$babyHorse(EntityType<?> type, float passengerOffset) {
+        EntityDimensions dimensions = type.getDimensions();
+        //? if >=1.21
+        dimensions = dimensions.withAttachments(EntityAttachments.builder().attach(EntityAttachment.PASSENGER, 0.0F, type.getHeight() + passengerOffset, 0.0F));
+        return dimensions.scale(0.7F);
+    }
 
     @Unique
     private static Float tiny_takeover_backport$getBabyEyeHeight(LivingEntity entity) {
