@@ -1,3 +1,3 @@
-### Fixed
+### Added
 
-- Fixed hitbox sizes on 1.20.
+- Added Jade compat for displaying paused mob growth.

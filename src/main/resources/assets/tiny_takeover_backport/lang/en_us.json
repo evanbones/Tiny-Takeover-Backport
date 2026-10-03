@@ -50,5 +50,6 @@
   "config.tiny_takeover_backport.option.enable_modded_mobs": "Apply to Modded Mobs",
   "config.tiny_takeover_backport.option.enable_modded_mobs.description": "Allows mobs from other mods that reuse vanilla models to get the new baby models. Off by default, since the new models usually don't fit modded textures.",
   "config.tiny_takeover_backport.option.model_blacklist": "Model Blacklist",
-  "config.tiny_takeover_backport.option.model_blacklist.description": "Mob IDs (e.g. minecraft:zombie or somemod:deer) that keep their original models."
+  "config.tiny_takeover_backport.option.model_blacklist.description": "Mob IDs (e.g. minecraft:zombie or somemod:deer) that keep their original models.",
+  "tiny_takeover_backport.jade.mobgrowth.paused": "Paused"
 }

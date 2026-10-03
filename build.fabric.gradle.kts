@@ -55,6 +55,9 @@ dependencies {
     // Vanilla Backport
     modCompileOnly("maven.modrinth:vanillabackport:${prop("deps.vanilla_backport")}")
     modCompileOnly("maven.modrinth:platform:${prop("deps.platform")}")
+
+    // Jade
+    modImplementation("maven.modrinth:jade:${prop("deps.jade")}")
 }
 
 loom {

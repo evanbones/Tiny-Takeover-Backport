@@ -63,6 +63,9 @@ dependencies {
     implementation("maven.modrinth:vanillabackport:${prop("deps.vanilla_backport")}")
     implementation("maven.modrinth:platform:${prop("deps.platform")}")
 
+    // Jade
+    implementation("maven.modrinth:jade:${prop("deps.jade")}")
+
     // YACL
     implementation("maven.modrinth:yacl:${prop("deps.yacl")}-neoforge")
 }

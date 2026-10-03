@@ -75,6 +75,9 @@ dependencies {
     modImplementation("maven.modrinth:vanillabackport:${prop("deps.vanilla_backport")}")
     modImplementation("maven.modrinth:platform:${prop("deps.platform")}")
 
+    // Jade
+    modImplementation("maven.modrinth:jade:${prop("deps.jade")}")
+
     // YACL
     modImplementation("maven.modrinth:yacl:${prop("deps.yacl")}-forge")
 }
