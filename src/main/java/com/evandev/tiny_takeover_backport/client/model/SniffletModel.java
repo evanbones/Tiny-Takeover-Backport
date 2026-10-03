@@ -1,9 +1,12 @@
 package com.evandev.tiny_takeover_backport.client.model;
 
+import net.minecraft.client.animation.definitions.SnifferAnimation;
 import net.minecraft.client.model.SnifferModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.world.entity.animal.sniffer.Sniffer;
+import org.jetbrains.annotations.NotNull;
 
 public class SniffletModel extends SnifferModel {
 
@@ -69,5 +72,11 @@ public class SniffletModel extends SnifferModel {
                 "left_hind_leg", CubeListBuilder.create().texOffs(16, 87).addBox(-2.0F, -1.0F, -2.0F, 4.0F, 5.0F, 4.0F), PartPose.offset(4.0F, -4.0F, 7.0F)
         );
         return LayerDefinition.create(mesh, 128, 128);
+    }
+
+    @Override
+    public void setupAnim(@NotNull Sniffer entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+        this.applyStatic(SnifferAnimation.BABY_TRANSFORM);
     }
 }

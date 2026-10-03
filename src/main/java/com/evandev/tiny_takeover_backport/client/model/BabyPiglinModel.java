@@ -6,6 +6,9 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.monster.piglin.AbstractPiglin;
+import net.minecraft.world.entity.monster.piglin.PiglinArmPose;
 import org.jetbrains.annotations.NotNull;
 
 public class BabyPiglinModel extends PiglinModel implements ModBabyArmorModel {
@@ -209,5 +212,21 @@ public class BabyPiglinModel extends PiglinModel implements ModBabyArmorModel {
         this.leftArm.setPos(4.0F, 15.0F, 0.0F);
         this.rightLeg.setPos(-1.5F, 20.0F, 0.0F);
         this.leftLeg.setPos(1.5F, 20.0F, 0.0F);
+
+        PiglinArmPose armPose = entity instanceof AbstractPiglin piglin ? piglin.getArmPose() : null;
+        if (armPose == PiglinArmPose.DANCING) {
+            float dancePos = ageInTicks / 60.0F;
+            this.head.x += Mth.sin(dancePos * 10.0F);
+            this.head.y += Mth.sin(dancePos * 40.0F) + 0.4F;
+            this.rightArm.y += Mth.sin(dancePos * 40.0F) * 0.5F - 0.5F;
+            this.leftArm.y += Mth.sin(dancePos * 40.0F) * 0.5F + 0.5F;
+            this.body.y += Mth.sin(dancePos * 40.0F) * 0.35F;
+            this.hat.copyFrom(this.head);
+        } else {
+            BabyHumanoidAnimation.animateBabyPiglinEars(this, limbSwing, limbSwingAmount, ageInTicks);
+        }
+        if (armPose != PiglinArmPose.ATTACKING_WITH_MELEE_WEAPON) {
+            BabyHumanoidAnimation.applyAttackArmOffsets(this);
+        }
     }
 }

@@ -4,11 +4,18 @@ import net.minecraft.client.model.DolphinModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.world.entity.Entity;
+import org.jetbrains.annotations.NotNull;
 
 public class BabyDolphinModel extends DolphinModel {
 
+    private final ModelPart tail;
+    private final ModelPart tailFin;
+
     public BabyDolphinModel(ModelPart root) {
         super(root);
+        this.tail = root.getChild("body").getChild("tail");
+        this.tailFin = this.tail.getChild("tail_fin");
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -55,5 +62,12 @@ public class BabyDolphinModel extends DolphinModel {
                 PartPose.offsetAndRotation(0.0F, -1.0F, -2.7F, 0.8727F, 0.0F, 0.0F)
         );
         return LayerDefinition.create(mesh, 64, 64);
+    }
+
+    @Override
+    public void setupAnim(@NotNull Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        this.tail.resetPose();
+        this.tailFin.resetPose();
+        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
     }
 }

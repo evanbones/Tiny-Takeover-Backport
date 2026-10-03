@@ -9,6 +9,7 @@ import net.minecraft.world.entity.animal.Wolf;
 import org.jetbrains.annotations.NotNull;
 
 public class BabyWolfModel<T extends Wolf> extends WolfModel<T> {
+    private final ModelPart babyHead;
     private final ModelPart babyBody;
     private final ModelPart babyRightHindLeg;
     private final ModelPart babyLeftHindLeg;
@@ -18,6 +19,7 @@ public class BabyWolfModel<T extends Wolf> extends WolfModel<T> {
 
     public BabyWolfModel(ModelPart root) {
         super(root);
+        this.babyHead = root.getChild("head");
         this.babyBody = root.getChild("body");
         this.babyRightHindLeg = root.getChild("right_hind_leg");
         this.babyLeftHindLeg = root.getChild("left_hind_leg");
@@ -77,8 +79,6 @@ public class BabyWolfModel<T extends Wolf> extends WolfModel<T> {
 
     @Override
     public void prepareMobModel(@NotNull T entity, float limbSwing, float limbSwingAmount, float partialTick) {
-        super.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTick);
-
         if (entity.isAngry()) {
             this.babyTail.yRot = 0.0F;
         } else {
@@ -116,5 +116,16 @@ public class BabyWolfModel<T extends Wolf> extends WolfModel<T> {
             this.babyRightFrontLeg.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
             this.babyLeftFrontLeg.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         }
+
+        this.babyBody.zRot = entity.getBodyRollAngle(partialTick, -0.16F);
+        this.babyHead.zRot = entity.getHeadRollAngle(partialTick) + entity.getBodyRollAngle(partialTick, 0.0F);
+        this.babyTail.zRot = entity.getBodyRollAngle(partialTick, -0.2F);
+    }
+
+    @Override
+    public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        this.babyHead.xRot = headPitch * Mth.DEG_TO_RAD;
+        this.babyHead.yRot = netHeadYaw * Mth.DEG_TO_RAD;
+        this.babyTail.xRot = ageInTicks;
     }
 }

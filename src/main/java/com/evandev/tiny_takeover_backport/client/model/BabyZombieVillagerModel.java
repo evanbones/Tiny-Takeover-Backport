@@ -58,5 +58,6 @@ public class BabyZombieVillagerModel<T extends Zombie> extends ZombieVillagerMod
         this.leftArm.setPos(3.0F, 15.5F, 0.0F);
         this.rightLeg.setPos(-1.0F, 21.5F, 0.0F);
         this.leftLeg.setPos(1.0F, 21.5F, 0.0F);
+        BabyHumanoidAnimation.applyAttackArmOffsets(this);
     }
 }

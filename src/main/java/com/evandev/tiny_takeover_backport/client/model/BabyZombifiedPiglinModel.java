@@ -26,5 +26,7 @@ public class BabyZombifiedPiglinModel<T extends Mob> extends PiglinModel<T> {
         this.leftArm.setPos(4.0F, 15.0F, 0.0F);
         this.rightLeg.setPos(-1.5F, 20.0F, 0.0F);
         this.leftLeg.setPos(1.5F, 20.0F, 0.0F);
+        BabyHumanoidAnimation.animateBabyPiglinEars(this, limbSwing, limbSwingAmount, ageInTicks);
+        BabyHumanoidAnimation.applyAttackArmOffsets(this);
     }
 }

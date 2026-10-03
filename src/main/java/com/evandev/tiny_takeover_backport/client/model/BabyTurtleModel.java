@@ -7,6 +7,9 @@ import net.minecraft.client.model.geom.builders.CubeListBuilder;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.animal.Turtle;
+import org.jetbrains.annotations.NotNull;
 
 public class BabyTurtleModel extends TurtleModel {
 
@@ -37,5 +40,39 @@ public class BabyTurtleModel extends TurtleModel {
         root.addOrReplaceChild("egg_belly", CubeListBuilder.create(), PartPose.ZERO);
 
         return LayerDefinition.create(mesh, 16, 16);
+    }
+
+    @Override
+    public void setupAnim(@NotNull Turtle entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        this.head.xRot = headPitch * Mth.DEG_TO_RAD;
+        this.head.yRot = netHeadYaw * Mth.DEG_TO_RAD;
+        this.rightHindLeg.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+        this.leftHindLeg.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
+        this.rightFrontLeg.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
+        this.leftFrontLeg.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+        this.rightHindLeg.yRot = 0.0F;
+        this.leftHindLeg.yRot = 0.0F;
+        this.rightFrontLeg.yRot = 0.0F;
+        this.leftFrontLeg.yRot = 0.0F;
+        this.rightFrontLeg.zRot = 0.0F;
+        this.leftFrontLeg.zRot = 0.0F;
+
+        if (!entity.isInWater() && entity.onGround()) {
+            float layEgg = entity.isLayingEgg() ? 4.0F : 1.0F;
+            float layEggAmplitude = entity.isLayingEgg() ? 2.0F : 1.0F;
+            float swingPos = limbSwing * 5.0F;
+            float frontSwing = Mth.cos(layEgg * swingPos);
+            float hindSwing = Mth.cos(swingPos);
+            this.rightFrontLeg.yRot = -frontSwing * 8.0F * limbSwingAmount * layEggAmplitude;
+            this.leftFrontLeg.yRot = frontSwing * 8.0F * limbSwingAmount * layEggAmplitude;
+            this.rightHindLeg.yRot = -hindSwing * 3.0F * limbSwingAmount;
+            this.leftHindLeg.yRot = hindSwing * 3.0F * limbSwingAmount;
+        } else {
+            float swing = Mth.cos(limbSwing * 0.6662F * 0.6F) * 0.5F * limbSwingAmount;
+            this.rightHindLeg.xRot = swing;
+            this.leftHindLeg.xRot = -swing;
+            this.rightFrontLeg.zRot = -swing;
+            this.leftFrontLeg.zRot = swing;
+        }
     }
 }

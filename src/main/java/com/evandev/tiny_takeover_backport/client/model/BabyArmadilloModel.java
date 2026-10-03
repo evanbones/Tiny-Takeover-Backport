@@ -91,9 +91,9 @@ public class BabyArmadilloModel extends ArmadilloModel {
         if (!entity.shouldHideInShell()) {
             this.head.xRot = Mth.clamp(headPitch, -22.5F, 25.0F) * (float) (Math.PI / 180.0);
             this.head.yRot = Mth.clamp(netHeadYaw, -32.5F, 32.5F) * (float) (Math.PI / 180.0);
+            this.animateWalk(BabyArmadilloAnimation.ARMADILLO_BABY_WALK, limbSwing, limbSwingAmount, 16.5F, 2.5F);
         }
 
-        this.animateWalk(BabyArmadilloAnimation.ARMADILLO_BABY_WALK, limbSwing, limbSwingAmount, 16.5F, 2.5F);
         this.animate(entity.rollOutAnimationState, BabyArmadilloAnimation.ARMADILLO_BABY_ROLL_OUT, ageInTicks, 1.0F);
         this.animate(entity.rollUpAnimationState, BabyArmadilloAnimation.ARMADILLO_BABY_ROLL_UP, ageInTicks, 1.0F);
         this.animate(entity.peekAnimationState, BabyArmadilloAnimation.ARMADILLO_BABY_PEEK, ageInTicks, 1.0F);

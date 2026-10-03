@@ -46,6 +46,6 @@ public class BabySheepModel extends SheepModel {
     @Override
     public void prepareMobModel(@NotNull Sheep entity, float limbSwing, float limbSwingAmount, float partialTick) {
         super.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTick);
-        this.head.y = BABY_HEAD_Y + entity.getHeadEatPositionScale(partialTick) * 2.0F;
+        this.head.y = BABY_HEAD_Y + entity.getHeadEatPositionScale(partialTick) * 9.0F * 0.5F;
     }
 }

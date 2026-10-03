@@ -14,10 +14,7 @@ public class BabyHorseModel<T extends AbstractHorse> extends HorseModel<T> {
     private final ModelPart leftHindLeg;
     private final ModelPart rightFrontLeg;
     private final ModelPart leftFrontLeg;
-    private final ModelPart rightHindBabyLeg;
-    private final ModelPart leftHindBabyLeg;
-    private final ModelPart rightFrontBabyLeg;
-    private final ModelPart leftFrontBabyLeg;
+    private float partialTick;
 
     public BabyHorseModel(ModelPart root) {
         super(root);
@@ -26,10 +23,6 @@ public class BabyHorseModel<T extends AbstractHorse> extends HorseModel<T> {
         this.leftHindLeg = root.getChild("left_hind_leg");
         this.rightFrontLeg = root.getChild("right_front_leg");
         this.leftFrontLeg = root.getChild("left_front_leg");
-        this.rightHindBabyLeg = root.getChild("right_hind_baby_leg");
-        this.leftHindBabyLeg = root.getChild("left_hind_baby_leg");
-        this.rightFrontBabyLeg = root.getChild("right_front_baby_leg");
-        this.leftFrontBabyLeg = root.getChild("left_front_baby_leg");
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -102,47 +95,57 @@ public class BabyHorseModel<T extends AbstractHorse> extends HorseModel<T> {
     }
 
     @Override
-    public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-        this.body.y = 12.5F;
+    public void prepareMobModel(@NotNull T entity, float limbSwing, float limbSwingAmount, float partialTick) {
+        this.partialTick = partialTick;
     }
 
     @Override
-    public void prepareMobModel(@NotNull T entity, float limbSwing, float limbSwingAmount, float partialTick) {
-        super.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTick);
+    public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        this.headParts.resetPose();
+        this.body.resetPose();
+        this.tail.resetPose();
+        this.rightHindLeg.resetPose();
+        this.leftHindLeg.resetPose();
+        this.rightFrontLeg.resetPose();
+        this.leftFrontLeg.resetPose();
 
-        float eatAnim = entity.getEatAnim(partialTick);
-        float standAnim = entity.getStandAnim(partialTick);
-
-        float headY = 10.0F;
-        float headZ = -6.0F;
-
-        if (eatAnim > 0.0F) {
-            headY = Mth.lerp(eatAnim, headY, 12.0F);
-        } else if (standAnim > 0.0F) {
-            headY = Mth.lerp(standAnim, headY, 8.0F);
-            headZ = Mth.lerp(standAnim, headZ, -4.0F);
+        float clampedYRot = Mth.clamp(netHeadYaw, -20.0F, 20.0F);
+        float headRotXRad = headPitch * Mth.DEG_TO_RAD;
+        if (limbSwingAmount > 0.2F) {
+            headRotXRad += Mth.cos(limbSwing * 0.8F) * 0.15F * limbSwingAmount;
         }
 
-        this.headParts.y = headY;
-        this.headParts.z = headZ;
-        this.body.y = 12.5F;
-
-        this.tail.setPos(0.0F, -1.0F, 7.0F);
-        this.tail.xRot = -0.7418F + limbSwingAmount * 0.75F;
-        this.leftFrontLeg.y = 16.0F - 4.0F * standAnim;
-        this.leftFrontLeg.z = -5.4F;
+        float eating = entity.getEatAnim(this.partialTick);
+        float standing = entity.getStandAnim(this.partialTick);
+        float iStanding = 1.0F - standing;
+        float feedingAnim = entity.getMouthAnim(this.partialTick);
+        this.headParts.xRot = (float) (Math.PI / 6) + headRotXRad;
+        this.headParts.yRot = clampedYRot * Mth.DEG_TO_RAD;
+        float waterMultiplier = entity.isInWater() ? 0.2F : 1.0F;
+        float legAnim1 = Mth.cos(waterMultiplier * limbSwing * 0.6662F + (float) Math.PI);
+        float legXRotAnim = legAnim1 * 0.8F * limbSwingAmount;
+        float baseHeadAngle = (1.0F - Math.max(standing, eating)) * ((float) (Math.PI / 6) + headRotXRad + feedingAnim * Mth.sin(ageInTicks) * 0.05F);
+        this.headParts.xRot = standing * ((float) (Math.PI / 12) + headRotXRad) + eating * (2.1816616F + Mth.sin(ageInTicks) * 0.05F) + baseHeadAngle;
+        this.headParts.yRot = standing * clampedYRot * Mth.DEG_TO_RAD + (1.0F - Math.max(standing, eating)) * this.headParts.yRot;
+        this.headParts.y = this.headParts.y + Mth.lerp(eating, Mth.lerp(standing, 0.0F, -2.0F), 2.0F);
+        this.headParts.z = Mth.lerp(standing, this.headParts.z, -4.0F);
+        this.body.xRot = standing * (float) (-Math.PI / 4) + iStanding * this.body.xRot;
+        this.leftFrontLeg.y = this.leftFrontLeg.y - 4.0F * standing;
         this.rightFrontLeg.y = this.leftFrontLeg.y;
-        this.rightFrontLeg.z = -5.4F;
-
-        this.rightHindLeg.visible = true;
-        this.leftHindLeg.visible = true;
-        this.rightFrontLeg.visible = true;
-        this.leftFrontLeg.visible = true;
-        this.rightHindBabyLeg.visible = false;
-        this.leftHindBabyLeg.visible = false;
-        this.rightFrontBabyLeg.visible = false;
-        this.leftFrontBabyLeg.visible = false;
+        this.rightFrontLeg.z = this.leftFrontLeg.z;
+        float standAngle = (float) (Math.PI / 12) * standing;
+        float bobValue = Mth.cos(ageInTicks * 0.6F + (float) Math.PI);
+        float legStandingXRotOffset = (float) (-Math.PI / 3);
+        float rlegRot = (legStandingXRotOffset + bobValue) * standing + legXRotAnim * iStanding;
+        float llegRot = (legStandingXRotOffset - bobValue) * standing - legXRotAnim * iStanding;
+        this.leftHindLeg.xRot = standAngle - legAnim1 * 0.5F * limbSwingAmount * iStanding;
+        this.rightHindLeg.xRot = standAngle + legAnim1 * 0.5F * limbSwingAmount * iStanding;
+        this.leftFrontLeg.xRot = rlegRot;
+        this.rightFrontLeg.xRot = llegRot;
+        float ageScale = 0.5F;
+        this.tail.xRot = (float) (-Math.PI / 2) + (float) (Math.PI / 6) + limbSwingAmount * 0.75F;
+        this.tail.y += limbSwingAmount * ageScale;
+        this.tail.z += limbSwingAmount * 2.0F * ageScale;
+        this.tail.yRot = entity.tailCounter > 0 ? Mth.cos(ageInTicks * 0.7F) : 0.0F;
     }
-
 }

@@ -31,5 +31,6 @@ public class BabyDrownedModel<T extends Drowned> extends DrownedModel<T> {
         this.leftArm.setPos(3.0F, 15.5F, 0.0F);
         this.rightLeg.setPos(-1.0F, 20.0F, 0.0F);
         this.leftLeg.setPos(1.0F, 20.0F, 0.0F);
+        BabyHumanoidAnimation.applyAttackArmOffsets(this);
     }
 }

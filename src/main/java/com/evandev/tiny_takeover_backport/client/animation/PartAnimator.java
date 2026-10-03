@@ -19,7 +19,17 @@ public class PartAnimator {
         state.ifStarted(s -> apply(parts, definition, s.getAccumulatedTime()));
     }
 
+    public static void applyWalk(Map<String, ModelPart> parts, AnimationDefinition definition, float animationPos, float animationSpeed, float speedFactor, float scaleFactor) {
+        long time = (long) (animationPos * 50.0F * speedFactor);
+        float scale = Math.min(animationSpeed * scaleFactor, 1.0F);
+        apply(parts, definition, time, scale);
+    }
+
     public static void apply(Map<String, ModelPart> parts, AnimationDefinition definition, long accumulatedTime) {
+        apply(parts, definition, accumulatedTime, 1.0F);
+    }
+
+    public static void apply(Map<String, ModelPart> parts, AnimationDefinition definition, long accumulatedTime, float targetScale) {
         float seconds = accumulatedTime / 1000.0F;
         float elapsed = definition.looping() ? seconds % definition.lengthInSeconds() : seconds;
 
@@ -33,7 +43,7 @@ public class PartAnimator {
                 Keyframe from = keyframes[current];
                 Keyframe to = keyframes[next];
                 float alpha = next != current ? Mth.clamp((elapsed - from.timestamp()) / (to.timestamp() - from.timestamp()), 0.0F, 1.0F) : 0.0F;
-                to.interpolation().apply(CACHE, alpha, keyframes, current, next, 1.0F);
+                to.interpolation().apply(CACHE, alpha, keyframes, current, next, targetScale);
                 channel.target().apply(part, CACHE);
             }
         }

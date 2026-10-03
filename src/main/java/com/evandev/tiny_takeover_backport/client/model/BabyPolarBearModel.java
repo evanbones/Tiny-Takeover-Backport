@@ -57,17 +57,17 @@ public class BabyPolarBearModel extends PolarBearModel {
         float f = ageInTicks - (float) entity.tickCount;
         float standScale = entity.getStandingAnimationScale(f);
         standScale *= standScale;
-        float normalScale = 1.0F - standScale;
+        float bodyAgeScale = 0.5F;
 
         this.body.xRot -= (float) Math.PI / 2F;
-        this.body.y = 17.5F * normalScale + 18.5F * standScale;
+        this.body.y = 17.5F + standScale * bodyAgeScale * 2.0F;
 
-        this.rightFrontLeg.y = 21.5F * normalScale + 15.0F * standScale;
-        this.rightFrontLeg.z = -4.5F * normalScale + -2.5F * standScale;
+        this.rightFrontLeg.y = 21.5F - standScale * bodyAgeScale * 20.0F;
+        this.rightFrontLeg.z = -4.5F + standScale * bodyAgeScale * 4.0F;
         this.leftFrontLeg.y = this.rightFrontLeg.y;
         this.leftFrontLeg.z = this.rightFrontLeg.z;
 
-        this.head.y = 18.625F * normalScale + 12.0F * standScale;
-        this.head.z = -5.75F * normalScale - 2.0F * standScale;
+        this.head.y = 18.625F - standScale * 24.0F;
+        this.head.z = -5.75F + standScale * 13.0F;
     }
 }

@@ -6,6 +6,7 @@
   "mixins": [
     "AgeableMobMixin",
     "AnimalMixin",
+    "AxolotlMixin",
     "CamelMixin",
     "DolphinMixin",
     "EntityMixin",
@@ -20,6 +21,7 @@
   "client": [
     "client.CatCollarLayerMixin",
     "client.DrownedOuterLayerMixin",
+    "client.FoxHeldItemLayerMixin",
     "client.HorseMarkingLayerMixin",
     "client.HumanoidArmorLayerMixin",
     "client.ItemInHandLayerMixin",

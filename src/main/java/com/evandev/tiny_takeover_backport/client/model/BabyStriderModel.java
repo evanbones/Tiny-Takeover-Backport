@@ -81,7 +81,7 @@ public class BabyStriderModel extends StriderModel {
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 
         limbSwingAmount = Math.min(0.25F, limbSwingAmount);
-        this.body.y = BABY_BODY_Y - 2.0F * Mth.cos(limbSwing * 1.5F) * 2.0F * limbSwingAmount;
+        this.body.y = 17.25F - 1.0F * Mth.cos(limbSwing * 1.5F) * 2.0F * limbSwingAmount;
         this.leftLeg.y = BABY_LEG_Y + 2.0F * Mth.sin(limbSwing * 1.5F * 0.5F + (float) Math.PI) * 2.0F * limbSwingAmount;
         this.rightLeg.y = BABY_LEG_Y + 2.0F * Mth.sin(limbSwing * 1.5F * 0.5F) * 2.0F * limbSwingAmount;
 

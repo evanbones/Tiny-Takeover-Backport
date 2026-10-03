@@ -72,5 +72,8 @@ public class BabyGoatModel extends GoatModel {
         super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
         this.head.getChild("left_horn").visible = true;
         this.head.getChild("right_horn").visible = true;
+        if (entity.getRammingXHeadRot() == 0.0F) {
+            this.head.xRot = (float) (Math.PI / 8);
+        }
     }
 }

@@ -1,11 +1,16 @@
 package com.evandev.tiny_takeover_backport.client.model;
 
+import com.evandev.tiny_takeover_backport.client.animation.FoxBabyAnimation;
+import com.evandev.tiny_takeover_backport.client.animation.PartAnimator;
 import net.minecraft.client.model.FoxModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.animal.Fox;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Map;
 
 public class BabyFoxModel<T extends Fox> extends FoxModel<T> {
 
@@ -15,6 +20,9 @@ public class BabyFoxModel<T extends Fox> extends FoxModel<T> {
     private final ModelPart rightFrontLeg;
     private final ModelPart leftFrontLeg;
     private final ModelPart tail;
+    private final Map<String, ModelPart> animatedParts;
+    private float partialTick;
+    private float legMotionPos;
 
     public BabyFoxModel(ModelPart root) {
         super(root);
@@ -24,6 +32,11 @@ public class BabyFoxModel<T extends Fox> extends FoxModel<T> {
         this.rightFrontLeg = root.getChild("right_front_leg");
         this.leftFrontLeg = root.getChild("left_front_leg");
         this.tail = this.body.getChild("tail");
+        this.animatedParts = Map.of(
+                "head", this.head, "body", this.body, "tail", this.tail,
+                "right_hind_leg", this.rightHindLeg, "left_hind_leg", this.leftHindLeg,
+                "right_front_leg", this.rightFrontLeg, "left_front_leg", this.leftFrontLeg
+        );
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -77,35 +90,48 @@ public class BabyFoxModel<T extends Fox> extends FoxModel<T> {
 
     @Override
     public void prepareMobModel(@NotNull T entity, float limbSwing, float limbSwingAmount, float partialTick) {
-        super.prepareMobModel(entity, limbSwing, limbSwingAmount, partialTick);
+        this.partialTick = partialTick;
+    }
 
-        this.body.setPos(0.0F, 20.0F, 2.0F);
-        this.body.xRot = 0.0F;
-        this.body.zRot = 0.0F;
-        this.head.setPos(0.0F, 18.125F, 0.125F);
-        this.head.yRot = 0.0F;
+    @Override
+    public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        for (ModelPart part : this.animatedParts.values()) {
+            part.resetPose();
+        }
 
-        this.rightHindLeg.setPos(-1.5F, 22.0F, 4.0F);
-        this.leftHindLeg.setPos(1.5F, 22.0F, 4.0F);
-        this.rightFrontLeg.setPos(-1.5F, 22.0F, 0.0F);
-        this.leftFrontLeg.setPos(1.5F, 22.0F, 0.0F);
+        float ageScale = 0.5F;
+        boolean isCrouching = entity.isCrouching();
+        boolean isSleeping = entity.isSleeping();
+        boolean isFaceplanted = entity.isFaceplanted();
+
+        this.head.zRot = entity.getHeadRollAngle(this.partialTick);
         this.rightHindLeg.visible = true;
         this.leftHindLeg.visible = true;
         this.rightFrontLeg.visible = true;
         this.leftFrontLeg.visible = true;
-        this.tail.setPos(0.0F, -0.5F, 3.0F);
-        this.tail.xRot = -0.05235988F;
+        PartAnimator.applyWalk(this.animatedParts, FoxBabyAnimation.FOX_BABY_WALK, limbSwing, limbSwingAmount, 1.0F, 2.5F);
 
-        if (entity.isCrouching()) {
-            this.body.y += entity.getCrouchAmount(partialTick) / 6.0F;
-            this.head.y += entity.getCrouchAmount(partialTick) / 6.0F;
-            this.body.xRot = 0.10471976F;
-        } else if (entity.isSleeping()) {
+        if (isCrouching) {
+            float crouchAmount = entity.getCrouchAmount(this.partialTick);
+            this.body.xRot += 0.10471976F;
+            this.head.y += crouchAmount * ageScale;
+            float wiggleAmount = Mth.cos(ageInTicks) * 0.05F;
+            this.body.yRot = wiggleAmount;
+            this.rightHindLeg.zRot = wiggleAmount;
+            this.leftHindLeg.zRot = wiggleAmount;
+            this.rightFrontLeg.zRot = wiggleAmount / 2.0F;
+            this.leftFrontLeg.zRot = wiggleAmount / 2.0F;
+            this.body.y += crouchAmount / 6.0F;
+        } else if (isSleeping) {
+            this.rightHindLeg.visible = false;
+            this.leftHindLeg.visible = false;
+            this.rightFrontLeg.visible = false;
+            this.leftFrontLeg.visible = false;
             this.body.zRot = (float) (-Math.PI / 2);
             this.body.xRot = (float) (-Math.PI / 18);
-            this.body.y += 1.0F;
-            this.body.z -= 1.0F;
-            this.body.x -= 1.0F;
+            this.body.y++;
+            this.body.z--;
+            this.body.x--;
             this.tail.xRot = -2.1816616F;
             this.tail.x -= 0.7F;
             this.tail.z += 0.6F;
@@ -115,29 +141,45 @@ public class BabyFoxModel<T extends Fox> extends FoxModel<T> {
             this.head.z -= 4.0F;
             this.head.yRot = (float) (-Math.PI * 2.0 / 3.0);
             this.head.zRot = 0.0F;
-            this.rightHindLeg.visible = false;
-            this.leftHindLeg.visible = false;
-            this.rightFrontLeg.visible = false;
-            this.leftFrontLeg.visible = false;
         } else if (entity.isSitting()) {
+            this.head.xRot = 0.0F;
+            this.head.yRot = 0.0F;
             this.body.xRot = -0.959931F;
-            this.body.z -= 2.25F;
-            this.body.y += 1.5F;
+            this.body.z -= 4.5F * ageScale;
+            this.body.y += 3.0F * ageScale;
             this.tail.y -= 0.6F;
-            this.tail.z -= 1.0F;
+            this.tail.z -= 2.0F * ageScale;
             this.tail.xRot = 0.95993114F;
             this.head.y -= 0.75F;
-            this.head.xRot = 0.0F;
             this.rightFrontLeg.xRot = (float) (-Math.PI / 12);
             this.leftFrontLeg.xRot = (float) (-Math.PI / 12);
-            this.rightFrontLeg.z -= 1.0F;
-            this.leftFrontLeg.z -= 1.0F;
+            this.rightFrontLeg.z--;
+            this.leftFrontLeg.z--;
             this.rightFrontLeg.x += 0.01F;
             this.leftFrontLeg.x -= 0.01F;
             this.rightHindLeg.z -= 3.75F;
             this.leftHindLeg.z -= 3.75F;
             this.rightHindLeg.x += 0.01F;
             this.leftHindLeg.x -= 0.01F;
+        }
+
+        if (!isSleeping && !isFaceplanted && !isCrouching) {
+            this.head.xRot = headPitch * Mth.DEG_TO_RAD;
+            this.head.yRot = netHeadYaw * Mth.DEG_TO_RAD;
+        }
+
+        if (isSleeping) {
+            this.head.xRot = 0.0F;
+            this.head.yRot = (float) (-Math.PI * 2.0 / 3.0);
+            this.head.zRot = Mth.cos(ageInTicks * 0.027F) / 22.0F;
+        }
+
+        if (isFaceplanted) {
+            this.legMotionPos += 0.67F;
+            this.rightHindLeg.xRot = Mth.cos(this.legMotionPos * 0.4662F) * 0.1F;
+            this.leftHindLeg.xRot = Mth.cos(this.legMotionPos * 0.4662F + (float) Math.PI) * 0.1F;
+            this.rightFrontLeg.xRot = Mth.cos(this.legMotionPos * 0.4662F + (float) Math.PI) * 0.1F;
+            this.leftFrontLeg.xRot = Mth.cos(this.legMotionPos * 0.4662F) * 0.1F;
         }
     }
 }
