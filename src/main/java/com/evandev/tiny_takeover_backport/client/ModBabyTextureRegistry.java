@@ -12,6 +12,20 @@ public class ModBabyTextureRegistry {
         return path.substring("textures/entity/rabbit/".length(), path.length() - 4);
     }
 
+    public static ResourceLocation getVariantBabyTexture(ResourceLocation texture) {
+        return switch (texture.toString()) {
+            case "mixed_litter:textures/entity/squid.png" ->
+                    Constants.vanillaLocation("textures/entity/squid/squid_baby.png");
+            case "mixed_litter:textures/entity/glow_squid.png" ->
+                    Constants.location(Constants.MOD_ID, "textures/entity/squid/glow_squid_baby.png");
+            case "nomansland:textures/entity/mob_variants/squid/squid_deep.png" ->
+                    Constants.location(Constants.MOD_ID, "textures/entity/squid/squid_deep_baby.png");
+            case "nomansland:textures/entity/mob_variants/dolphin/river_dolphin.png" ->
+                    Constants.location(Constants.MOD_ID, "textures/entity/dolphin/river_dolphin_baby.png");
+            default -> texture;
+        };
+    }
+
     public static ResourceLocation getBabyTexture(LivingEntity entity, ResourceLocation original) {
         if (!original.getNamespace().equals("minecraft")) {
             return original;

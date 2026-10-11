@@ -103,12 +103,43 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
         original.call(model, value);
     }
 
+    @Unique
+    private boolean tiny_takeover_backport$usesBabyModel(T entity) {
+        return entity.isBaby() && this.tiny_takeover_backport$babyModel != null && ModConfig.get().isModelEnabled(entity);
+    }
+
+    @WrapOperation(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/LivingEntityRenderer;getRenderType(Lnet/minecraft/world/entity/LivingEntity;ZZZ)Lnet/minecraft/client/renderer/RenderType;"))
+    private RenderType keepBabyModel(LivingEntityRenderer<T, M> renderer, T entity, boolean bodyVisible, boolean translucent, boolean glowing, Operation<RenderType> original) {
+        M babyModel = this.model;
+        RenderType renderType = original.call(renderer, entity, bodyVisible, translucent, glowing);
+        if (this.tiny_takeover_backport$usesBabyModel(entity)) {
+            this.model = babyModel;
+        }
+        return renderType;
+    }
+
     @WrapOperation(method = "getRenderType", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/model/EntityModel;renderType(Lnet/minecraft/resources/ResourceLocation;)Lnet/minecraft/client/renderer/RenderType;"))
-    private RenderType wrapModelRenderType(EntityModel<?> model, ResourceLocation texture, Operation<RenderType> original) {
+    private RenderType wrapModelRenderType(EntityModel<?> model, ResourceLocation texture, Operation<RenderType> original, T entity) {
+        if (this.tiny_takeover_backport$usesBabyModel(entity)) {
+            model = this.tiny_takeover_backport$babyModel;
+            texture = ModBabyTextureRegistry.getVariantBabyTexture(texture);
+        }
         if (model instanceof BabyTurtleModel) {
             return RenderType.entityCutout(texture);
         }
         return original.call(model, texture);
+    }
+
+    @WrapOperation(method = "getRenderType", at = {
+            @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;itemEntityTranslucentCull(Lnet/minecraft/resources/ResourceLocation;)Lnet/minecraft/client/renderer/RenderType;"),
+            @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/RenderType;outline(Lnet/minecraft/resources/ResourceLocation;)Lnet/minecraft/client/renderer/RenderType;")
+    })
+    private RenderType wrapVariantRenderType(ResourceLocation texture, Operation<RenderType> original, T entity) {
+        if (this.tiny_takeover_backport$usesBabyModel(entity)) {
+            texture = ModBabyTextureRegistry.getVariantBabyTexture(texture);
+        }
+        return original.call(texture);
     }
 
     @ModifyConstant(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",

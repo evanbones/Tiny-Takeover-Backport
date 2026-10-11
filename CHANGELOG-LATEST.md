@@ -1,3 +1,3 @@
-### Fixed
+### Added
 
-- Fixed further issues with Upgrade Aquatic.
+- Added baby squid, glow squid, and dolphin variant textures with No Man's Land installed.
