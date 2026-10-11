@@ -14,6 +14,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -28,6 +30,10 @@ import com.evandev.tiny_takeover_backport.entity.AgeLockable;
 
 @Mixin(Dolphin.class)
 public abstract class DolphinMixin extends WaterAnimal implements ModifiableBaby {
+
+    @Unique
+    private static final EntityDataAccessor<Boolean> tiny_takeover_backport$BABY_ID =
+            ModEntityData.DOLPHIN_BABY_ID = SynchedEntityData.defineId(Dolphin.class, EntityDataSerializers.BOOLEAN);
 
     protected DolphinMixin(EntityType<? extends WaterAnimal> entityType, Level level) {
         super(entityType, level);

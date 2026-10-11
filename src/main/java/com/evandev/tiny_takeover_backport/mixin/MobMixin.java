@@ -17,6 +17,7 @@ import net.minecraft.world.entity.animal.Squid;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SpawnEggItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -99,10 +100,16 @@ public abstract class MobMixin implements AgeLockable, SoundVariantHolder {
         if (this.tiny_takeover_backport$soundVariant != null) {
             tag.putString("sound_variant", this.tiny_takeover_backport$soundVariant);
         }
+        if ((Object) this instanceof Squid squid) {
+            tag.putBoolean("IsBaby", squid.isBaby());
+        }
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     private void readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
+        if ((Object) this instanceof Squid) {
+            ((ModifiableBaby) this).tiny_takeover_backport$setBaby(tag.getBoolean("IsBaby"));
+        }
         this.tiny_takeover_backport$setAgeLocked(tag.getBoolean("AgeLocked"));
         if (tag.contains("Age")) {
             this.tiny_takeover_backport$age = tag.getInt("Age");
@@ -147,6 +154,32 @@ public abstract class MobMixin implements AgeLockable, SoundVariantHolder {
     private void tiny_takeover_backport$handleInteractions(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         Mob mob = (Mob) (Object) this;
         ItemStack itemStack = player.getItemInHand(hand);
+
+        if (mob instanceof Squid && ModConfig.get().spawnBabySquid) {
+            //? if >=1.21 {
+            boolean spawnsSquid = itemStack.getItem() instanceof SpawnEggItem egg && egg.spawnsEntity(itemStack, mob.getType());
+            //?} else
+            //boolean spawnsSquid = itemStack.getItem() instanceof SpawnEggItem egg && egg.spawnsEntity(itemStack.getTag(), mob.getType());
+            if (spawnsSquid) {
+                if (!mob.level().isClientSide()) {
+                    Mob babySquid = (Mob) mob.getType().create(mob.level());
+                    if (babySquid != null) {
+                        ((ModifiableBaby) babySquid).tiny_takeover_backport$setBaby(true);
+                        babySquid.moveTo(mob.getX(), mob.getY(), mob.getZ(), 0.0F, 0.0F);
+                        mob.level().addFreshEntity(babySquid);
+                        if (!player.getAbilities().instabuild) {
+                            itemStack.shrink(1);
+                        }
+                    }
+                }
+                //? if >=1.21 {
+                cir.setReturnValue(InteractionResult.SUCCESS);
+                //?} else {
+                //cir.setReturnValue(InteractionResult.sidedSuccess(mob.level().isClientSide()));
+                //?}
+                return;
+            }
+        }
 
         if ((mob instanceof AgeableMob || mob instanceof Dolphin || mob instanceof Squid) && mob instanceof AgeLockable lockable) {
             if (mob instanceof Villager) return;
