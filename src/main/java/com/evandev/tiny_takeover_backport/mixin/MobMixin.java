@@ -147,36 +147,29 @@ public abstract class MobMixin implements AgeLockable, SoundVariantHolder {
         }
     }
 
-    //? if >=1.21 {
     @Inject(method = "interact", at = @At("HEAD"), cancellable = true)
-            //?} else
-    //@Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
     private void tiny_takeover_backport$handleInteractions(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         Mob mob = (Mob) (Object) this;
         ItemStack itemStack = player.getItemInHand(hand);
 
-        if (mob instanceof Squid && ModConfig.get().spawnBabySquid) {
+        if ((mob instanceof Squid && ModConfig.get().spawnBabySquid) || (mob instanceof Dolphin && ModConfig.get().spawnBabyDolphin)) {
             //? if >=1.21 {
-            boolean spawnsSquid = itemStack.getItem() instanceof SpawnEggItem egg && egg.spawnsEntity(itemStack, mob.getType());
+            boolean spawnsSelf = itemStack.getItem() instanceof SpawnEggItem egg && egg.spawnsEntity(itemStack, mob.getType());
             //?} else
-            //boolean spawnsSquid = itemStack.getItem() instanceof SpawnEggItem egg && egg.spawnsEntity(itemStack.getTag(), mob.getType());
-            if (spawnsSquid) {
+            //boolean spawnsSelf = itemStack.getItem() instanceof SpawnEggItem egg && egg.spawnsEntity(itemStack.getTag(), mob.getType());
+            if (spawnsSelf) {
                 if (!mob.level().isClientSide()) {
-                    Mob babySquid = (Mob) mob.getType().create(mob.level());
-                    if (babySquid != null) {
-                        ((ModifiableBaby) babySquid).tiny_takeover_backport$setBaby(true);
-                        babySquid.moveTo(mob.getX(), mob.getY(), mob.getZ(), 0.0F, 0.0F);
-                        mob.level().addFreshEntity(babySquid);
+                    Mob baby = (Mob) mob.getType().create(mob.level());
+                    if (baby != null) {
+                        ((ModifiableBaby) baby).tiny_takeover_backport$setBaby(true);
+                        baby.moveTo(mob.getX(), mob.getY(), mob.getZ(), 0.0F, 0.0F);
+                        mob.level().addFreshEntity(baby);
                         if (!player.getAbilities().instabuild) {
                             itemStack.shrink(1);
                         }
                     }
                 }
-                //? if >=1.21 {
                 cir.setReturnValue(InteractionResult.SUCCESS);
-                //?} else {
-                //cir.setReturnValue(InteractionResult.sidedSuccess(mob.level().isClientSide()));
-                //?}
                 return;
             }
         }

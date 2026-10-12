@@ -1,6 +1,5 @@
 package com.evandev.tiny_takeover_backport.mixin;
 
-import com.evandev.tiny_takeover_backport.config.ModConfig;
 import com.evandev.tiny_takeover_backport.entity.ModEntityData;
 import com.evandev.tiny_takeover_backport.entity.ModifiableBaby;
 import net.minecraft.nbt.CompoundTag;
@@ -11,7 +10,6 @@ import net.minecraft.world.entity.animal.Dolphin;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -80,28 +78,8 @@ public abstract class DolphinMixin extends WaterAnimal implements ModifiableBaby
 
     @Inject(method = "mobInteract", at = @At("HEAD"), cancellable = true)
     private void tiny_takeover_backport$mobInteract(Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
-        if (!ModConfig.get().spawnBabyDolphin) return;
         Dolphin dolphin = (Dolphin) (Object) this;
         ItemStack itemstack = player.getItemInHand(hand);
-
-        //? if >=1.21 {
-        if (itemstack.getItem() instanceof SpawnEggItem egg && egg.spawnsEntity(itemstack, dolphin.getType())) {
-        //?} else
-        //if (itemstack.getItem() instanceof SpawnEggItem egg && egg.spawnsEntity(itemstack.getTag(), dolphin.getType())) {
-            if (!dolphin.level().isClientSide()) {
-                Dolphin babyDolphin = EntityType.DOLPHIN.create(dolphin.level());
-                if (babyDolphin != null) {
-                    ((ModifiableBaby) babyDolphin).tiny_takeover_backport$setBaby(true);
-                    babyDolphin.moveTo(dolphin.getX(), dolphin.getY(), dolphin.getZ(), 0.0F, 0.0F);
-                    dolphin.level().addFreshEntity(babyDolphin);
-                    if (!player.getAbilities().instabuild) {
-                        itemstack.shrink(1);
-                    }
-                }
-            }
-            cir.setReturnValue(InteractionResult.sidedSuccess(dolphin.level().isClientSide()));
-            return;
-        }
 
         if (itemstack.is(ItemTags.FISHES) && this.isBaby()) {
             if (((AgeLockable) this).tiny_takeover_backport$isAgeLocked()) {
