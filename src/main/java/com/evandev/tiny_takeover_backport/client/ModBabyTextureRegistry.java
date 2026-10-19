@@ -22,6 +22,8 @@ public class ModBabyTextureRegistry {
                     Constants.location(Constants.MOD_ID, "textures/entity/squid/squid_deep_baby.png");
             case "nomansland:textures/entity/mob_variants/dolphin/river_dolphin.png" ->
                     Constants.location(Constants.MOD_ID, "textures/entity/dolphin/river_dolphin_baby.png");
+            case "vanillabackport:textures/entity/horse/horse_zombie.png" ->
+                    Constants.vanillaLocation("textures/entity/horse/horse_zombie_baby.png");
             default -> texture;
         };
     }

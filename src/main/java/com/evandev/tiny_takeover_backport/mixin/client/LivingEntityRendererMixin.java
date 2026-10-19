@@ -3,6 +3,7 @@ package com.evandev.tiny_takeover_backport.mixin.client;
 import com.evandev.tiny_takeover_backport.client.ModBabyModelRegistry;
 import com.evandev.tiny_takeover_backport.client.ModBabyTextureRegistry;
 import com.evandev.tiny_takeover_backport.client.ModRenderHelper;
+import com.evandev.tiny_takeover_backport.client.model.BabyArmadilloModel;
 import com.evandev.tiny_takeover_backport.client.model.BabyTurtleModel;
 import com.evandev.tiny_takeover_backport.config.ModConfig;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
@@ -125,7 +126,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
             model = this.tiny_takeover_backport$babyModel;
             texture = ModBabyTextureRegistry.getVariantBabyTexture(texture);
         }
-        if (model instanceof BabyTurtleModel) {
+        if (model instanceof BabyTurtleModel || model instanceof BabyArmadilloModel) {
             return RenderType.entityCutout(texture);
         }
         return original.call(model, texture);
