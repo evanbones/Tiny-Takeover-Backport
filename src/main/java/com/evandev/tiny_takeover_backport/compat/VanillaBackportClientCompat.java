@@ -1,7 +1,7 @@
 package com.evandev.tiny_takeover_backport.compat;
 
 //? if <1.21 {
-/*import com.blackgear.vanillabackport.client.level.entities.model.ArmadilloModel;
+/*import com.blackgear.vanillabackport.client.level.model.entity.ArmadilloModel;
 import com.evandev.tiny_takeover_backport.client.ModClientRegistry;
 import com.evandev.tiny_takeover_backport.client.ModModelLayers;
 import com.evandev.tiny_takeover_backport.client.model.BabyArmadilloModel;

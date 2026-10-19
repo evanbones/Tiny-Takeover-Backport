@@ -1,5 +1,3 @@
 ### Fixed
 
-- Fixed baby Armadillo texture.
-- Fixed baby zombie horse texture with Vanilla Backport.
-- Updated to most recent Vanilla Backport version.
+- Actually fixed baby Armadillo texture on 1.20.

@@ -5,8 +5,8 @@ import com.evandev.tiny_takeover_backport.client.animation.BabyArmadilloAnimatio
 import net.minecraft.client.model.ArmadilloModel;
 import net.minecraft.world.entity.animal.armadillo.Armadillo;
 //?} else {
-/*import com.blackgear.vanillabackport.client.level.entities.model.ArmadilloModel;
-import com.blackgear.vanillabackport.common.level.entities.armadillo.Armadillo;
+/*import com.blackgear.vanillabackport.client.level.model.entity.ArmadilloModel;
+import com.blackgear.vanillabackport.common.level.entities.mob.animal.armadillo.Armadillo;
 *///?}
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
