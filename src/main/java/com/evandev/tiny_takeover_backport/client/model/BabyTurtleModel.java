@@ -11,7 +11,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.animal.Turtle;
 import org.jetbrains.annotations.NotNull;
 
-public class BabyTurtleModel extends TurtleModel {
+public class BabyTurtleModel extends TurtleModel implements CutoutBabyModel {
 
     public BabyTurtleModel(ModelPart root) {
         super(root);

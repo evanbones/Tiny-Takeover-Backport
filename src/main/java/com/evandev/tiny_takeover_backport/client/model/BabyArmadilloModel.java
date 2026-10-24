@@ -14,7 +14,7 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 
-public class BabyArmadilloModel extends ArmadilloModel {
+public class BabyArmadilloModel extends ArmadilloModel implements CutoutBabyModel {
     private final ModelPart body;
     private final ModelPart head;
 

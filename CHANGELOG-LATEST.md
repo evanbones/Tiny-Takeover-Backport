@@ -1,3 +1,3 @@
 ### Fixed
 
-- Actually fixed baby Armadillo texture on 1.20.
+- Fixed crash when rendering baby mobs on 1.20.1 without Vanilla Backport installed.
