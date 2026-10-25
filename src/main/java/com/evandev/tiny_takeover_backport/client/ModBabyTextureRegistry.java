@@ -4,10 +4,60 @@ import com.evandev.tiny_takeover_backport.Constants;
 import com.evandev.tiny_takeover_backport.Platform;
 import com.evandev.tiny_takeover_backport.compat.VanillaBackportCompat;
 import com.evandev.tiny_takeover_backport.config.ModConfig;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class ModBabyTextureRegistry {
+    private static final String ENTITY_TEXTURES = "textures/entity/";
+    private static final Map<ResourceLocation, Boolean> TEXTURE_EXISTS = new ConcurrentHashMap<>();
+
+    public static void clearTextureCache() {
+        TEXTURE_EXISTS.clear();
+    }
+
+    private static boolean textureExists(ResourceLocation texture) {
+        return TEXTURE_EXISTS.computeIfAbsent(texture,
+                t -> Minecraft.getInstance().getResourceManager().getResource(t).isPresent());
+    }
+
+    private static ResourceLocation getCompatTexture(ResourceLocation texture, String suffix) {
+        String namespace = texture.getNamespace();
+        String path = texture.getPath();
+        if (namespace.equals("minecraft") || namespace.equals(Constants.MOD_ID)
+                || !path.startsWith(ENTITY_TEXTURES) || !path.endsWith(".png")) {
+            return null;
+        }
+        ResourceLocation compat = Constants.location(Constants.MOD_ID, ENTITY_TEXTURES + "compat/" + namespace + "/"
+                + path.substring(ENTITY_TEXTURES.length(), path.length() - 4) + suffix + ".png");
+        return textureExists(compat) ? compat : null;
+    }
+
+    public static ResourceLocation getVariantAdultTexture(ResourceLocation texture) {
+        ResourceLocation compat = getCompatTexture(texture, "_adult");
+        return compat != null ? compat : texture;
+    }
+
+    public static boolean hasAdultTexture(ResourceLocation texture) {
+        return texture.getNamespace().equals("minecraft") || getCompatTexture(texture, "_adult") != null;
+    }
+
+    public static boolean hasBabyTexture(ResourceLocation texture, boolean remodeled) {
+        if (!getVariantBabyTexture(texture).equals(texture)) {
+            return true;
+        }
+        if (remodeled) {
+            return false;
+        }
+        if (texture.getNamespace().equals("minecraft")) {
+            return textureExists(texture);
+        }
+        return texture.getPath().endsWith("_baby.png");
+    }
+
     private static String getRabbitTextureName(String path) {
         return path.substring("textures/entity/rabbit/".length(), path.length() - 4);
     }
@@ -24,7 +74,10 @@ public class ModBabyTextureRegistry {
                     Constants.location(Constants.MOD_ID, "textures/entity/dolphin/river_dolphin_baby.png");
             case "vanillabackport:textures/entity/horse/horse_zombie.png" ->
                     Constants.vanillaLocation("textures/entity/horse/horse_zombie_baby.png");
-            default -> texture;
+            default -> {
+                ResourceLocation compat = getCompatTexture(texture, "_baby");
+                yield compat != null ? compat : texture;
+            }
         };
     }
 

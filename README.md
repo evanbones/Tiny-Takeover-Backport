@@ -34,6 +34,15 @@ migration when updating to Minecraft 26.1+.
 
 - **Vanilla Backport**: When loaded alongside [Vanilla Backport](https://modrinth.com/mod/vanillabackport/), the mod
   features additional support for their backported warm/cold mob variants.
+- **Modded mob variants**: Baby textures are included for variants added by Environmental, Autumnity, No Man's Land,
+  Nature's Spirit, Neapolitan, Quark and Nirvana. Variants without a baby texture fall back to the old baby model.
+
+## Known Issues
+
+- **Quark** > Disable "Variant Animal Textures" in the config, otherwise those babies use the old baby model
+- **Vanilla Backport** > Disable "Use Sheep Wool Undercoat" in client config
+- **Environmental** > Disable "Baby Chicken Texture" in client config, otherwise baby chickens use the old baby model
+- **Personality** > Disable "Sheep Fur Overlay" in client config
 
 ## Configuration
 
@@ -43,6 +52,8 @@ The mod is fully configurable using an in-game config screen (requires
 - Toggle baby models individually for each mob type.
     - This even supports hot reloading!
 - Enable/disable the adult rabbit model replacement.
+- Enable baby models for modded mobs that reuse a vanilla model (off by default).
+- Blacklist specific mobs from using the new baby models.
 - Toggle the craftable Name Tag recipe.
 
 ### ⚠️ Disclaimer

@@ -4,6 +4,7 @@ import com.evandev.tiny_takeover_backport.client.ModBabyModelRegistry;
 import com.evandev.tiny_takeover_backport.client.ModBabyTextureRegistry;
 import com.evandev.tiny_takeover_backport.client.ModRenderHelper;
 import com.evandev.tiny_takeover_backport.client.model.CutoutBabyModel;
+import com.evandev.tiny_takeover_backport.compat.MixedLitterCompat;
 import com.evandev.tiny_takeover_backport.config.ModConfig;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -58,13 +59,48 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void onInit(EntityRendererProvider.Context context, M model, float shadowRadius, CallbackInfo ci) {
+        ModBabyTextureRegistry.clearTextureCache();
         this.tiny_takeover_backport$babyModel = ModBabyModelRegistry.createBabyModel((LivingEntityRenderer<T, M>) (Object) this, context, model);
         this.tiny_takeover_backport$newAdultModel = ModBabyModelRegistry.createAdultModel((LivingEntityRenderer<T, M>) (Object) this, context, model);
     }
 
     @SuppressWarnings("unchecked")
+    @Unique
+    private ResourceLocation tiny_takeover_backport$resolveTexture(T entity) {
+        LivingEntityRenderer<T, M> renderer = (LivingEntityRenderer<T, M>) (Object) this;
+        ResourceLocation texture = ModBabyTextureRegistry.getBabyTexture(entity, renderer.getTextureLocation(entity));
+        return MixedLitterCompat.resolveTexture(entity, texture);
+    }
+
+    @Unique
+    private boolean tiny_takeover_backport$needsFallback(T entity) {
+        if (entity.isBaby() && this.tiny_takeover_backport$babyModel != null && ModConfig.get().isModelEnabled(entity)) {
+            boolean remodeled = MixedLitterCompat.isRemodelRenderer((LivingEntityRenderer<?, ?>) (Object) this);
+            return !ModBabyTextureRegistry.hasBabyTexture(this.tiny_takeover_backport$resolveTexture(entity), remodeled);
+        }
+        if (!entity.isBaby() && this.tiny_takeover_backport$newAdultModel != null && ModConfig.get().isAdultRabbitReplaced(entity)) {
+            return !ModBabyTextureRegistry.hasAdultTexture(this.tiny_takeover_backport$resolveTexture(entity));
+        }
+        return false;
+    }
+
     @WrapMethod(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V")
     private void wrapRenderModelSwap(T entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, Operation<Void> original) {
+        if (!this.tiny_takeover_backport$needsFallback(entity)) {
+            this.tiny_takeover_backport$renderSwapped(entity, entityYaw, partialTicks, poseStack, buffer, packedLight, original);
+            return;
+        }
+        Entity previous = ModConfig.setRenderFallback(entity);
+        try {
+            this.tiny_takeover_backport$renderSwapped(entity, entityYaw, partialTicks, poseStack, buffer, packedLight, original);
+        } finally {
+            ModConfig.setRenderFallback(previous);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Unique
+    private void tiny_takeover_backport$renderSwapped(T entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int packedLight, Operation<Void> original) {
         M swappedModel = null;
         if (entity.isBaby() && this.tiny_takeover_backport$babyModel != null && ModConfig.get().isModelEnabled(entity)) {
             swappedModel = (M) this.tiny_takeover_backport$babyModel;
@@ -108,6 +144,11 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
         return entity.isBaby() && this.tiny_takeover_backport$babyModel != null && ModConfig.get().isModelEnabled(entity);
     }
 
+    @Unique
+    private boolean tiny_takeover_backport$usesNewAdultModel(T entity) {
+        return !entity.isBaby() && this.tiny_takeover_backport$newAdultModel != null && ModConfig.get().isAdultRabbitReplaced(entity);
+    }
+
     @WrapOperation(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/LivingEntityRenderer;getRenderType(Lnet/minecraft/world/entity/LivingEntity;ZZZ)Lnet/minecraft/client/renderer/RenderType;"))
     private RenderType keepBabyModel(LivingEntityRenderer<T, M> renderer, T entity, boolean bodyVisible, boolean translucent, boolean glowing, Operation<RenderType> original) {
@@ -124,6 +165,8 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
         if (this.tiny_takeover_backport$usesBabyModel(entity)) {
             model = this.tiny_takeover_backport$babyModel;
             texture = ModBabyTextureRegistry.getVariantBabyTexture(texture);
+        } else if (this.tiny_takeover_backport$usesNewAdultModel(entity)) {
+            texture = ModBabyTextureRegistry.getVariantAdultTexture(texture);
         }
         if (model instanceof CutoutBabyModel) {
             return RenderType.entityCutout(texture);
@@ -138,6 +181,8 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
     private RenderType wrapVariantRenderType(ResourceLocation texture, Operation<RenderType> original, T entity) {
         if (this.tiny_takeover_backport$usesBabyModel(entity)) {
             texture = ModBabyTextureRegistry.getVariantBabyTexture(texture);
+        } else if (this.tiny_takeover_backport$usesNewAdultModel(entity)) {
+            texture = ModBabyTextureRegistry.getVariantAdultTexture(texture);
         }
         return original.call(texture);
     }

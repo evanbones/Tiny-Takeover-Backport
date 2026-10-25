@@ -31,6 +31,7 @@ public class ModConfig {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final File CONFIG_FILE = Platform.configDir().resolve("tiny_takeover_backport.json").toFile();
     private static final List<String> DEFAULT_MODEL_BLACKLIST = List.of("rottencreatures:burned");
+    private static final ThreadLocal<Entity> RENDER_FALLBACK = new ThreadLocal<>();
     private static ModConfig INSTANCE;
 
     public boolean enableNameTagRecipe = true;
@@ -187,8 +188,14 @@ public class ModConfig {
                 .build();
     }
 
+    public static Entity setRenderFallback(Entity entity) {
+        Entity previous = RENDER_FALLBACK.get();
+        RENDER_FALLBACK.set(entity);
+        return previous;
+    }
+
     public boolean isModelEnabled(Entity entity) {
-        return isModelEnabled(entity.getType());
+        return RENDER_FALLBACK.get() != entity && isModelEnabled(entity.getType());
     }
 
     public boolean isModelEnabled(EntityType<?> type) {
@@ -208,7 +215,7 @@ public class ModConfig {
     }
 
     public boolean isAdultRabbitReplaced(Entity entity) {
-        return replaceAdultRabbit && entity.getType() == EntityType.RABBIT && appliesTo(entity);
+        return replaceAdultRabbit && entity.getType() == EntityType.RABBIT && RENDER_FALLBACK.get() != entity && appliesTo(entity);
     }
 
     public boolean isModelEnabled(String name) {

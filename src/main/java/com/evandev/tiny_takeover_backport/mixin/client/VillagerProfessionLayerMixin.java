@@ -1,6 +1,7 @@
 package com.evandev.tiny_takeover_backport.mixin.client;
 
 import com.evandev.tiny_takeover_backport.client.ModBabyTextureRegistry;
+import com.evandev.tiny_takeover_backport.config.ModConfig;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -36,9 +37,13 @@ public abstract class VillagerProfessionLayerMixin {
             //?}
             Operation<Void> original) {
 
-        ResourceLocation finalTexture = entity.isBaby()
-                ? ModBabyTextureRegistry.getBabyTexture(entity, texture)
-                : texture;
+        ResourceLocation finalTexture = texture;
+        if (entity.isBaby() && ModConfig.get().isModelEnabled(entity)) {
+            finalTexture = ModBabyTextureRegistry.getVariantBabyTexture(ModBabyTextureRegistry.getBabyTexture(entity, texture));
+            if (!ModBabyTextureRegistry.hasBabyTexture(finalTexture, false)) {
+                return;
+            }
+        }
 
         //? if >=1.21 {
         original.call(model, finalTexture, poseStack, buffer, packedLight, entity, color);

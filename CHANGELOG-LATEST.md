@@ -1,3 +1,9 @@
+### Added
+
+- Added baby textures for modded mob variants from Environmental, Autumnity, No Man's Land, Nature's Spirit,
+  Neapolitan, Quark, and Nirvana (wolves, cats, foxes, bees, goats, donkeys, turtles, husks, rabbits and villager types),
+  plus new adult rabbit textures for some modded rabbit variants.
+
 ### Fixed
 
-- Fixed crash when rendering baby mobs on 1.20.1 without Vanilla Backport installed.
+- Mobs without a matching baby texture now fall back to the old baby model instead.
