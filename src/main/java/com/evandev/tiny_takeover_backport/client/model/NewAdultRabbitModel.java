@@ -116,7 +116,7 @@ public class NewAdultRabbitModel<T extends Rabbit> extends RabbitModel<T> {
         RabbitAnimationStates states = (RabbitAnimationStates) entity;
         if (!states.tiny_takeover_backport$getIdleHeadTiltAnimationState().isStarted()) {
             this.realHead.yRot = netHeadYaw * ((float) Math.PI / 180F);
-            this.realHead.xRot = headPitch * ((float) Math.PI / 180F);
+            this.realHead.xRot += headPitch * ((float) Math.PI / 180F);
         }
         PartAnimator.animate(this.animatedParts, states.tiny_takeover_backport$getHopAnimationState(), RabbitAnimation.HOP, ageInTicks);
         PartAnimator.animate(this.animatedParts, states.tiny_takeover_backport$getIdleHeadTiltAnimationState(), RabbitAnimation.IDLE_HEAD_TILT, ageInTicks);
