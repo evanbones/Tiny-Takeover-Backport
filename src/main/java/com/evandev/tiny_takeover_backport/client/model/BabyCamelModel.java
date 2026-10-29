@@ -35,6 +35,9 @@ public class BabyCamelModel extends CamelModel {
         );
 
         body.addOrReplaceChild("saddle", CubeListBuilder.create(), PartPose.ZERO);
+        // Ecologics' CamelModel mixin looks these up in the constructor
+        body.addOrReplaceChild("left_chest", CubeListBuilder.create(), PartPose.ZERO);
+        body.addOrReplaceChild("right_chest", CubeListBuilder.create(), PartPose.ZERO);
 
         body.addOrReplaceChild(
                 "tail", CubeListBuilder.create().texOffs(50, 38).addBox(-1.5F, -0.5F, 0.0F, 3.0F, 9.0F, 0.0F), PartPose.offset(0.0F, -1.5F, 8.05F)

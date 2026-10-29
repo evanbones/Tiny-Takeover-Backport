@@ -1,3 +1,4 @@
 ### Fixed
 
-- Fixed adult rabbits' heads being tilted upward instead of following their line of sight (MC-306682).
+- Fixed crash with Ecologics.
+- Fixed "Apply to Modded Mobs" option not changing baby mob textures.

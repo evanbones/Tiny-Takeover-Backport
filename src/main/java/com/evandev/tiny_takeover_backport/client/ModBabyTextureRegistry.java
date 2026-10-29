@@ -42,7 +42,7 @@ public class ModBabyTextureRegistry {
     }
 
     public static boolean hasAdultTexture(ResourceLocation texture) {
-        return texture.getNamespace().equals("minecraft") || getCompatTexture(texture, "_adult") != null;
+        return texture.getNamespace().equals("minecraft") || ModConfig.get().enableModdedMobs || getCompatTexture(texture, "_adult") != null;
     }
 
     public static boolean hasBabyTexture(ResourceLocation texture, boolean remodeled) {
@@ -55,7 +55,7 @@ public class ModBabyTextureRegistry {
         if (texture.getNamespace().equals("minecraft")) {
             return textureExists(texture);
         }
-        return texture.getPath().endsWith("_baby.png");
+        return ModConfig.get().enableModdedMobs || texture.getPath().endsWith("_baby.png");
     }
 
     private static String getRabbitTextureName(String path) {
